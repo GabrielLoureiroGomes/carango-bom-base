@@ -7,10 +7,10 @@ import "fontsource-roboto";
 import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(
-	<Router>
-		<App />
-	</Router>,
-	document.getElementById("root")
+  <Router>
+    <App />
+  </Router>,
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
