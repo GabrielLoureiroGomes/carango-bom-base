@@ -1,68 +1,68 @@
-import { Button, TextField } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
-import useErros from '../hooks/useErros';
-import MarcaService from '../services/MarcaService';
+import { Button, TextField } from '@material-ui/core';
 
-function CadastroMarca() {
+import useErrors from '../hooks/useErrors';
 
-    const [marca, setMarca] = useState("");
+import BrandService from '../services/BrandService';
 
+function BrandRegister() {
+    const { id } = useParams();
     const history = useHistory();
 
-    const { id } = useParams();
+    const [brand, setBrand] = useState("");
 
-    const validacoes = {
-        marca: dado => {
-            if (dado && dado.length >= 3) {
-                return { valido: true };
+    const validations = {
+        brand: value => {
+            if (value && value.length >= 3) {
+                return { valid: true };
             } else {
-                return { valido: false, texto: "Marca deve ter ao menos 3 letras." }
+                return { valid: false, text: "Marca deve ter ao menos 3 letras." }
             }
         }
     }
 
-    const [erros, validarCampos, possoEnviar] = useErros(validacoes);
+    const [errors, validateFields, shouldSubmit] = useErrors(validations);
 
-    function cancelar() {
+    function cancel() {
         history.goBack();
     }
 
     // TODO: Avaliar remover disable na próxima linha
     useEffect(() => {
         if (id) {
-            MarcaService.consultar(id)
-                .then(m => setMarca(m.nome));
+            BrandService.get(id)
+                .then(m => setBrand(m.nome));
         }
     }, [id]); // eslint-disable-line
 
     return (
         <form onSubmit={(event) => {
             event.preventDefault();
-            if (possoEnviar()) {
+            if (shouldSubmit()) {
                 if (id) {
-                    MarcaService.alterar({ id, nome: marca })
+                    BrandService.update({ id, nome: brand })
                         .then(res => {
                             history.goBack();
                         });
                 } else {
-                    MarcaService.cadastrar({ nome: marca })
+                    BrandService.register({ nome: brand })
                         .then(res => {
-                            setMarca("");
+                            setBrand("");
                             history.goBack();
                         });
                 }
             }
         }}>
             <TextField
-                value={marca}
-                onChange={evt => setMarca(evt.target.value)}
-                onBlur={validarCampos}
-                helperText={erros.marca.texto}
-                error={!erros.marca.valido}
-                name="marca"
-                id="marca"
-                label="Marca"
+                value={brand}
+                onChange={evt => setBrand(evt.target.value)}
+                onBlur={validateFields}
+                helperText={errors.brand.text}
+                error={!errors.brand.valid}
+                name="brand"
+                id="brand"
+                label="Brand"
                 type="text"
                 variant="outlined"
                 fullWidth
@@ -74,18 +74,18 @@ function CadastroMarca() {
                 variant="contained"
                 color="primary"
                 type="submit"
-                disabled={!possoEnviar()}>
+                disabled={!shouldSubmit()}>
                 {id ? 'Alterar' : 'Cadastrar'}
             </Button>
 
             <Button
                 variant="contained"
                 color="secondary"
-                onClick={cancelar}>
+                onClick={cancel}>
                 Cancelar
             </Button>
         </form>
     );
 }
 
-export default CadastroMarca;
+export default BrandRegister;

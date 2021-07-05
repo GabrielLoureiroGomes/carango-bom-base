@@ -1,11 +1,12 @@
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import { Button, Fab, makeStyles } from '@material-ui/core';
 import { DataGrid } from '@material-ui/data-grid';
 import AddIcon from '@material-ui/icons/Add';
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
-import MarcaService from '../services/MarcaService';
 
-const colunas = [
+import BrandService from '../services/BrandService';
+
+const columns = [
     { field: 'nome', headerName: 'Marca', width: 200 }
 ];
 
@@ -24,37 +25,37 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-function ListagemMarcas() {
-    const [marcas, setMarcas] = useState([]);
-    const [marcaSelecionada, setMarcaSelecionada] = useState();
+function BrandList() {
+    const [brands, setBrands] = useState([]);
+    const [selectedBrand, setSelectedBrand] = useState();
     const classes = useStyles();
     const history = useHistory();
 
-    function alterar() {
-        history.push('/alteracao-marca/' + marcaSelecionada.id);
+    function updateBrand() {
+        history.push('/alteracao-marca/' + selectedBrand.id);
     }
 
-    function excluir() {
-        MarcaService.excluir(marcaSelecionada)
+    function deleteBrand() {
+        BrandService.delete(selectedBrand)
             .then(() => {
-                setMarcaSelecionada(null);
-                carregarMarcas();
+                setSelectedBrand(null);
+                loadBrands();
             });
     }
 
     // TODO: Avaliar remover disable na próxima linha
     // eslint-disable-next-line
-    useEffect(() => carregarMarcas(), []);
+    useEffect(() => loadBrands(), []);
 
-    function carregarMarcas() {
-        MarcaService.listar()
-            .then(dados => setMarcas(dados));
+    function loadBrands() {
+        BrandService.getAll()
+            .then(dados => setBrands(dados));
     }
 
     return (
         <div style={{ height: 300, width: '100%' }}>
-            <DataGrid rows={marcas} columns={colunas}
-                onRowSelected={gridSelection => setMarcaSelecionada(gridSelection.data)}
+            <DataGrid rows={brands} columns={columns}
+                onRowSelected={gridSelection => setSelectedBrand(gridSelection.data)}
             />
 
             <div className={classes.actionsToolbar}>
@@ -62,16 +63,16 @@ function ListagemMarcas() {
                     className={classes.actions}
                     variant="contained"
                     color="secondary"
-                    disabled={!marcaSelecionada}
-                    onClick={() => excluir()}>
+                    disabled={!selectedBrand}
+                    onClick={() => deleteBrand()}>
                     Excluir
                         </Button>
                 <Button
                     className={classes.actions}
                     variant="contained"
                     color="primary"
-                    disabled={!marcaSelecionada}
-                    onClick={() => alterar()}>
+                    disabled={!selectedBrand}
+                    onClick={() => updateBrand()}>
                     Alterar
                 </Button>
             </div>
@@ -83,4 +84,4 @@ function ListagemMarcas() {
     );
 }
 
-export default ListagemMarcas;
+export default BrandList;

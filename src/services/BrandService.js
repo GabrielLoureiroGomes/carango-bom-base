@@ -1,32 +1,32 @@
-const MarcaService = {
-  cadastrar(marca) {
+const BrandService = {
+  register(brand) {
     return fetch('https://carango-bom-api.herokuapp.com/marcas', {
       method: 'POST',
-      body: JSON.stringify(marca)
+      body: JSON.stringify(brand)
     }).then(r => r.json());
   },
 
-  alterar(marca) {
-    return fetch('https://carango-bom-api.herokuapp.com/marcas/' + marca.id, {
+  update(brand) {
+    return fetch('https://carango-bom-api.herokuapp.com/marcas/' + brand.id, {
       method: 'PUT',
-      body: JSON.stringify(marca)
+      body: JSON.stringify(brand)
     }).then(r => r.json());
   },
 
-  consultar(id) {
+  get(id) {
     return fetch('https://carango-bom-api.herokuapp.com/marcas/' + id).then(r => r.json());
   },
 
-  listar() {
+  getAll() {
     return fetch('https://carango-bom-api.herokuapp.com/marcas').then(r => r.json());
   },
 
-  excluir(marca) {
-    return fetch('https://carango-bom-api.herokuapp.com/marcas/' + marca.id, {
+  delete(brand) {
+    return fetch('https://carango-bom-api.herokuapp.com/marcas/' + brand.id, {
       method: 'DELETE',
     })
       .then(r => r.json());
   }
 };
 
-export default MarcaService;
+export default BrandService;
