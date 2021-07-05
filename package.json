@@ -21,6 +21,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test --coverage --watchAll=false",
     "test:dev": "react-scripts test",
+    "check-format": "prettier --list-different \"src/**/*.{js,jsx}\"",
+    "format": "npm run check-format -- --write",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -42,6 +44,7 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/user-event": "^12.8.3"
+    "@testing-library/user-event": "^12.8.3",
+    "prettier": "^2.3.2"
   }
 }
