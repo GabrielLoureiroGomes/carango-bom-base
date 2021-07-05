@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { Button, TextField } from '@material-ui/core';
 
-import useErrors from '../hooks/useErrors';
+import useErrors from '../../hooks/useErrors';
 
-import BrandService from '../services/BrandService';
+import BrandService from '../../services/BrandService';
 
 function BrandRegister() {
     const { id } = useParams();

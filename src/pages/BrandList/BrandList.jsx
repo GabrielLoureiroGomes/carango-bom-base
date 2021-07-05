@@ -4,25 +4,25 @@ import { Button, Fab, makeStyles } from '@material-ui/core';
 import { DataGrid } from '@material-ui/data-grid';
 import AddIcon from '@material-ui/icons/Add';
 
-import BrandService from '../services/BrandService';
+import BrandService from '../../services/BrandService';
 
 const columns = [
     { field: 'nome', headerName: 'Marca', width: 200 }
 ];
 
 const useStyles = makeStyles(() => ({
-  fab: {
-    position: "absolute",
-    bottom: "100px",
-    right: "100px",
-  },
-  actionsToolbar: {
-    float: "right",
-  },
-  actions: {
-    top: "10px",
-    marginLeft: "10px",
-  },
+    fab: {
+        position: 'absolute',
+        bottom: '100px',
+        right: '100px',
+    },
+    actionsToolbar: {
+        float: 'right'
+    },
+    actions: {
+        top: '10px',
+        marginLeft: '10px',
+    }
 }));
 
 function BrandList() {
@@ -77,16 +77,11 @@ function BrandList() {
                 </Button>
             </div>
 
-      <Fab
-        color="primary"
-        aria-label="add"
-        className={classes.fab}
-        onClick={() => history.push("/cadastro-marca")}
-      >
-        <AddIcon />
-      </Fab>
-    </div>
-  );
+            <Fab color="primary" aria-label="add" className={classes.fab} onClick={() => history.push('/cadastro-marca')}>
+                <AddIcon />
+            </Fab>
+        </div>
+    );
 }
 
 export default BrandList;

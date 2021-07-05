@@ -1,27 +1,14 @@
-<<<<<<< Updated upstream
-import { Container, CssBaseline, makeStyles } from "@material-ui/core";
-import blue from "@material-ui/core/colors/blue";
-import { ptBR } from "@material-ui/core/locale";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import React from "react";
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
-=======
 import { Container, CssBaseline, makeStyles } from '@material-ui/core';
 import blue from '@material-ui/core/colors/blue';
 import { ptBR } from '@material-ui/core/locale';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 
 import './App.css';
 
 import BrandRegister from './pages/BrandRegister';
 import BrandList from './pages/BrandList';
->>>>>>> Stashed changes
-
-import "./App.css";
-import CadastroMarca from "./pages/CadastroMarca";
-import ListagemMarcas from "./pages/ListagemMarcas";
 
 const muiTheme = createMuiTheme(
   {
@@ -55,7 +42,6 @@ function App() {
   const classes = useStyles();
 
   return (
-<<<<<<< Updated upstream
     <Router>
       <ThemeProvider theme={muiTheme}>
         <div className={classes.root}>
@@ -65,13 +51,13 @@ function App() {
             <Container component="article" maxWidth="md">
               <Switch>
                 <Route path="/cadastro-marca">
-                  <CadastroMarca></CadastroMarca>
+                  <BrandRegister></BrandRegister>
                 </Route>
-                <Route path="/alteracao-marca/:id">
-                  <CadastroMarca></CadastroMarca>
+                <Route path='/alteracao-marca/:id'>
+                  <BrandRegister></BrandRegister>
                 </Route>
                 <Route path="/">
-                  <ListagemMarcas></ListagemMarcas>
+                  <BrandList></BrandList>
                 </Route>
               </Switch>
             </Container>
@@ -79,29 +65,6 @@ function App() {
         </div>
       </ThemeProvider>
     </Router>
-=======
-    <ThemeProvider theme={muiTheme}>
-      <div className={classes.root}>
-        <CssBaseline />
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <Container component="article" maxWidth="md">
-            <Switch>
-              <Route path="/cadastro-marca">
-                <BrandRegister></BrandRegister>
-              </Route>
-              <Route path='/alteracao-marca/:id'>
-                <BrandRegister></BrandRegister>
-              </Route>
-              <Route path="/">
-                <BrandList></BrandList>
-              </Route>
-            </Switch>
-          </Container>
-        </main>
-      </div>
-    </ThemeProvider>
->>>>>>> Stashed changes
   );
 }
 
