@@ -30,6 +30,14 @@
       "react-app/jest"
     ]
   },
+  "jest": {
+    "coverageReporters": [
+      "lcov",
+      "json",
+      "text",
+      "clover"
+    ]
+  },
   "browserslist": {
     "production": [
       ">0.2%",
