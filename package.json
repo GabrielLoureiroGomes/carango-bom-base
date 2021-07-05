@@ -28,6 +28,10 @@
     "extends": [
       "react-app",
       "react-app/jest"
+    ],
+    "plugins": [
+      "testing-library",
+      "jest-dom"
     ]
   },
   "browserslist": {
@@ -44,6 +48,8 @@
   },
   "devDependencies": {
     "@testing-library/user-event": "^12.8.3",
+    "eslint-plugin-jest-dom": "^3.9.0",
+    "eslint-plugin-testing-library": "^3.10.2",
     "husky": "^7.0.0",
     "lint-staged": "^11.0.0",
     "prettier": "^2.3.2"

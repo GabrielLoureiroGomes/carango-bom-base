@@ -1,14 +1,14 @@
-import { Container, CssBaseline, makeStyles } from '@material-ui/core';
-import blue from '@material-ui/core/colors/blue';
-import { ptBR } from '@material-ui/core/locale';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import React from 'react';
-import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
+import React from "react";
+import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import { Container, CssBaseline, makeStyles } from "@material-ui/core";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import blue from "@material-ui/core/colors/blue";
+import { ptBR } from "@material-ui/core/locale";
 
-import './App.css';
+import "./assets/App.css";
 
-import BrandRegister from './pages/BrandRegister';
-import BrandList from './pages/BrandList';
+import BrandRegister from "./pages/BrandRegister";
+import BrandList from "./pages/BrandList";
 
 const muiTheme = createMuiTheme(
   {
@@ -53,7 +53,7 @@ function App() {
                 <Route path="/cadastro-marca">
                   <BrandRegister></BrandRegister>
                 </Route>
-                <Route path='/alteracao-marca/:id'>
+                <Route path="/alteracao-marca/:id">
                   <BrandRegister></BrandRegister>
                 </Route>
                 <Route path="/">
