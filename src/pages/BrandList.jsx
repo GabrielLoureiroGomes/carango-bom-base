@@ -11,18 +11,18 @@ const columns = [
 ];
 
 const useStyles = makeStyles(() => ({
-    fab: {
-        position: 'absolute',
-        bottom: '100px',
-        right: '100px',
-    },
-    actionsToolbar: {
-        float: 'right'
-    },
-    actions: {
-        top: '10px',
-        marginLeft: '10px',
-    }
+  fab: {
+    position: "absolute",
+    bottom: "100px",
+    right: "100px",
+  },
+  actionsToolbar: {
+    float: "right",
+  },
+  actions: {
+    top: "10px",
+    marginLeft: "10px",
+  },
 }));
 
 function BrandList() {
@@ -77,11 +77,16 @@ function BrandList() {
                 </Button>
             </div>
 
-            <Fab color="primary" aria-label="add" className={classes.fab} onClick={() => history.push('/cadastro-marca')}>
-                <AddIcon />
-            </Fab>
-        </div>
-    );
+      <Fab
+        color="primary"
+        aria-label="add"
+        className={classes.fab}
+        onClick={() => history.push("/cadastro-marca")}
+      >
+        <AddIcon />
+      </Fab>
+    </div>
+  );
 }
 
 export default BrandList;
