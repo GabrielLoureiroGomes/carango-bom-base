@@ -3,10 +3,7 @@
 
 name: Tests and Static Analysis
 
-on:
-  push:
-    branches-ignore:
-      - "main"
+on: push
 
 jobs:
   tests:
