@@ -36,20 +36,27 @@ function BrandRegister() {
   }
 
   async function submitBrand() {
-    if (id) {
-      await BrandService.update({ id, nome: brand });
+    try {
+      if (id) {
+        await BrandService.update({ id, nome: brand });
+        return history.goBack();
+      }
+      await BrandService.register({ nome: brand });
+      setBrand("");
       return history.goBack();
+    } catch (e) {
+      console.log(e);
     }
-
-    await BrandService.register({ nome: brand });
-    setBrand("");
-    return history.goBack();
   }
 
   const loadBrandFromId = useCallback(async () => {
     if (id) {
-      const updatedBrand = await BrandService.get(id);
-      setBrand(updatedBrand.nome);
+      try {
+        const updatedBrand = await BrandService.get(id);
+        setBrand(updatedBrand.nome);
+      } catch (e) {
+        console.log(e);
+      }
     }
   }, [id]);
 
