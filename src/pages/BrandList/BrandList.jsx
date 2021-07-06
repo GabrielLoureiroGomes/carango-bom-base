@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { Table } from "../../components";
+
 import BrandService from "../../services/BrandService";
+
+import { Table } from "../../components";
 
 const columns = [{ field: "nome", headerName: "Marca", width: 200 }];
 
