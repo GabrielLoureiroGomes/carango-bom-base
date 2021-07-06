@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { Button, Fab } from "@material-ui/core";
-import { DataGrid } from "@material-ui/data-grid";
-import AddIcon from "@material-ui/icons/Add";
-
+import { Table } from "../../components";
 import BrandService from "../../services/BrandService";
-
-import { useStyles } from "./styles";
 
 const columns = [{ field: "nome", headerName: "Marca", width: 200 }];
 
 function BrandList() {
-  const classes = useStyles();
   const history = useHistory();
 
   const [brands, setBrands] = useState([]);
@@ -35,43 +29,15 @@ function BrandList() {
   }
 
   return (
-    <div style={{ height: 300, width: "100%" }}>
-      <DataGrid
-        rows={brands}
-        columns={columns}
-        onRowSelected={(gridSelection) => setSelectedBrand(gridSelection.data)}
-      />
-
-      <div className={classes.actionsToolbar}>
-        <Button
-          className={classes.actions}
-          variant="contained"
-          color="secondary"
-          disabled={!selectedBrand}
-          onClick={deleteBrand}
-        >
-          Excluir
-        </Button>
-        <Button
-          className={classes.actions}
-          variant="contained"
-          color="primary"
-          disabled={!selectedBrand}
-          onClick={updateBrand}
-        >
-          Alterar
-        </Button>
-      </div>
-
-      <Fab
-        color="primary"
-        aria-label="add"
-        className={classes.fab}
-        onClick={() => history.push("/cadastro-marca")}
-      >
-        <AddIcon />
-      </Fab>
-    </div>
+    <Table
+      rowsContent={brands}
+      columns={columns}
+      setSelectedItem={setSelectedBrand}
+      selectedItem={selectedBrand}
+      addItem={() => history.push("cadastro-marca")}
+      updateItem={updateBrand}
+      deleteItem={deleteBrand}
+    />
   );
 }
 
