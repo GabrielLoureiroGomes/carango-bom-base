@@ -34,7 +34,7 @@ describe("<BrandList />", () => {
 
   beforeEach(async () => {
     jest.clearAllMocks();
-    await act(async () => setup());
+    setup();
   });
 
   it("Should go to the create page when the user clicks on the button to add a new brand", async () => {

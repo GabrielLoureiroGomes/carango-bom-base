@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useHistory } from "react-router";
 
 import BrandService from "../../services/BrandService";
@@ -13,16 +13,16 @@ function BrandList() {
   const [brands, setBrands] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState();
 
-  useEffect(loadBrands, []);
-
-  async function loadBrands() {
+  const loadBrands = useCallback(async () => {
     try {
       const dados = await BrandService.getAll();
       return setBrands(dados);
     } catch (e) {
       console.log(e);
     }
-  }
+  }, [setBrands]);
+
+  useEffect(loadBrands, [loadBrands]);
 
   function updateBrand() {
     history.push("/marca/" + selectedBrand.id);
