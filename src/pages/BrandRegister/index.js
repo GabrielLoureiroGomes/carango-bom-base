@@ -1,2 +1,1 @@
-import BrandRegister from "./BrandRegister";
-export default BrandRegister;
+export { default as BrandRegister } from "./BrandRegister";

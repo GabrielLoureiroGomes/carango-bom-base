@@ -1,2 +1,1 @@
-import BrandList from "./BrandList";
-export default BrandList;
+export { default as BrandList } from "./BrandList";
