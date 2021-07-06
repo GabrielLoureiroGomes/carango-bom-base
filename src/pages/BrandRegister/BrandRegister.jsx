@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useHistory, useParams } from "react-router";
 import { Button, TextField } from "@material-ui/core";
 
@@ -35,23 +35,27 @@ function BrandRegister() {
     }
   }
 
-  function submitBrand() {
+  async function submitBrand() {
     if (id) {
-      BrandService.update({ id, nome: brand }).then(history.goBack);
-      return;
+      await BrandService.update({ id, nome: brand });
+      return history.goBack();
     }
 
-    BrandService.register({ nome: brand }).then(() => {
-      setBrand("");
-      history.goBack();
-    });
+    await BrandService.register({ nome: brand });
+    setBrand("");
+    return history.goBack();
   }
 
-  useEffect(() => {
+  const loadBrandFromId = useCallback(async () => {
     if (id) {
-      BrandService.get(id).then((brand) => setBrand(brand.nome));
+      const updatedBrand = await BrandService.get(id);
+      setBrand(updatedBrand.nome);
     }
   }, [id]);
+
+  useEffect(() => {
+    loadBrandFromId();
+  }, [loadBrandFromId]);
 
   return (
     <form onSubmit={handleSubmit}>
