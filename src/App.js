@@ -1,5 +1,10 @@
 import React from "react";
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  BrowserRouter as Router,
+  Redirect,
+} from "react-router-dom";
 import { Container, CssBaseline, makeStyles } from "@material-ui/core";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import blue from "@material-ui/core/colors/blue";
@@ -8,6 +13,8 @@ import { ptBR } from "@material-ui/core/locale";
 import "./assets/App.css";
 
 import { BrandRegister, BrandList } from "./pages";
+
+import { NavBar } from "./components";
 
 const muiTheme = createMuiTheme(
   {
@@ -48,16 +55,18 @@ function App() {
           <main className={classes.content}>
             <div className={classes.toolbar} />
             <Container component="article" maxWidth="md">
+              <NavBar />
               <Switch>
-                <Route path="/cadastro-marca">
+                <Route path="/marca/cadastro">
                   <BrandRegister></BrandRegister>
                 </Route>
-                <Route path="/alteracao-marca/:id">
+                <Route path="/marca/:id">
                   <BrandRegister></BrandRegister>
                 </Route>
-                <Route path="/">
+                <Route exact path="/">
                   <BrandList></BrandList>
                 </Route>
+                <Redirect to="/" />
               </Switch>
             </Container>
           </main>
