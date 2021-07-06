@@ -19,8 +19,8 @@ const brandsMock = [
 ];
 
 jest.mock("../../services/BrandService", () => ({
-  getAll: () => Promise.resolve(brandsMock),
-  delete: () => Promise.resolve(),
+  getAll: jest.fn().mockResolvedValue(brandsMock),
+  delete: jest.fn().mockResolvedValue(),
 }));
 
 describe("<BrandList />", () => {
