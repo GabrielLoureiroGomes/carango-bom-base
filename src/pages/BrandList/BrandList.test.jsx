@@ -5,6 +5,7 @@ import {
   render,
   screen,
   waitForElementToBeRemoved,
+  act,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
@@ -31,9 +32,9 @@ describe("<BrandList />", () => {
       </Router>
     );
 
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.clearAllMocks();
-    setup();
+    await act(async () => setup());
   });
 
   it("Should go to the create page when the user clicks on the button to add a new brand", async () => {

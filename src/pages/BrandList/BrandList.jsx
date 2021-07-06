@@ -15,19 +15,27 @@ function BrandList() {
 
   useEffect(loadBrands, []);
 
-  function loadBrands() {
-    BrandService.getAll().then((dados) => setBrands(dados));
+  async function loadBrands() {
+    try {
+      const dados = await BrandService.getAll();
+      return setBrands(dados);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   function updateBrand() {
     history.push("/alteracao-marca/" + selectedBrand.id);
   }
 
-  function deleteBrand() {
-    BrandService.delete(selectedBrand).then(() => {
+  async function deleteBrand() {
+    try {
+      await BrandService.delete(selectedBrand);
       setBrands(brands.filter((brand) => brand.id !== selectedBrand.id));
       setSelectedBrand(null);
-    });
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   return (
