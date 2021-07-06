@@ -7,8 +7,7 @@ import { ptBR } from "@material-ui/core/locale";
 
 import "./assets/App.css";
 
-import BrandRegister from "./pages/BrandRegister";
-import BrandList from "./pages/BrandList";
+import { BrandRegister, BrandList } from "./pages";
 
 const muiTheme = createMuiTheme(
   {
