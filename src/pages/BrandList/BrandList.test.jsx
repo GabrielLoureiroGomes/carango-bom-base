@@ -38,7 +38,7 @@ describe("<BrandList />", () => {
 
   it("Should go to the create page when the user clicks on the button to add a new brand", async () => {
     userEvent.click(screen.getByRole("button", { name: "add" }));
-    expect(history.location.pathname).toBe("/cadastro-marca");
+    expect(history.location.pathname).toBe("/marca/cadastro");
   });
 
   it("Should go to the update page when the user clicks on the button to update", async () => {
@@ -47,7 +47,7 @@ describe("<BrandList />", () => {
     userEvent.click(brandItem);
     userEvent.click(screen.getByRole("button", { name: "Alterar" }));
 
-    expect(history.location.pathname).toBe("/alteracao-marca/" + testBrand.id);
+    expect(history.location.pathname).toBe("/marca/" + testBrand.id);
   });
 
   it("Should delete the item when the user clicks on the button to delete", async () => {

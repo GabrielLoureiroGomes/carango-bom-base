@@ -9,8 +9,8 @@ import BrandService from "../../services/BrandService";
 
 const history = createMemoryHistory();
 const setup = (brandId) => {
-  const path = brandId ? "/alteracao-marca/:id" : "/cadastro-marca";
-  const entry = brandId ? `/alteracao-marca/${brandId}` : "/cadastro-marca";
+  const path = brandId ? "/marca/:id" : "/marca/cadastro";
+  const entry = brandId ? `/marca/${brandId}` : "/marca/cadastro";
   return render(
     <Router history={history}>
       <MemoryRouter initialEntries={[entry]}>

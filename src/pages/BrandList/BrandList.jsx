@@ -44,7 +44,7 @@ function BrandList() {
       columns={columns}
       setSelectedItem={setSelectedBrand}
       selectedItem={selectedBrand}
-      addItem={() => history.push("cadastro-marca")}
+      addItem={() => history.push("/marca/cadastro")}
       updateItem={updateBrand}
       deleteItem={deleteBrand}
     />
