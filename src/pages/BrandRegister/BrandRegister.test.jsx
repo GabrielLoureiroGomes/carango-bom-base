@@ -1,7 +1,7 @@
 import React from "react";
 import { MemoryRouter, Route, Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
-import { screen, fireEvent, render } from "@testing-library/react";
+import { screen, fireEvent, render, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import BrandRegister from "./BrandRegister";
@@ -60,20 +60,24 @@ describe("<BrandRegister />", () => {
     });
 
     describe("Register", () => {
-      it("should register the brand that is typed into the input", () => {
+      it("should register the brand that is typed into the input", async () => {
         const input = screen.getByRole("textbox", { name: /brand/i });
 
         userEvent.type(input, "Volvo");
-        userEvent.click(screen.getByRole("button", { name: /cadastrar/i }));
+        await act(async () =>
+          userEvent.click(screen.getByRole("button", { name: /cadastrar/i }))
+        );
 
         expect(brandServiceRegisterSpy).toHaveBeenCalledWith({ nome: "Volvo" });
       });
 
-      it("should redirect me to the brand listing page", () => {
+      it("should redirect me to the brand listing page", async () => {
         const input = screen.getByRole("textbox", { name: /brand/i });
 
         userEvent.type(input, "Volvo");
-        userEvent.click(screen.getByRole("button", { name: /cadastrar/i }));
+        await act(async () =>
+          userEvent.click(screen.getByRole("button", { name: /cadastrar/i }))
+        );
 
         expect(history.location.pathname).toBe("/");
       });
@@ -90,8 +94,8 @@ describe("<BrandRegister />", () => {
 
   describe("Alter old brand", () => {
     const selectedBrand = brandsMock[0];
-    beforeEach(() => {
-      setup(selectedBrand.id);
+    beforeEach(async () => {
+      await act(async () => setup(selectedBrand.id));
     });
     afterAll(() => {
       jest.clearAllMocks();
