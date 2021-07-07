@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function useErrors(validations) {
+function useFormValidations(validations, formState) {
   const initialState = createInitialState(validations);
   const [errors, setErrors] = useState(initialState);
 
@@ -8,7 +8,7 @@ function useErrors(validations) {
     const { name, value } = event.target;
     setErrors({
       ...errors,
-      [name]: validations[name](value),
+      [name]: validations[name](value, formState),
     });
   }
 
@@ -34,4 +34,4 @@ function createInitialState(validations) {
   return initialState;
 }
 
-export default useErrors;
+export default useFormValidations;

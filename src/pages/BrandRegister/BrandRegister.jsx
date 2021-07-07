@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useHistory, useParams } from "react-router";
 import { Button, TextField } from "@material-ui/core";
 
-import useErrors from "../../hooks/useErrors";
+import useErrors from "../../hooks/useFormValidation";
 
 import BrandService from "../../services/BrandService";
 
