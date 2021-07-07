@@ -12,7 +12,7 @@ import { ptBR } from "@material-ui/core/locale";
 
 import "./assets/App.css";
 
-import { BrandRegister, BrandList } from "./pages";
+import { BrandRegister, BrandList, Signup } from "./pages";
 
 import { NavBar } from "./components";
 
@@ -65,6 +65,9 @@ function App() {
                 </Route>
                 <Route exact path="/">
                   <BrandList></BrandList>
+                </Route>
+                <Route exact path="/signup">
+                  <Signup />
                 </Route>
                 <Redirect to="/" />
               </Switch>
