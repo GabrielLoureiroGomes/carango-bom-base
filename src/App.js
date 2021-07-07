@@ -66,7 +66,7 @@ function App() {
                 <Route exact path="/">
                   <BrandList></BrandList>
                 </Route>
-                <Route exact path="/signup">
+                <Route exact path="/cadastro">
                   <Signup />
                 </Route>
                 <Redirect to="/" />

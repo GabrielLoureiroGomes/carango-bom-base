@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
-import { Button, TextField, Typography } from "@material-ui/core";
+import {
+  Button,
+  TextField,
+  Typography,
+  FormHelperText,
+} from "@material-ui/core";
 import useFormValidation from "../../hooks/useFormValidation";
 import UserService from "../../services/UserService";
 
@@ -60,10 +65,10 @@ const Signup = () => {
         username,
         password,
       });
-      return history.goBack();
+      return history.push("/veiculos");
     } catch (e) {
       // TODO: validar qual exatamente vai ser o retorno de um erro
-      setError(e);
+      setError(e.data);
     }
   }
 
@@ -118,9 +123,7 @@ const Signup = () => {
 
       {error ? (
         <div style={{ margin: "15px 0" }}>
-          <Typography variant="body1" color="error">
-            {error}
-          </Typography>
+          <FormHelperText error>{error}</FormHelperText>
         </div>
       ) : null}
 
