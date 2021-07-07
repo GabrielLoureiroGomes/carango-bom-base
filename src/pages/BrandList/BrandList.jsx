@@ -25,7 +25,7 @@ function BrandList() {
   useEffect(loadBrands, [loadBrands]);
 
   function updateBrand() {
-    history.push("/alteracao-marca/" + selectedBrand.id);
+    history.push("/marca/" + selectedBrand.id);
   }
 
   async function deleteBrand() {
@@ -44,7 +44,7 @@ function BrandList() {
       columns={columns}
       setSelectedItem={setSelectedBrand}
       selectedItem={selectedBrand}
-      addItem={() => history.push("cadastro-marca")}
+      addItem={() => history.push("marca/cadastro")}
       updateItem={updateBrand}
       deleteItem={deleteBrand}
     />
