@@ -74,7 +74,7 @@ function BrandRegister() {
         error={!errors.brand.valid}
         name="brand"
         id="brand"
-        label="Brand"
+        label="Marca"
         type="text"
         variant="outlined"
         fullWidth

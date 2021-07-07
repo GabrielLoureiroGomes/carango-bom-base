@@ -47,7 +47,7 @@ describe("<BrandRegister />", () => {
     });
     describe("Input", () => {
       it("should show an error when the user leaves focus without typing", async () => {
-        const input = screen.getByRole("textbox", { name: /brand/i });
+        const input = screen.getByRole("textbox", { name: /marca/i });
 
         fireEvent.focus(input);
         fireEvent.blur(input);
@@ -61,7 +61,7 @@ describe("<BrandRegister />", () => {
 
     describe("Register", () => {
       it("should register the brand that is typed into the input", async () => {
-        const input = screen.getByRole("textbox", { name: /brand/i });
+        const input = screen.getByRole("textbox", { name: /marca/i });
 
         userEvent.type(input, "Volvo");
         await act(async () =>
@@ -72,7 +72,7 @@ describe("<BrandRegister />", () => {
       });
 
       it("should redirect me to the brand listing page", async () => {
-        const input = screen.getByRole("textbox", { name: /brand/i });
+        const input = screen.getByRole("textbox", { name: /marca/i });
 
         userEvent.type(input, "Volvo");
         await act(async () =>
@@ -102,13 +102,13 @@ describe("<BrandRegister />", () => {
     });
     describe("Load brand from param", () => {
       it("should render the brand name fetched from the param id", () => {
-        const input = screen.getByRole("textbox", { name: /brand/i });
+        const input = screen.getByRole("textbox", { name: /marca/i });
         expect(input.value).toStrictEqual("Fiat");
       });
 
       describe("Update brand name", () => {
         it("should call 'BrandService.update()' with new brand name", () => {
-          const input = screen.getByRole("textbox", { name: /brand/i });
+          const input = screen.getByRole("textbox", { name: /marca/i });
           input.setSelectionRange(0, 4);
           userEvent.type(input, "{backspace}Volvo");
 
