@@ -16,13 +16,21 @@ const setup = () => {
 };
 const mockUser = {
   username: "teste",
-  password: "123123",
-  confirmPassword: "123123",
+  password: "teste123123",
+  confirmPassword: "teste123123",
 };
 
 const userServiceSignupSpy = jest.spyOn(UserService, "signup");
 
 describe("<Signup />", () => {
+  describe("Cancel", () => {
+    it("should redirect me to '/' when I click the 'cancel' button", () => {
+      setup();
+      userEvent.click(screen.getByRole("button", { name: /cancelar/i }));
+
+      expect(history.location.pathname).toBe("/");
+    });
+  });
   describe("Register", () => {
     describe("Form validation", () => {
       beforeEach(() => {
@@ -92,26 +100,18 @@ describe("<Signup />", () => {
         });
       });
       it("should redirect me to home page after signup", () => {
-        expect(history.location.pathname).toBe("/");
+        expect(history.location.pathname).toBe("/veiculos");
       });
 
       describe("And something fails", () => {
         beforeAll(() => {
-          userServiceSignupSpy.mockRejectedValue("Usuário já existe");
+          userServiceSignupSpy.mockRejectedValue({ data: "Usuário já existe" });
         });
         it("should show the error message", async () => {
           const errorMsg = await screen.findByText(/Usuário já existe/i);
           expect(errorMsg).toBeInTheDocument();
         });
       });
-    });
-  });
-  describe("Cancel", () => {
-    it("should redirect me to '/' when I click the 'cancel' button", () => {
-      setup();
-      userEvent.click(screen.getByRole("button", { name: /cancelar/i }));
-
-      expect(history.location.pathname).toBe("/");
     });
   });
 });
