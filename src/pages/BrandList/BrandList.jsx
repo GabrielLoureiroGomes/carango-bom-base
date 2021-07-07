@@ -24,7 +24,7 @@ function BrandList() {
   }
 
   function updateBrand() {
-    history.push("/alteracao-marca/" + selectedBrand.id);
+    history.push("/marca/" + selectedBrand.id);
   }
 
   function deleteBrand() {
@@ -67,7 +67,7 @@ function BrandList() {
         color="primary"
         aria-label="add"
         className={classes.fab}
-        onClick={() => history.push("/cadastro-marca")}
+        onClick={() => history.push("/marca/cadastro")}
       >
         <AddIcon />
       </Fab>
