@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { Button, TextField, Typography } from "@material-ui/core";
-import useErrors from "../../hooks/useFormValidation";
+import useFormValidation from "../../hooks/useFormValidation";
 import UserService from "../../services/UserService";
 
 const validations = {
@@ -30,14 +30,17 @@ const validations = {
 const Signup = () => {
   const history = useHistory();
   const [error, setError] = useState();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [errors, validateFields, shouldSubmit] = useErrors(validations, {
-    username,
-    password,
-    confirmPassword,
-  });
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+  const [confirmPassword, setConfirmPassword] = useState();
+  const [errors, validateFields, shouldSubmit] = useFormValidation(
+    validations,
+    {
+      username,
+      password,
+      confirmPassword,
+    }
+  );
 
   function cancel() {
     history.goBack();
@@ -68,6 +71,7 @@ const Signup = () => {
     <form onSubmit={handleSubmit}>
       <Typography variant="h3">Cadastro</Typography>
       <TextField
+        value={username}
         onChange={(e) => setUsername(e.target.value)}
         onBlur={validateFields}
         helperText={errors.username.text}
@@ -82,6 +86,7 @@ const Signup = () => {
         margin="normal"
       />
       <TextField
+        value={password}
         onChange={(e) => setPassword(e.target.value)}
         onBlur={validateFields}
         helperText={errors.password.text}
@@ -96,13 +101,14 @@ const Signup = () => {
         margin="normal"
       />
       <TextField
+        value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
         onBlur={(e) => validateFields(e)}
         helperText={errors.confirmPassword.text}
         error={!errors.confirmPassword.valid}
         name="confirmPassword"
         id="confirmPassword"
-        label="Confirmação da Senha"
+        label="Confirmação da senha"
         type="password"
         variant="outlined"
         fullWidth
