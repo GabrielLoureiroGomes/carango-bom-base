@@ -31,8 +31,9 @@
       "!src/index.js",
       "!src/App.js",
       "!src/reportWebVitals.js",
-      "!src/Constants.js"
-    ]
+      "!src/services/**/*"
+    ],
+    "resetMocks": false
   },
   "eslintConfig": {
     "extends": [
