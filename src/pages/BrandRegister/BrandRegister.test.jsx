@@ -29,10 +29,12 @@ const brandsMock = [
   },
 ];
 
-const brandServiceSpy = jest.spyOn(BrandService, "register");
+const brandServiceRegisterSpy = jest.spyOn(BrandService, "register");
+const brandServiceUpdateSpy = jest.spyOn(BrandService, "update");
 jest.mock("../../services/BrandService", () => ({
   get: jest.fn().mockResolvedValue(brandsMock[0]),
   register: jest.fn(),
+  update: jest.fn(),
 }));
 
 describe("<BrandRegister />", () => {
@@ -64,7 +66,7 @@ describe("<BrandRegister />", () => {
         userEvent.type(input, "Volvo");
         userEvent.click(screen.getByRole("button", { name: /cadastrar/i }));
 
-        expect(brandServiceSpy).toHaveBeenCalledWith({ nome: "Volvo" });
+        expect(brandServiceRegisterSpy).toHaveBeenCalledWith({ nome: "Volvo" });
       });
 
       it("should redirect me to the brand listing page", () => {
@@ -87,8 +89,9 @@ describe("<BrandRegister />", () => {
   });
 
   describe("Alter old brand", () => {
+    const selectedBrand = brandsMock[0];
     beforeEach(() => {
-      setup(1);
+      setup(selectedBrand.id);
     });
     afterAll(() => {
       jest.clearAllMocks();
@@ -97,6 +100,35 @@ describe("<BrandRegister />", () => {
       it("should render the brand name fetched from the param id", () => {
         const input = screen.getByRole("textbox", { name: /brand/i });
         expect(input.value).toStrictEqual("Fiat");
+      });
+
+      describe("Update brand name", () => {
+        it("should call 'BrandService.update()' with new brand name", () => {
+          const input = screen.getByRole("textbox", { name: /brand/i });
+          input.setSelectionRange(0, 4);
+          userEvent.type(input, "{backspace}Volvo");
+
+          const btn = screen.getByRole("button", { name: /alterar/i });
+          userEvent.click(btn);
+          expect(brandServiceUpdateSpy).toBeCalledWith({
+            id: selectedBrand.id.toString(),
+            nome: "Volvo",
+          });
+        });
+
+        it("should redirect me to '/' when I click in 'alterar'", () => {
+          const btn = screen.getByRole("button", { name: /alterar/i });
+          userEvent.click(btn);
+          expect(history.location.pathname).toBe("/");
+        });
+      });
+
+      describe("Cancel update", () => {
+        it("should redirect me to '/' when I click in 'cancelar'", () => {
+          const btn = screen.getByRole("button", { name: /cancelar/i });
+          userEvent.click(btn);
+          expect(history.location.pathname).toBe("/");
+        });
       });
     });
   });
