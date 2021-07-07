@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useHistory, useParams } from "react-router";
 import { Button, TextField } from "@material-ui/core";
 
-import useErrors from "../../hooks/useFormValidation";
+import useFormValidations from "../../hooks/useFormValidations";
 
 import BrandService from "../../services/BrandService";
 
@@ -22,7 +22,8 @@ function BrandRegister() {
 
   const [brand, setBrand] = useState("");
 
-  const [errors, validateFields, shouldSubmit] = useErrors(validations);
+  const [errors, validateFields, shouldSubmit] =
+    useFormValidations(validations);
 
   function cancel() {
     history.goBack();

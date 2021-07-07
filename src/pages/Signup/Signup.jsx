@@ -6,7 +6,7 @@ import {
   Typography,
   FormHelperText,
 } from "@material-ui/core";
-import useFormValidation from "../../hooks/useFormValidation";
+import useFormValidations from "../../hooks/useFormValidations";
 import UserService from "../../services/UserService";
 
 const validations = {
@@ -35,10 +35,10 @@ const validations = {
 const Signup = () => {
   const history = useHistory();
   const [error, setError] = useState();
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
-  const [confirmPassword, setConfirmPassword] = useState();
-  const [errors, validateFields, shouldSubmit] = useFormValidation(
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [errors, validateFields, shouldSubmit] = useFormValidations(
     validations,
     {
       username,
