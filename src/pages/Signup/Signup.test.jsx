@@ -43,11 +43,11 @@ describe("<Signup />", () => {
 
       it("should show me an error if I don't fill the 'password' field", async () => {
         const password = screen.getByRole("textbox", { name: "password" });
-        fireEvent.focus(password);
+        userEvent.type(password, "123");
         fireEvent.blur(password);
 
         const errorMsg = await screen.findByText(
-          /Senha deve ter ao menos 3 letras./
+          /Senha deve ter ao menos 6 caracteres./
         );
         expect(errorMsg).toBeInTheDocument();
       });
@@ -60,9 +60,7 @@ describe("<Signup />", () => {
         });
         userEvent.type(confirmPassword, "12345");
         fireEvent.blur(confirmPassword);
-        const errorMsg = await screen.findByText(
-          /As senhas inseridas não correspondem./
-        );
+        const errorMsg = await screen.findByText(/As senhas não correspondem./);
         expect(errorMsg).toBeInTheDocument();
       });
 
@@ -94,7 +92,10 @@ describe("<Signup />", () => {
         userEvent.click(btn);
       });
       it("should register user with correct data", () => {
-        expect(userServiceSignupSpy).toHaveBeenCalledWith(mockUser);
+        expect(userServiceSignupSpy).toHaveBeenCalledWith({
+          username: mockUser.username,
+          password: mockUser.password,
+        });
       });
       it("should redirect me to home page after signup", () => {
         expect(history.location.pathname).toBe("/");
