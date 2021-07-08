@@ -28,7 +28,6 @@ function Login() {
 
     try {
       await auth({ dispatch, user: { username, password } });
-      history.push("/");
     } catch {
       setError(true);
     }

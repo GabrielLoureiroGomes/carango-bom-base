@@ -98,7 +98,7 @@ describe("<Login />", () => {
           user: { username: testUsername, password: testPassword },
         })
       );
-      expect(history.location.pathname).toStrictEqual("/veiculos");
+      expect(history.location.pathname).toStrictEqual("/");
     });
   });
 });
