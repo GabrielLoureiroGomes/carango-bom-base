@@ -32,7 +32,7 @@ const mockUser = {
   confirmPassword: "teste123123",
 };
 
-const userServiceSignupSpy = jest.spyOn(UserActions, "signup");
+const userActionServiceSpy = jest.spyOn(UserActions, "auth");
 
 describe("<Signup />", () => {
   describe("Cancel", () => {
@@ -109,7 +109,7 @@ describe("<Signup />", () => {
       });
 
       it("should register user with correct data", () => {
-        expect(userServiceSignupSpy).toHaveBeenCalledWith(
+        expect(userActionServiceSpy).toHaveBeenCalledWith(
           expect.objectContaining({
             user: { username: mockUser.username, password: mockUser.password },
           })
@@ -122,7 +122,7 @@ describe("<Signup />", () => {
 
       describe("And something fails", () => {
         beforeAll(() => {
-          userServiceSignupSpy.mockRejectedValue({ data: "Usuário já existe" });
+          userActionServiceSpy.mockRejectedValue({ data: "Usuário já existe" });
         });
 
         it("should show the error message", async () => {

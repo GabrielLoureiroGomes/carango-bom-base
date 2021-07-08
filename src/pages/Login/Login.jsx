@@ -27,7 +27,11 @@ function Login() {
     setError(false);
 
     try {
-      await auth({ dispatch, user: { username, password } });
+      await auth({
+        dispatch,
+        user: { username, password },
+        method: "auth",
+      });
     } catch {
       setError(true);
     }

@@ -9,7 +9,8 @@ import {
 } from "@material-ui/core";
 import useFormValidations from "../../hooks/useFormValidations";
 import { useAuth } from "../../hooks/AuthContext";
-import { signup } from "../../actions/auth";
+import { auth } from "../../actions/auth";
+import UserService from "../../services/UserService";
 
 const validations = {
   username: (value) => {
@@ -64,12 +65,13 @@ const Signup = () => {
 
   async function submitUser() {
     try {
-      await signup({
+      await auth({
         user: {
           username,
           password,
         },
         dispatch,
+        method: "signup",
       });
       return history.push("/");
     } catch (e) {
