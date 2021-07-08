@@ -79,7 +79,7 @@ describe("Auth Action", () => {
         await auth({
           dispatch,
           user: userMock,
-          method: "delete",
+          method: "unknown",
         })
       ).toHaveProperty("message", "Unkown UserService method");
     });

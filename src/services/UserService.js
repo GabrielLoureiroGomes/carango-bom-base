@@ -23,6 +23,31 @@ const UserService = {
       }
     });
   },
+  getAll() {
+    return Promise.resolve([
+      {
+        id: 1,
+        name: "Wagner Lopes",
+      },
+      {
+        id: 2,
+        name: "Viviane Dias",
+      },
+    ]);
+  },
+  delete(userID) {
+    return new Promise((resolve, reject) => {
+      if (userID) {
+        resolve({
+          status: 200,
+        });
+      } else {
+        reject({
+          status: 400,
+        });
+      }
+    });
+  },
 };
 
 export default UserService;
