@@ -15,8 +15,8 @@ function BrandList() {
 
   const loadBrands = useCallback(async () => {
     try {
-      const dados = await BrandService.getAll();
-      return setBrands(dados);
+      const brands = await BrandService.getAll();
+      return setBrands(brands);
     } catch (e) {
       console.log(e);
     }
