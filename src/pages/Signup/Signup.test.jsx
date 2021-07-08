@@ -1,5 +1,4 @@
 import React from "react";
-import { createMemoryHistory } from "history";
 import { MemoryRouter, Route } from "react-router-dom";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";

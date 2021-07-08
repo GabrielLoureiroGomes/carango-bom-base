@@ -1,18 +1,11 @@
 import React from "react";
 import { MemoryRouter, Route } from "react-router-dom";
-import {
-  screen,
-  fireEvent,
-  render,
-  act,
-  waitForElementToBeRemoved,
-} from "@testing-library/react";
+import { screen, fireEvent, render, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import BrandRegister from "./BrandRegister";
 import BrandService from "../../services/BrandService";
 
-let testHistory;
 let testLocation;
 const setup = (brandId) => {
   const path = brandId ? "/marca/:id" : "/marca/cadastro";
@@ -25,7 +18,6 @@ const setup = (brandId) => {
       <Route
         path="*"
         render={({ history, location }) => {
-          testHistory = history;
           testLocation = location;
           return null;
         }}
