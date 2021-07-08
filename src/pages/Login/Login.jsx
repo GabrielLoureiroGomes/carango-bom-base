@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Button, FormHelperText, TextField } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 
@@ -8,11 +8,15 @@ import { auth } from "../../actions/auth";
 
 function Login() {
   const history = useHistory();
-  const { dispatch } = useAuth();
+  const { dispatch, user } = useAuth();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if (user) history.push("/");
+  }, [user, history]);
 
   function handleRegister() {
     history.push("/cadastro");
@@ -24,7 +28,7 @@ function Login() {
 
     try {
       await auth({ dispatch, user: { username, password } });
-      history.push("/veiculos");
+      history.push("/");
     } catch {
       setError(true);
     }
