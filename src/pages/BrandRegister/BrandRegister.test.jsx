@@ -114,13 +114,9 @@ describe("<BrandRegister />", () => {
     });
     describe("Load brand from param", () => {
       describe("Update brand name", () => {
-        it.skip("should redirect me back to the brand listing page when I click in 'alterar'", async () => {
+        it("should redirect me back to the brand listing page when I click in 'alterar'", async () => {
           const btn = screen.getByRole("button", { name: /alterar/i });
-          userEvent.click(btn);
-          console.log({
-            history: JSON.stringify(testHistory),
-            location: testLocation,
-          });
+          await act(async () => userEvent.click(btn));
           expect(testLocation.pathname).toStrictEqual("/marcas");
         });
 
