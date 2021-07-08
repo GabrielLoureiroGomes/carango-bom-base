@@ -18,9 +18,9 @@ function authReducer(state, action) {
 }
 
 function AuthProvider({ children }) {
-  const [state, dispatch] = React.useReducer(authReducer, getUserFromToken());
+  const [user, dispatch] = React.useReducer(authReducer, getUserFromToken());
 
-  const value = { state, dispatch };
+  const value = { user, dispatch };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
