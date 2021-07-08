@@ -103,9 +103,7 @@ describe("<Signup />", () => {
         userEvent.type(username, mockUser.username);
         userEvent.type(password, mockUser.password);
         userEvent.type(confirmPassword, mockUser.confirmPassword);
-        await act(async () => {
-          userEvent.click(btn);
-        });
+        await act(async () => userEvent.click(btn));
       });
 
       it("should register user with correct data", () => {

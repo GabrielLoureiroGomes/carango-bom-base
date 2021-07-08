@@ -13,7 +13,8 @@ import { ptBR } from "@material-ui/core/locale";
 import "./assets/App.css";
 
 import { AuthProvider, useAuth } from "./hooks/AuthContext";
-import { BrandRegister, BrandList, Login, Signup } from "./pages";
+import { BrandRegister, BrandList, Login, Signup, VehicleList } from "./pages";
+
 import { NavBar } from "./components";
 
 const muiTheme = createMuiTheme(
@@ -51,7 +52,7 @@ function AppContainer() {
       <NavBar userLogged={!!user} />
       <Switch>
         <Route exact path="/">
-          Veiculos!
+          <VehicleList />
         </Route>
         <Route path="/login">
           <Login />
