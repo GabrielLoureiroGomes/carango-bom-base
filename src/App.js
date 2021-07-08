@@ -13,7 +13,14 @@ import { ptBR } from "@material-ui/core/locale";
 import "./assets/App.css";
 
 import { AuthProvider, useAuth } from "./hooks/AuthContext";
-import { BrandRegister, BrandList, Login, Signup, VehicleList } from "./pages";
+import {
+  BrandRegister,
+  BrandList,
+  Login,
+  Signup,
+  UserList,
+  VehicleList,
+} from "./pages";
 
 import { NavBar } from "./components";
 
@@ -71,6 +78,9 @@ function AppContainer() {
             </Route>
             <Route path="/marcas">
               <BrandList />
+            </Route>
+            <Route path="/usuarios">
+              <UserList />
             </Route>
           </Switch>
         ) : null}
