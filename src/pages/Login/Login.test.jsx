@@ -4,19 +4,24 @@ import { createMemoryHistory } from "history";
 import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import UserService from "../../services/UserService";
+import { AuthProvider } from "../../hooks/AuthContext";
+
+import * as UserActions from "../../actions/auth";
 
 import Login from "./Login";
 
-const authSpy = jest.spyOn(UserService, "auth");
+const authSpy = jest.spyOn(UserActions, "auth");
+const dispatchMock = jest.fn();
 
 describe("<Login />", () => {
   const history = createMemoryHistory();
   const setup = () =>
     render(
-      <Router history={history}>
-        <Login />
-      </Router>
+      <AuthProvider value={{ state: {}, dispatch: dispatchMock }}>
+        <Router history={history}>
+          <Login />
+        </Router>
+      </AuthProvider>
     );
 
   beforeEach(() => {
@@ -60,12 +65,13 @@ describe("<Login />", () => {
       const loginButton = screen.getByRole("button", { name: /entrar/i });
       userEvent.click(loginButton);
 
-      expect(authSpy).toHaveBeenCalledWith({
-        username: testUsername,
-        password: testPassword,
-      });
+      expect(authSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          user: { username: testUsername, password: testPassword },
+        })
+      );
       expect(
-        await screen.findByText("Usuário e senha inválidos")
+        await screen.findByText("Usuário ou senha inválidos")
       ).toBeInTheDocument();
     });
   });
@@ -87,11 +93,12 @@ describe("<Login />", () => {
       const loginButton = screen.getByRole("button", { name: /entrar/i });
       await act(async () => userEvent.click(loginButton));
 
-      expect(authSpy).toHaveBeenCalledWith({
-        username: testUsername,
-        password: testPassword,
-      });
-      expect(history.location.pathname).toStrictEqual("/veiculos");
+      expect(authSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          user: { username: testUsername, password: testPassword },
+        })
+      );
+      expect(history.location.pathname).toStrictEqual("/");
     });
   });
 });

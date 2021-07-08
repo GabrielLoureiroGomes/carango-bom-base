@@ -5,9 +5,11 @@ import {
   TextField,
   Typography,
   FormHelperText,
+  Box,
 } from "@material-ui/core";
 import useFormValidations from "../../hooks/useFormValidations";
-import UserService from "../../services/UserService";
+import { useAuth } from "../../hooks/AuthContext";
+import { auth } from "../../actions/auth";
 
 const validations = {
   username: (value) => {
@@ -34,6 +36,7 @@ const validations = {
 
 const Signup = () => {
   const history = useHistory();
+  const { dispatch } = useAuth();
   const [error, setError] = useState();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -61,11 +64,15 @@ const Signup = () => {
 
   async function submitUser() {
     try {
-      await UserService.signup({
-        username,
-        password,
+      await auth({
+        user: {
+          username,
+          password,
+        },
+        dispatch,
+        method: "signup",
       });
-      return history.push("/veiculos");
+      return history.push("/");
     } catch (e) {
       // TODO: validar qual exatamente vai ser o retorno de um erro
       setError(e.data);
@@ -75,72 +82,78 @@ const Signup = () => {
   return (
     <form onSubmit={handleSubmit}>
       <Typography variant="h3">Cadastro</Typography>
-      <TextField
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        onBlur={validateFields}
-        helperText={errors.username.text}
-        error={!errors.username.valid}
-        name="username"
-        id="username"
-        label="Usuário"
-        type="text"
-        variant="outlined"
-        fullWidth
-        required
-        margin="normal"
-      />
-      <TextField
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        onBlur={validateFields}
-        helperText={errors.password.text}
-        error={!errors.password.valid}
-        name="password"
-        id="password"
-        label="Senha"
-        type="password"
-        variant="outlined"
-        fullWidth
-        required
-        margin="normal"
-      />
-      <TextField
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-        onBlur={(e) => validateFields(e)}
-        helperText={errors.confirmPassword.text}
-        error={!errors.confirmPassword.valid}
-        name="confirmPassword"
-        id="confirmPassword"
-        label="Confirmação da senha"
-        type="password"
-        variant="outlined"
-        fullWidth
-        required
-        margin="normal"
-      />
+      <Box
+        border={1}
+        borderColor="grey.500"
+        borderRadius={16}
+        padding={3}
+        marginTop={2}
+        display="flex"
+        flexDirection="column"
+        gridGap={16}
+      >
+        <TextField
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          onBlur={validateFields}
+          helperText={errors.username.text}
+          error={!errors.username.valid}
+          name="username"
+          id="username"
+          label="Usuário"
+          type="text"
+          variant="outlined"
+          fullWidth
+          required
+          margin="normal"
+        />
+        <TextField
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          onBlur={validateFields}
+          helperText={errors.password.text}
+          error={!errors.password.valid}
+          name="password"
+          id="password"
+          label="Senha"
+          type="password"
+          variant="outlined"
+          fullWidth
+          required
+          margin="normal"
+        />
+        <TextField
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          onBlur={(e) => validateFields(e)}
+          helperText={errors.confirmPassword.text}
+          error={!errors.confirmPassword.valid}
+          name="confirmPassword"
+          id="confirmPassword"
+          label="Confirmação da senha"
+          type="password"
+          variant="outlined"
+          fullWidth
+          required
+          margin="normal"
+        />
 
-      {error ? (
-        <div style={{ margin: "15px 0" }}>
-          <FormHelperText error>{error}</FormHelperText>
-        </div>
-      ) : null}
+        {error ? <FormHelperText error>{error}</FormHelperText> : null}
 
-      <div style={{ display: "flex", gridGap: "15px", marginTop: 10 }}>
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          disabled={!shouldSubmit()}
-        >
-          Cadastrar
-        </Button>
-
-        <Button variant="contained" color="secondary" onClick={cancel}>
-          Cancelar
-        </Button>
-      </div>
+        <Box marginTop={2} display="flex" justifyContent="space-between">
+          <Button variant="contained" color="primary" onClick={cancel}>
+            Cancelar
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            type="submit"
+            disabled={!shouldSubmit()}
+          >
+            Cadastrar
+          </Button>
+        </Box>
+      </Box>
     </form>
   );
 };

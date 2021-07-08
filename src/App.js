@@ -12,8 +12,8 @@ import { ptBR } from "@material-ui/core/locale";
 
 import "./assets/App.css";
 
+import { AuthProvider, useAuth } from "./hooks/AuthContext";
 import { BrandRegister, BrandList, Login, Signup } from "./pages";
-
 import { NavBar } from "./components";
 
 const muiTheme = createMuiTheme(
@@ -44,41 +44,57 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function AppContainer() {
+  const { user } = useAuth();
+  return (
+    <Container component="article" maxWidth="md">
+      <NavBar userLogged={!!user} />
+      <Switch>
+        <Route exact path="/">
+          Veiculos!
+        </Route>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/cadastro">
+          <Signup />
+        </Route>
+        <Redirect to="/login" />
+        {!!user ? (
+          <Switch>
+            <Route path="/marca/cadastro">
+              <BrandRegister />
+            </Route>
+            <Route path="/marca/:id">
+              <BrandRegister />
+            </Route>
+            <Route path="/marcas">
+              <BrandList />
+            </Route>
+          </Switch>
+        ) : null}
+      </Switch>
+    </Container>
+  );
+}
+
 function App() {
   const classes = useStyles();
 
   return (
-    <Router>
-      <ThemeProvider theme={muiTheme}>
-        <div className={classes.root}>
-          <CssBaseline />
-          <main className={classes.content}>
-            <div className={classes.toolbar} />
-            <Container component="article" maxWidth="md">
-              <NavBar />
-              <Switch>
-                <Route path="/marca/cadastro">
-                  <BrandRegister />
-                </Route>
-                <Route path="/marca/:id">
-                  <BrandRegister />
-                </Route>
-                <Route path="/marca">
-                  <BrandList />
-                </Route>
-                <Route exact path="/">
-                  <Login />
-                </Route>
-                <Route exact path="/cadastro">
-                  <Signup />
-                </Route>
-                <Redirect to="/" />
-              </Switch>
-            </Container>
-          </main>
-        </div>
-      </ThemeProvider>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <ThemeProvider theme={muiTheme}>
+          <div className={classes.root}>
+            <CssBaseline />
+            <main className={classes.content}>
+              <div className={classes.toolbar} />
+              <AppContainer />
+            </main>
+          </div>
+        </ThemeProvider>
+      </Router>
+    </AuthProvider>
   );
 }
 

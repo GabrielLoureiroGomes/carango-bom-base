@@ -1,15 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Button, FormHelperText, TextField } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 
-import UserService from "../../services/UserService";
+import { useAuth } from "../../hooks/AuthContext";
+
+import { auth } from "../../actions/auth";
 
 function Login() {
   const history = useHistory();
+  const { dispatch, user } = useAuth();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if (user) history.push("/");
+  }, [user, history]);
 
   function handleRegister() {
     history.push("/cadastro");
@@ -20,8 +27,11 @@ function Login() {
     setError(false);
 
     try {
-      await UserService.auth({ username, password });
-      history.push("/veiculos");
+      await auth({
+        dispatch,
+        user: { username, password },
+        method: "auth",
+      });
     } catch {
       setError(true);
     }
@@ -58,7 +68,7 @@ function Login() {
         />
 
         {error ? (
-          <FormHelperText error>Usuário e senha inválidos</FormHelperText>
+          <FormHelperText error>Usuário ou senha inválidos</FormHelperText>
         ) : null}
 
         <Box marginTop={2} display="flex" justifyContent="space-between">
