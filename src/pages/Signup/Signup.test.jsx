@@ -1,19 +1,28 @@
 import React from "react";
 import { createMemoryHistory } from "history";
-import { Router } from "react-router-dom";
+import { MemoryRouter, Route } from "react-router-dom";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Signup from "./Signup";
 import * as UserActions from "../../actions/auth";
 import { AuthProvider } from "../../hooks/AuthContext";
 
-const history = createMemoryHistory();
+let testLocation;
 const setup = () => {
   return render(
     <AuthProvider>
-      <Router history={history}>
-        <Signup />
-      </Router>
+      <MemoryRouter initialEntries={["/login", "/cadastro"]} initialIndex={1}>
+        <Route path="/cadastro">
+          <Signup />
+        </Route>
+        <Route
+          path="*"
+          render={({ location }) => {
+            testLocation = location;
+            return null;
+          }}
+        />
+      </MemoryRouter>
     </AuthProvider>
   );
 };
@@ -28,11 +37,11 @@ const userServiceSignupSpy = jest.spyOn(UserActions, "signup");
 
 describe("<Signup />", () => {
   describe("Cancel", () => {
-    it("should redirect me to '/' when I click the 'cancel' button", () => {
+    it("should redirect me to '/login' when I click the 'cancel' button", () => {
       setup();
       userEvent.click(screen.getByRole("button", { name: /cancelar/i }));
 
-      expect(history.location.pathname).toBe("/");
+      expect(testLocation.pathname).toBe("/login");
     });
   });
   describe("Register", () => {
@@ -109,7 +118,7 @@ describe("<Signup />", () => {
       });
 
       it("should redirect me to home page after signup", () => {
-        expect(history.location.pathname).toBe("/veiculos");
+        expect(testLocation.pathname).toBe("/");
       });
 
       describe("And something fails", () => {

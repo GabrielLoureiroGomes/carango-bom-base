@@ -71,7 +71,7 @@ const Signup = () => {
         },
         dispatch,
       });
-      return history.push("/veiculos");
+      return history.push("/");
     } catch (e) {
       // TODO: validar qual exatamente vai ser o retorno de um erro
       setError(e.data);
