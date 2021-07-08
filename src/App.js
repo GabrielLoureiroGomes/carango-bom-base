@@ -45,11 +45,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AppContainer() {
-  const { state: user } = useAuth();
+  const { user } = useAuth();
   return (
     <Container component="article" maxWidth="md">
       <NavBar userLogged={!!user} />
       <Switch>
+        <Route exact path="/">
+          Veiculos!
+        </Route>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/cadastro">
+          <Signup />
+        </Route>
+        <Redirect to="/login" />
         {!!user ? (
           <Switch>
             <Route path="/marca/cadastro">
@@ -58,18 +68,11 @@ function AppContainer() {
             <Route path="/marca/:id">
               <BrandRegister />
             </Route>
-            <Route path="/marca">
+            <Route path="/marcas">
               <BrandList />
             </Route>
           </Switch>
         ) : null}
-        <Route exact path="/">
-          <Login />
-        </Route>
-        <Route exact path="/cadastro">
-          <Signup />
-        </Route>
-        <Redirect to="/" />
       </Switch>
     </Container>
   );
