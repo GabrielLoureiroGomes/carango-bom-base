@@ -67,7 +67,6 @@ function AppContainer() {
         <Route path="/cadastro">
           <Signup />
         </Route>
-        <Redirect to="/login" />
         {!!user ? (
           <Switch>
             <Route path="/marca/cadastro">
@@ -82,8 +81,10 @@ function AppContainer() {
             <Route path="/usuarios">
               <UserList />
             </Route>
+            <Redirect to="/" />
           </Switch>
         ) : null}
+        <Redirect to="/login" />
       </Switch>
     </Container>
   );
