@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import { Box, Button, FormHelperText, TextField } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 
-import UserService from "../../services/UserService";
+import { useAuth } from "../../hooks/AuthContext";
+
+import { auth } from "../../actions/auth";
 
 function Login() {
   const history = useHistory();
+  const { dispatch } = useAuth();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -20,7 +23,7 @@ function Login() {
     setError(false);
 
     try {
-      await UserService.auth({ username, password });
+      await auth({ dispatch, user: { username, password } });
       history.push("/veiculos");
     } catch {
       setError(true);

@@ -5,7 +5,7 @@ const AuthContext = React.createContext();
 
 function authReducer(state, action) {
   switch (action.type) {
-    case "login": {
+    case "auth": {
       return action.payload;
     }
     case "logout": {

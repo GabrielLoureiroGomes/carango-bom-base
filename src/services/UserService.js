@@ -2,13 +2,9 @@ const UserService = {
   auth(userData) {
     return new Promise((resolve, reject) => {
       if ("username" in userData && "password" in userData) {
-        resolve({
-          status: 200,
-        });
+        resolve("jsonwebtoken");
       } else {
-        reject({
-          status: 401,
-        });
+        reject();
       }
     });
   },
