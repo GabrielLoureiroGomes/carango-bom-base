@@ -29,7 +29,9 @@ const Table = ({ service, route, columns }) => {
   }
 
   function updateItem() {
-    history.push(`/${route}/` + selectedItem.id);
+    if (selectedItem) {
+      history.push(`/${route}/` + selectedItem.id);
+    }
   }
 
   async function deleteItem() {
