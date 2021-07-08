@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { useHistory } from "react-router";
+import React from "react";
 
 import VehicleService from "../../services/VehicleService";
 
@@ -25,49 +24,7 @@ const columns = [
 ];
 
 function VehicleList() {
-  const history = useHistory();
-
-  const [vehicles, setVehicles] = useState([]);
-  const [selectedVehicle, setSelectedVehicle] = useState();
-
-  const loadVehicles = useCallback(async () => {
-    try {
-      const dados = await VehicleService.getAll();
-      return setVehicles(dados);
-    } catch (e) {
-      console.log(e);
-    }
-  }, [setVehicles]);
-
-  useEffect(loadVehicles, [loadVehicles]);
-
-  function updateVehicle() {
-    history.push("/veiculo/" + selectedVehicle.id);
-  }
-
-  async function deleteVehicle() {
-    try {
-      await VehicleService.delete(selectedVehicle);
-      setVehicles(
-        vehicles.filter((vehicle) => vehicle.id !== selectedVehicle.id)
-      );
-      setSelectedVehicle(null);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  return (
-    <Table
-      rowsContent={vehicles}
-      columns={columns}
-      setSelectedItem={setSelectedVehicle}
-      selectedItem={selectedVehicle}
-      addItem={() => history.push("/veiculo/cadastro")}
-      updateItem={updateVehicle}
-      deleteItem={deleteVehicle}
-    />
-  );
+  return <Table service={VehicleService} route="veiculo" columns={columns} />;
 }
 
 export default VehicleList;
