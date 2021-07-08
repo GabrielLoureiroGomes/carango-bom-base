@@ -3,6 +3,8 @@ import { useHistory } from "react-router";
 
 import VehicleService from "../../services/VehicleService";
 
+import { formatCurrency } from "../../utils";
+
 import { Table } from "../../components";
 
 const columns = [
@@ -18,11 +20,7 @@ const columns = [
     flex: 1,
     field: "price",
     headerName: "Preço",
-    valueGetter: (params) =>
-      new Intl.NumberFormat("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-      }).format(params.value),
+    valueGetter: (params) => formatCurrency(params.value),
   },
 ];
 
