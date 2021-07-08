@@ -61,7 +61,7 @@ function Login() {
         />
 
         {error ? (
-          <FormHelperText error>Usuário e senha inválidos</FormHelperText>
+          <FormHelperText error>Usuário ou senha inválidos</FormHelperText>
         ) : null}
 
         <Box marginTop={2} display="flex" justifyContent="space-between">

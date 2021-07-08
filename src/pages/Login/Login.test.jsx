@@ -71,7 +71,7 @@ describe("<Login />", () => {
         })
       );
       expect(
-        await screen.findByText("Usuário e senha inválidos")
+        await screen.findByText("Usuário ou senha inválidos")
       ).toBeInTheDocument();
     });
   });
