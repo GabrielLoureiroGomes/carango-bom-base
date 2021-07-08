@@ -17,7 +17,7 @@ const setup = (brandId) => {
       </Route>
       <Route
         path="*"
-        render={({ history, location }) => {
+        render={({ location }) => {
           testLocation = location;
           return null;
         }}

@@ -10,7 +10,6 @@ import {
 import useFormValidations from "../../hooks/useFormValidations";
 import { useAuth } from "../../hooks/AuthContext";
 import { auth } from "../../actions/auth";
-import UserService from "../../services/UserService";
 
 const validations = {
   username: (value) => {
