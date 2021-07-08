@@ -1,26 +1,30 @@
 import React from "react";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Signup from "./Signup";
-import UserService from "../../services/UserService";
+import * as UserActions from "../../actions/auth";
+import { AuthProvider } from "../../hooks/AuthContext";
 
 const history = createMemoryHistory();
 const setup = () => {
   return render(
-    <Router history={history}>
-      <Signup />
-    </Router>
+    <AuthProvider>
+      <Router history={history}>
+        <Signup />
+      </Router>
+    </AuthProvider>
   );
 };
+
 const mockUser = {
   username: "teste",
   password: "teste123123",
   confirmPassword: "teste123123",
 };
 
-const userServiceSignupSpy = jest.spyOn(UserService, "signup");
+const userServiceSignupSpy = jest.spyOn(UserActions, "signup");
 
 describe("<Signup />", () => {
   describe("Cancel", () => {
@@ -81,7 +85,7 @@ describe("<Signup />", () => {
     });
 
     describe("When submits signup form", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         setup();
         const username = screen.getByRole("textbox", { name: /usuário/i });
         const password = screen.getByLabelText(/Senha/);
@@ -91,14 +95,19 @@ describe("<Signup />", () => {
         userEvent.type(username, mockUser.username);
         userEvent.type(password, mockUser.password);
         userEvent.type(confirmPassword, mockUser.confirmPassword);
-        userEvent.click(btn);
-      });
-      it("should register user with correct data", () => {
-        expect(userServiceSignupSpy).toHaveBeenCalledWith({
-          username: mockUser.username,
-          password: mockUser.password,
+        await act(async () => {
+          userEvent.click(btn);
         });
       });
+
+      it("should register user with correct data", () => {
+        expect(userServiceSignupSpy).toHaveBeenCalledWith(
+          expect.objectContaining({
+            user: { username: mockUser.username, password: mockUser.password },
+          })
+        );
+      });
+
       it("should redirect me to home page after signup", () => {
         expect(history.location.pathname).toBe("/veiculos");
       });
@@ -107,6 +116,7 @@ describe("<Signup />", () => {
         beforeAll(() => {
           userServiceSignupSpy.mockRejectedValue({ data: "Usuário já existe" });
         });
+
         it("should show the error message", async () => {
           const errorMsg = await screen.findByText(/Usuário já existe/i);
           expect(errorMsg).toBeInTheDocument();
