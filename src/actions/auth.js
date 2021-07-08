@@ -17,9 +17,9 @@ export async function auth({ dispatch, user }) {
 export async function signup({ dispatch, user }) {
   // TODO: alinhar qual será a resposta com o back-end
   try {
-    const token = await UserService.signup(user);
+    const { data } = await UserService.signup(user);
     dispatch({ type: "auth", payload: user });
-    setStorageToken(token);
+    setStorageToken(data);
   } catch (e) {
     dispatch({ type: "logout" });
     removeStorageToken();
