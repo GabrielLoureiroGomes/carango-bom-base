@@ -65,10 +65,11 @@ describe("<Login />", () => {
       const loginButton = screen.getByRole("button", { name: /entrar/i });
       userEvent.click(loginButton);
 
-      expect(authSpy).toHaveBeenCalledWith({
-        dispatch: dispatchMock,
-        user: { username: testUsername, password: testPassword },
-      });
+      expect(authSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          user: { username: testUsername, password: testPassword },
+        })
+      );
       expect(
         await screen.findByText("Usuário e senha inválidos")
       ).toBeInTheDocument();
@@ -92,10 +93,11 @@ describe("<Login />", () => {
       const loginButton = screen.getByRole("button", { name: /entrar/i });
       await act(async () => userEvent.click(loginButton));
 
-      expect(authSpy).toHaveBeenCalledWith({
-        dispatch: dispatchMock,
-        user: { username: testUsername, password: testPassword },
-      });
+      expect(authSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          user: { username: testUsername, password: testPassword },
+        })
+      );
       expect(history.location.pathname).toStrictEqual("/veiculos");
     });
   });
