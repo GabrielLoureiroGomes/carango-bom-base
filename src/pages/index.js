@@ -6,3 +6,4 @@ export { default as VehicleList } from "./VehicleList/VehicleList";
 export { default as UserList } from "./UserList/UserList";
 export { default as VehicleRegister } from "./VehicleRegister/VehicleRegister";
 export { default as Dashboard } from "./Dashboard/Dashboard";
+export { default as UpdatePassword } from "./UpdatePassword/UpdatePassword";

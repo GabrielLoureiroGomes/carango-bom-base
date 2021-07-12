@@ -17,6 +17,7 @@ import {
   Login,
   Signup,
   UserList,
+  UpdatePassword,
   VehicleList,
   VehicleRegister,
   Dashboard,
@@ -87,6 +88,9 @@ function AppContainer() {
             </Route>
             <Route path="/usuarios">
               <UserList />
+            </Route>
+            <Route path="/alterar-senha">
+              <UpdatePassword />
             </Route>
             <Redirect to="/" />
           </Switch>
