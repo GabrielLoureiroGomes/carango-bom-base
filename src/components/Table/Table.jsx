@@ -6,7 +6,7 @@ import AddIcon from "@material-ui/icons/Add";
 
 import { useStyles } from "./styles";
 
-const Table = ({ service, route, columns }) => {
+const Table = ({ service, route, columns, deleteOnly }) => {
   const classes = useStyles();
   const history = useHistory();
 
@@ -44,24 +44,21 @@ const Table = ({ service, route, columns }) => {
     }
   }
 
-  return (
-    <div style={{ height: 300, width: "100%" }}>
-      <DataGrid
-        rows={items}
-        columns={columns}
-        onRowSelected={(gridSelection) => setSelectedItem(gridSelection.data)}
-      />
+  function renderButtons() {
+    const buttons = [
+      <Button
+        className={classes.actions}
+        variant="contained"
+        color="secondary"
+        disabled={!selectedItem}
+        onClick={deleteItem}
+      >
+        Excluir
+      </Button>,
+    ];
 
-      <div className={classes.actionsToolbar}>
-        <Button
-          className={classes.actions}
-          variant="contained"
-          color="secondary"
-          disabled={!selectedItem}
-          onClick={deleteItem}
-        >
-          Excluir
-        </Button>
+    if (!deleteOnly) {
+      buttons.push(
         <Button
           className={classes.actions}
           variant="contained"
@@ -70,17 +67,30 @@ const Table = ({ service, route, columns }) => {
           onClick={updateItem}
         >
           Alterar
-        </Button>
-      </div>
+        </Button>,
+        <Fab
+          color="primary"
+          aria-label="add"
+          className={classes.fab}
+          onClick={addItem}
+        >
+          <AddIcon />
+        </Fab>
+      );
+    }
 
-      <Fab
-        color="primary"
-        aria-label="add"
-        className={classes.fab}
-        onClick={addItem}
-      >
-        <AddIcon />
-      </Fab>
+    return buttons;
+  }
+
+  return (
+    <div style={{ height: 300, width: "100%" }}>
+      <DataGrid
+        rows={items}
+        columns={columns}
+        onRowSelected={(gridSelection) => setSelectedItem(gridSelection.data)}
+      />
+
+      <div className={classes.actionsToolbar}>{renderButtons()}</div>
     </div>
   );
 };
