@@ -35,9 +35,9 @@ const UserService = {
       },
     ]);
   },
-  delete(userID) {
+  delete(user) {
     return new Promise((resolve, reject) => {
-      if (userID) {
+      if ("id" in user) {
         resolve({
           status: 200,
         });

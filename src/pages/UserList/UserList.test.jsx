@@ -9,6 +9,8 @@ import {
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
+import UserService from "../../services/UserService";
+
 import UserList from "./UserList";
 
 const usersMock = [
@@ -18,10 +20,11 @@ const usersMock = [
   },
 ];
 
-jest.mock("../../services/UserService", () => ({
-  getAll: jest.fn().mockResolvedValue(usersMock),
-  delete: jest.fn().mockResolvedValue(),
-}));
+const spyGetAll = jest.spyOn(UserService, "getAll");
+spyGetAll.mockResolvedValue(usersMock);
+
+const spyDelete = jest.spyOn(UserService, "delete");
+spyDelete.mockResolvedValue();
 
 describe("<UserList />", () => {
   const history = createMemoryHistory();
@@ -37,27 +40,33 @@ describe("<UserList />", () => {
     await act(async () => setup());
   });
 
-  it("Should go to the create page when the user clicks on the button to add a new user", async () => {
-    userEvent.click(screen.getByRole("button", { name: "add" }));
-    expect(history.location.pathname).toBe("/usuario/cadastro");
+  it("Should render the user list with only the delete button", () => {
+    const addButton = screen.queryByRole("button", { name: "add" });
+    const updateButton = screen.queryByRole("button", { name: "Alterar" });
+    const deleteButton = screen.queryByRole("button", { name: "Excluir" });
+
+    expect(addButton).not.toBeInTheDocument();
+    expect(updateButton).not.toBeInTheDocument();
+    expect(deleteButton).toBeInTheDocument();
   });
 
-  it("Should go to the update page when the user clicks on the button to update", async () => {
+  describe("When the user clicks on the button to delete", () => {
     const testUser = usersMock[0];
-    const userItem = await screen.findByText(testUser.name);
-    userEvent.click(userItem);
-    userEvent.click(screen.getByRole("button", { name: "Alterar" }));
 
-    expect(history.location.pathname).toBe("/usuario/" + testUser.id);
-  });
+    beforeEach(async () => {
+      const userItem = await screen.findByText(testUser.name);
+      userEvent.click(userItem);
+      userEvent.click(screen.getByRole("button", { name: "Excluir" }));
 
-  it("Should delete the item when the user clicks on the button to delete", async () => {
-    const testUser = usersMock[0];
-    const userItem = await screen.findByText(testUser.name);
-    userEvent.click(userItem);
-    userEvent.click(screen.getByRole("button", { name: "Excluir" }));
+      await waitForElementToBeRemoved(() => screen.getByText(testUser.name));
+    });
 
-    await waitForElementToBeRemoved(() => screen.getByText(testUser.name));
-    expect(screen.queryByText(testUser.name)).not.toBeInTheDocument();
+    it("Should delete the selected user from the list", () => {
+      expect(screen.queryByText(testUser.name)).not.toBeInTheDocument();
+    });
+
+    it("Should call the service with the right id", () => {
+      expect(spyDelete).toHaveBeenLastCalledWith(testUser);
+    });
   });
 });
