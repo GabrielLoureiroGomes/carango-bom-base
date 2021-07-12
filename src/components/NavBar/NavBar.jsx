@@ -17,6 +17,7 @@ function NavBar({ userLogged }) {
     { label: "Marcas", to: "/marcas" },
     { label: "Usuários", to: "/usuarios" },
     { label: "Dashboard", to: "/dashboard" },
+    { label: "Alterar senha", to: "/alterar-senha" },
     {
       label: "Sair",
       to: "/",

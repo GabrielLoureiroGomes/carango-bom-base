@@ -44,44 +44,6 @@ const Table = ({ service, route, columns, deleteOnly }) => {
     }
   }
 
-  function renderButtons() {
-    const buttons = [
-      <Button
-        className={classes.actions}
-        variant="contained"
-        color="secondary"
-        disabled={!selectedItem}
-        onClick={deleteItem}
-      >
-        Excluir
-      </Button>,
-    ];
-
-    if (!deleteOnly) {
-      buttons.push(
-        <Button
-          className={classes.actions}
-          variant="contained"
-          color="primary"
-          disabled={!selectedItem}
-          onClick={updateItem}
-        >
-          Alterar
-        </Button>,
-        <Fab
-          color="primary"
-          aria-label="add"
-          className={classes.fab}
-          onClick={addItem}
-        >
-          <AddIcon />
-        </Fab>
-      );
-    }
-
-    return buttons;
-  }
-
   return (
     <div style={{ height: 300, width: "100%" }}>
       <DataGrid
@@ -90,7 +52,39 @@ const Table = ({ service, route, columns, deleteOnly }) => {
         onRowSelected={(gridSelection) => setSelectedItem(gridSelection.data)}
       />
 
-      <div className={classes.actionsToolbar}>{renderButtons()}</div>
+      <div className={classes.actionsToolbar}>
+        <Button
+          className={classes.actions}
+          variant="contained"
+          color="secondary"
+          disabled={!selectedItem}
+          onClick={deleteItem}
+        >
+          Excluir
+        </Button>
+
+        {!deleteOnly ? (
+          <>
+            <Button
+              className={classes.actions}
+              variant="contained"
+              color="primary"
+              disabled={!selectedItem}
+              onClick={updateItem}
+            >
+              Alterar
+            </Button>
+            <Fab
+              color="primary"
+              aria-label="add"
+              className={classes.fab}
+              onClick={addItem}
+            >
+              <AddIcon />
+            </Fab>
+          </>
+        ) : null}
+      </div>
     </div>
   );
 };
