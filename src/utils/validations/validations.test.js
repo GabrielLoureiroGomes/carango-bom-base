@@ -109,7 +109,7 @@ describe("Validations", () => {
       });
     });
   });
-  describe.only("minLength", () => {
+  describe("minLength", () => {
     const invalid = { valid: false, text: "Muito curto" };
     test.each([
       [5, "", invalid],

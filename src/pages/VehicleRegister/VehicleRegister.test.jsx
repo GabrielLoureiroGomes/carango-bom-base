@@ -13,17 +13,17 @@ const updateVehicleSpy = jest.spyOn(VehicleService, "update");
 const getVehicleSpy = jest.spyOn(VehicleService, "get");
 
 const brands = [
-  { id: 1, nome: "CHEVROLET" },
-  { id: 2, nome: "FIAT" },
-  { id: 3, nome: "VOLKS" },
+  { id: "1", nome: "CHEVROLET" },
+  { id: "2", nome: "FIAT" },
+  { id: "3", nome: "VOLKS" },
 ];
 
 const mockVehicle = {
-  id: 1,
+  id: "1",
   model: "Argo",
   year: "2021",
   price: "70000",
-  brand: "FIAT",
+  brand: brands[1],
 };
 
 let testLocation;
@@ -50,9 +50,9 @@ const setup = (vehicleId) => {
 
 describe("<VehicleRegister />", () => {
   describe("Register new vehicle", () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       getAllBrandsSpy.mockResolvedValue(brands);
-      setup();
+      await act(async () => setup());
     });
 
     describe("Cancel", () => {
@@ -132,48 +132,39 @@ describe("<VehicleRegister />", () => {
       });
     });
 
-    describe("When submits signup form", () => {
+    describe("When submitting register form", () => {
       beforeAll(() => registerVehicleSpy.mockResolvedValue(true));
-      let model;
-      let year;
-      let price;
-      let brand;
-      let btn;
-      beforeEach(() => {
-        model = screen.getByRole("textbox", { name: /modelo/i });
-        year = screen.getByRole("spinbutton", { name: /ano/i });
-        price = screen.getByRole("spinbutton", { name: /valor/i });
-        brand = screen.getByRole("combobox", { name: /marca/i });
-        btn = screen.getByRole("button", { name: /cadastrar/i });
-      });
-
-      it("should register brand with correct data", async () => {
+      beforeEach(async () => {
+        const model = screen.getByRole("textbox", { name: /modelo/i });
+        const year = screen.getByRole("spinbutton", { name: /ano/i });
+        const price = screen.getByRole("spinbutton", { name: /valor/i });
+        const brand = screen.getByRole("combobox", { name: /marca/i });
+        const btn = screen.getByRole("button", { name: /cadastrar/i });
         userEvent.type(model, mockVehicle.model);
         userEvent.type(year, mockVehicle.year);
         userEvent.type(price, mockVehicle.price);
-        userEvent.selectOptions(brand, mockVehicle.brand);
-        userEvent.click(btn);
-
-        expect(registerVehicleSpy).toHaveBeenCalledWith(
-          expect.objectContaining({
-            model: mockVehicle.model,
-            price: mockVehicle.price,
-            year: mockVehicle.year,
-            brandId: brands[1].id.toString(),
-          })
-        );
-      });
-
-      it("should redirect me to vehicle list page after register", async () => {
-        userEvent.type(model, mockVehicle.model);
-        userEvent.type(year, mockVehicle.year);
-        userEvent.type(price, mockVehicle.price);
-        userEvent.selectOptions(brand, mockVehicle.brand);
+        userEvent.selectOptions(brand, mockVehicle.brand.nome);
         await act(async () => userEvent.click(btn));
-        expect(testLocation.pathname).toBe("/");
       });
 
-      describe("But something fails", () => {
+      describe("And the response is successful", () => {
+        it("should register vehicle with correct data", async () => {
+          expect(registerVehicleSpy).toHaveBeenCalledWith(
+            expect.objectContaining({
+              model: mockVehicle.model,
+              price: mockVehicle.price,
+              year: mockVehicle.year,
+              brandId: mockVehicle.brand.id,
+            })
+          );
+        });
+
+        it("should redirect me to vehicle list page after register", async () => {
+          expect(testLocation.pathname).toBe("/");
+        });
+      });
+
+      describe("But the response is rejected", () => {
         beforeAll(() => {
           registerVehicleSpy.mockRejectedValue({
             data: "Marca não existe",
@@ -182,16 +173,6 @@ describe("<VehicleRegister />", () => {
         });
 
         it("should show the error message", async () => {
-          const selectBrand = await screen.findByRole("option", {
-            name: mockVehicle.brand,
-          });
-
-          userEvent.type(model, mockVehicle.model);
-          userEvent.type(year, mockVehicle.year);
-          userEvent.type(price, mockVehicle.price);
-          userEvent.selectOptions(brand, mockVehicle.brand);
-          await act(async () => userEvent.click(btn));
-
           const errorMsg = await screen.findByText(/Marca não existe/i);
           expect(errorMsg).toBeInTheDocument();
         });
@@ -206,7 +187,7 @@ describe("<VehicleRegister />", () => {
       await act(async () => setup(mockVehicle.id));
     });
 
-    describe("Load vehicle from param", () => {
+    describe("It loads the vehicle data into the form", () => {
       it("should render the vehicle model fetched from the param id", () => {
         const input = screen.getByRole("textbox", { name: /modelo/i });
         expect(input.value).toStrictEqual(mockVehicle.model);
@@ -225,8 +206,8 @@ describe("<VehicleRegister />", () => {
       });
     });
 
-    describe("Submit vehicle updates", () => {
-      beforeEach(() => {
+    describe("When submitting vehicle update form", () => {
+      beforeEach(async () => {
         const model = screen.getByRole("textbox", { name: /modelo/i });
         const brand = screen.getByRole("combobox", { name: /marca/i });
 
@@ -235,24 +216,26 @@ describe("<VehicleRegister />", () => {
         userEvent.selectOptions(brand, brands[0].nome);
 
         const btn = screen.getByRole("button", { name: /alterar/i });
-        userEvent.click(btn);
+        await act(async () => userEvent.click(btn));
       });
 
-      it("should call 'VehicleService.update()' with new vehicle data", () => {
-        expect(updateVehicleSpy).toBeCalledWith({
-          id: mockVehicle.id.toString(),
-          model: "Onix",
-          brandId: brands[0].id.toString(),
-          price: mockVehicle.price,
-          year: mockVehicle.year,
+      describe("And the response is successful", () => {
+        it("should call 'VehicleService.update()' with new vehicle data", () => {
+          expect(updateVehicleSpy).toBeCalledWith({
+            id: mockVehicle.id,
+            model: "Onix",
+            brandId: brands[0].id,
+            price: mockVehicle.price,
+            year: mockVehicle.year,
+          });
+        });
+
+        it("should redirect me back to the vehicle listing page", async () => {
+          expect(testLocation.pathname).toStrictEqual("/");
         });
       });
 
-      it("should redirect me back to the vehicle listing page when I click in 'alterar'", async () => {
-        expect(testLocation.pathname).toStrictEqual("/");
-      });
-
-      describe("But something fails", () => {
+      describe("But the response is rejected", () => {
         beforeAll(() => {
           updateVehicleSpy.mockRejectedValue({
             data: "Veículo não existe",

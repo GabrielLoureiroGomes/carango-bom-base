@@ -2,9 +2,9 @@ const VehicleService = {
   getAll() {
     return Promise.resolve([
       {
-        id: 1,
+        id: "1",
         brand: {
-          id: 34,
+          id: "34",
           name: "FORD",
         },
         model: "Ka",
@@ -12,9 +12,9 @@ const VehicleService = {
         price: 15000,
       },
       {
-        id: 2,
+        id: "2",
         brand: {
-          id: 74,
+          id: "74",
           name: "CHEVROLET",
         },
         model: "Corsa",
@@ -27,11 +27,8 @@ const VehicleService = {
   get(id) {
     return {
       data: {
-        id: 1,
-        brand: {
-          id: 34,
-          nome: "FORD",
-        },
+        id: "1",
+        brandId: "34",
         model: "Ka",
         year: 2010,
         price: 15000,

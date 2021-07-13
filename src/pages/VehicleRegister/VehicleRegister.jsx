@@ -13,6 +13,7 @@ import {
   minValue,
   minLength,
 } from "../../utils/validations/validations";
+
 const validations = {
   model: (value) => {
     return minLength(2, "Modelo deve ter ao menos 2 letras.")(value);
@@ -73,7 +74,6 @@ function VehicleRegister() {
       });
       return history.push("/");
     } catch (e) {
-      console.log(e);
       setError(e.data);
     }
   }
@@ -82,12 +82,7 @@ function VehicleRegister() {
     if (id) {
       try {
         const {
-          data: {
-            model,
-            year,
-            price,
-            brand: { id: brandId },
-          },
+          data: { model, year, price, brandId },
         } = await VehicleService.get(id);
         setModel(model);
         setYear(year);
@@ -95,7 +90,6 @@ function VehicleRegister() {
         setBrandId(brandId);
       } catch (e) {
         setError(e.data);
-        console.log(e);
       }
     }
   }, [id]);
@@ -109,7 +103,6 @@ function VehicleRegister() {
       const brands = await BrandService.getAll();
       return setBrands(brands);
     } catch (e) {
-      console.log(e);
       setError(e.data);
     }
   }, [setBrands]);
