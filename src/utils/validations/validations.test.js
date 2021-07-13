@@ -3,7 +3,8 @@ import {
   onlyNumbers,
   validYear,
   composeValidators,
-  min,
+  minValue,
+  minLength,
 } from "./validations";
 
 describe("Validations", () => {
@@ -79,7 +80,7 @@ describe("Validations", () => {
       });
     });
   });
-  describe("min", () => {
+  describe("minValue", () => {
     const invalid = { valid: false, text: "Valor mínimo não atingido" };
     test.each([
       [5, "", invalid],
@@ -90,19 +91,46 @@ describe("Validations", () => {
       ["40", "20", invalid],
       [2, "5", valid],
       [5, 10, valid],
-    ])("min with %s and %s should return %s", (minLength, state, expected) => {
-      expect(min(minLength)(state)).toStrictEqual(expected);
+    ])("minValue with %s and %s should return %s", (min, state, expected) => {
+      expect(minValue(min)(state)).toStrictEqual(expected);
     });
 
     it("should throw an error if expected min isn't a number", () => {
-      expect(() => min("teste")(10)).toThrowError(
+      expect(() => minValue("teste")(10)).toThrowError(
         "O mínimo esperado não é um número válido"
       );
     });
 
     it("should return a custom error message", () => {
       const errorMsg = "O valor mínimo não foi atingido";
-      expect(min(2, errorMsg)(1)).toStrictEqual({
+      expect(minValue(2, errorMsg)(1)).toStrictEqual({
+        valid: false,
+        text: errorMsg,
+      });
+    });
+  });
+  describe.only("minLength", () => {
+    const invalid = { valid: false, text: "Muito curto" };
+    test.each([
+      [5, "", invalid],
+      [1, " ", valid],
+      [1, 0, valid],
+      ["40", "20", invalid],
+      [2, "55", valid],
+      [5, "teste123", valid],
+    ])("minLength with %s and %s should return %s", (min, state, expected) => {
+      expect(minLength(min)(state)).toStrictEqual(expected);
+    });
+
+    it("should throw an error if expected min isn't a number", () => {
+      expect(() => minLength("teste")(10)).toThrowError(
+        "O mínimo esperado não é um número válido"
+      );
+    });
+
+    it("should return a custom error message", () => {
+      const errorMsg = "Modelo deve ter ao menos 2 letras.";
+      expect(minLength(2, errorMsg)(1)).toStrictEqual({
         valid: false,
         text: errorMsg,
       });
@@ -127,12 +155,12 @@ describe("Validations", () => {
         { valid: false, text: "Esse campo é obrigatório" },
       ],
       [
-        [onlyNumbers(), required(), min(1, "Valor inválido")],
+        [onlyNumbers(), required(), minValue(1, "Valor inválido")],
         0,
         { valid: false, text: "Valor inválido" },
       ],
       [
-        [onlyNumbers(), required(), min(1, "Valor inválido")],
+        [onlyNumbers(), required(), minValue(1, "Valor inválido")],
         5,
         { valid: true },
       ],

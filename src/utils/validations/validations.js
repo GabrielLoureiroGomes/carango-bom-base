@@ -3,18 +3,19 @@ export const required = (helperText) => (value) => {
     typeof value !== "undefined" && value !== null
       ? !value.toString().trim().length
       : true;
-  if (isEmptyValue) {
+
+  if (isEmptyValue)
     return { valid: false, text: helperText || "Esse campo é obrigatório" };
-  }
+
   return { valid: true };
 };
 
 export const onlyNumbers = (helperText) => (value) => {
   const onlyNumbersRegex = /^[0-9]+$/;
   const onlyHasNumbers = onlyNumbersRegex.test(value);
-  if (onlyHasNumbers) {
-    return { valid: true };
-  }
+
+  if (onlyHasNumbers) return { valid: true };
+
   return { valid: false, text: helperText || "Insira apenas números" };
 };
 
@@ -31,7 +32,7 @@ export const validYear = (helperText) => (value) => {
   return { valid: true };
 };
 
-export const length = (minExpected, helperText) => (value) => {
+export const minLength = (minExpected, helperText) => (value) => {
   const parsedMinExpected = Number(minExpected);
   if (Number.isNaN(parsedMinExpected)) {
     throw new Error("O mínimo esperado não é um número válido");
@@ -43,7 +44,7 @@ export const length = (minExpected, helperText) => (value) => {
   return { valid: false, text: helperText || "Muito curto" };
 };
 
-export const min = (minExpected, helperText) => (value) => {
+export const minValue = (minExpected, helperText) => (value) => {
   const parsedMinExpected = Number(minExpected);
   if (Number.isNaN(parsedMinExpected)) {
     throw new Error("O mínimo esperado não é um número válido");
