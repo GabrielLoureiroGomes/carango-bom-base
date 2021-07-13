@@ -3,7 +3,6 @@ import { Box, Button, FormHelperText, TextField } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 
 import { useAuth } from "../../hooks/AuthContext";
-
 import { auth } from "../../actions/auth";
 
 function Login() {
