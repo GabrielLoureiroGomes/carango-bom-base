@@ -5,49 +5,26 @@ import { Select } from "../../components";
 import useFormValidations from "../../hooks/useFormValidations";
 import VehicleService from "../../services/VehicleService";
 import BrandService from "../../services/BrandService";
-
+import {
+  composeValidators,
+  validYear,
+  required,
+  onlyNumbers,
+  minValue,
+  minLength,
+} from "../../utils/validations/validations";
 const validations = {
   model: (value) => {
-    if (value && value.length >= 2) {
-      return { valid: true };
-    }
-
-    return { valid: false, text: "Modelo deve ter ao menos 2 letras." };
+    return minLength(2, "Modelo deve ter ao menos 2 letras.")(value);
   },
   year: (value) => {
-    const onlyNumbers = /^[0-9]+$/;
-    if (!onlyNumbers.test(value)) {
-      return { valid: false, text: "Insira apenas números" };
-    }
-
-    const emptyValue = !value || value === "";
-    if (emptyValue) {
-      return { valid: false, text: "Valor inválido" };
-    }
-
-    const currentYear = new Date().getFullYear();
-    const invalidYears = value < 1920 || value > currentYear;
-    if (invalidYears || value.length !== 4) {
-      return { valid: false, text: "Ano inválido" };
-    }
-
-    return { valid: true };
+    return composeValidators(required(), onlyNumbers(), validYear())(value);
   },
   price: (value) => {
-    if (value <= 0 || !value || value === "") {
-      return { valid: false, text: "Valor inválido" };
-    }
-
-    const onlyNumbers = /^[0-9]+$/;
-    if (!onlyNumbers.test(value)) {
-      return { valid: false, text: "Insira apenas números" };
-    }
-
-    return { valid: true };
+    return composeValidators(required(), onlyNumbers(), minValue(1))(value);
   },
   brand: (value) => {
-    if (value) return { valid: true };
-    return { valid: false, text: "Selecione uma marca" };
+    return required("Selecione uma marca")(value);
   },
 };
 

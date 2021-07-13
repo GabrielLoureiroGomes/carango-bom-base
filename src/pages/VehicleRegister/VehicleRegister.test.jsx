@@ -107,7 +107,7 @@ describe("<VehicleRegister />", () => {
         fireEvent.focus(price);
         fireEvent.blur(price);
 
-        const errorMsg = await screen.findByText(/Valor inválido/);
+        const errorMsg = await screen.findByText(/Esse campo é obrigatório/);
         expect(errorMsg).toBeInTheDocument();
       });
 
