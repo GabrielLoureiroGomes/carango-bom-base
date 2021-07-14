@@ -10,8 +10,6 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import blue from "@material-ui/core/colors/blue";
 import { ptBR } from "@material-ui/core/locale";
 
-import "./assets/App.css";
-
 import { AuthProvider, useAuth } from "./hooks/AuthContext";
 import {
   BrandRegister,
