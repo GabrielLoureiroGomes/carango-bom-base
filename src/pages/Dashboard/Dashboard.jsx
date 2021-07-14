@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Typography } from "@material-ui/core";
+import { Typography, Box } from "@material-ui/core";
 import { BarGraph } from "../../components";
 import VehicleService from "../../services/VehicleService";
 import { useStyles } from "./styles";
@@ -29,36 +29,51 @@ const Dashboard = () => {
           {error}
         </Typography>
       ) : (
-        <>
-          <Typography variant="h1" className={classes.custom}>
-            Modelos por marca
-          </Typography>
-          <BarGraph
-            data={dashboardData}
-            xAxis={{
-              dataKey: "brand",
-            }}
-            barDataKey="modelsAvailable"
-            color="#1D2671"
-            name="Modelos disponíveis"
-          />
-          <Typography variant="h1" component="h2" className={classes.custom}>
-            Preço total por marca
-          </Typography>
-          <BarGraph
-            data={dashboardData}
-            xAxis={{
-              dataKey: "brand",
-            }}
-            yAxis={{
-              tickFormatter: convertValue,
-            }}
-            unit="M"
-            name="Preço total"
-            barDataKey="totalPrice"
-            color="#b21f1f"
-          />
-        </>
+        <Box display="flex" alignItems="center" flexDirection="column">
+          <Box marginBottom={5} marginTop={2.5}>
+            <Typography
+              variant="h1"
+              className={classes.custom}
+              paragraph
+              align="left"
+            >
+              Modelos por marca
+            </Typography>
+            <BarGraph
+              data={dashboardData}
+              xAxis={{
+                dataKey: "brand",
+              }}
+              barDataKey="modelsAvailable"
+              color="#1D2671"
+              name="Modelos disponíveis"
+            />
+          </Box>
+          <Box>
+            <Typography
+              variant="h1"
+              component="h2"
+              className={classes.custom}
+              paragraph
+              align="left"
+            >
+              Preço total por marca
+            </Typography>
+            <BarGraph
+              data={dashboardData}
+              xAxis={{
+                dataKey: "brand",
+              }}
+              yAxis={{
+                tickFormatter: convertValue,
+              }}
+              unit="M"
+              name="Preço total"
+              barDataKey="totalPrice"
+              color="#b21f1f"
+            />
+          </Box>
+        </Box>
       )}
     </>
   );
