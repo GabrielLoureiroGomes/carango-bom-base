@@ -1,13 +1,10 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useHistory } from "react-router";
-import { Button, Fab } from "@material-ui/core";
+import { Button, Fab, Box } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
 import AddIcon from "@material-ui/icons/Add";
 
-import { useStyles } from "./styles";
-
 const Table = ({ service, route, columns }) => {
-  const classes = useStyles();
   const history = useHistory();
 
   const [items, setItems] = useState([]);
@@ -52,35 +49,33 @@ const Table = ({ service, route, columns }) => {
         onRowSelected={(gridSelection) => setSelectedItem(gridSelection.data)}
       />
 
-      <div className={classes.actionsToolbar}>
+      <Box
+        display="flex"
+        alignItems="center"
+        marginTop="10px"
+        justifyContent="flex-end"
+        gridGap="10px"
+      >
         <Button
-          className={classes.actions}
           variant="contained"
-          color="secondary"
+          color="primary"
           disabled={!selectedItem}
           onClick={deleteItem}
         >
           Excluir
         </Button>
         <Button
-          className={classes.actions}
           variant="contained"
-          color="primary"
+          color="secondary"
           disabled={!selectedItem}
           onClick={updateItem}
         >
           Alterar
         </Button>
-      </div>
-
-      <Fab
-        color="primary"
-        aria-label="add"
-        className={classes.fab}
-        onClick={addItem}
-      >
-        <AddIcon />
-      </Fab>
+        <Fab color="secondary" aria-label="add" onClick={addItem} size="small">
+          <AddIcon />
+        </Fab>
+      </Box>
     </div>
   );
 };
