@@ -77,27 +77,32 @@ describe("<Login />", () => {
   });
 
   describe("When the user types valid credentials", () => {
-    it("Should authenticate and then redirect the user", async () => {
+    const testUsername = "test";
+    const testPassword = "testPassword";
+
+    beforeEach(async () => {
       authSpy.mockResolvedValue({
         status: 200,
       });
 
-      const testUsername = "test";
       const usernameInput = screen.getByLabelText(/usuário/i);
       userEvent.type(usernameInput, testUsername);
 
-      const testPassword = "testPassword";
       const passwordInput = screen.getByLabelText(/senha/i);
       userEvent.type(passwordInput, testPassword);
 
       const loginButton = screen.getByRole("button", { name: /entrar/i });
       await act(async () => userEvent.click(loginButton));
+    });
 
+    it("should call the auth action", async () => {
       expect(authSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           user: { username: testUsername, password: testPassword },
         })
       );
+    });
+    it("should redirect the user to the home page", () => {
       expect(history.location.pathname).toStrictEqual("/");
     });
   });
