@@ -21,6 +21,7 @@ import {
   UserList,
   VehicleList,
   VehicleRegister,
+  Dashboard,
 } from "./pages";
 
 import { NavBar } from "./components";
@@ -56,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 function AppContainer() {
   const { user } = useAuth();
   return (
-    <Container component="article" maxWidth="md">
+    <Container component="main" maxWidth="md">
       <NavBar userLogged={!!user} />
       <Switch>
         <Route exact path="/">
@@ -75,6 +76,9 @@ function AppContainer() {
             </Route>
             <Route path="/veiculo/:id">
               <VehicleRegister />
+            </Route>
+            <Route path="/dashboard">
+              <Dashboard />
             </Route>
             <Route path="/marca/cadastro">
               <BrandRegister />
