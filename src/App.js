@@ -18,6 +18,7 @@ import {
   Signup,
   UserList,
   VehicleList,
+  Dashboard,
 } from "./pages";
 
 import { NavBar } from "./components";
@@ -65,6 +66,9 @@ function AppContainer() {
         </Route>
         {!!user ? (
           <Switch>
+            <Route path="/dashboard">
+              <Dashboard />
+            </Route>
             <Route path="/marca/cadastro">
               <BrandRegister />
             </Route>
