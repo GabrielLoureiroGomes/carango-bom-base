@@ -46,15 +46,13 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(3),
   },
 }));
 
 function AppContainer() {
   const { user } = useAuth();
   return (
-    <Container component="article" maxWidth="md">
-      <NavBar userLogged={!!user} />
+    <Container component="section" maxWidth="md">
       <Switch>
         <Route exact path="/">
           <VehicleList />
@@ -98,6 +96,7 @@ function App() {
           <div className={classes.root}>
             <CssBaseline />
             <main className={classes.content}>
+              <NavBar />
               <div className={classes.toolbar} />
               <AppContainer />
             </main>
