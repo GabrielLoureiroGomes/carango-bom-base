@@ -5,6 +5,7 @@ import { AppBar, Toolbar, Box, Typography } from "@material-ui/core/";
 import AuthNavigation from "./AuthNavigation";
 import Sidebar from "./Sidebar";
 import { useAuth } from "../../hooks/AuthContext";
+import { logout } from "../../actions/auth";
 import { getLocationLabel } from "../../utils/links";
 
 function NavBar() {
@@ -22,10 +23,7 @@ function NavBar() {
               {getLocationLabel(location)}
             </Typography>
           </Box>
-          <AuthNavigation
-            auth={auth}
-            logout={() => dispatch({ type: "logout" })}
-          />
+          <AuthNavigation auth={auth} logout={() => logout({ dispatch })} />
         </Box>
       </Toolbar>
     </AppBar>

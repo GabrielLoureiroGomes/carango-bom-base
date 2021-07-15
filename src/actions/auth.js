@@ -15,7 +15,8 @@ export async function auth({ dispatch, user, method }) {
     dispatch({ type: "auth", payload: user });
     setStorageToken(token);
   } catch (e) {
-    logout();
+    dispatch({ type: "logout" });
+    removeStorageToken();
     return e;
   }
 }
