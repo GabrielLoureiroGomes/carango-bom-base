@@ -114,8 +114,8 @@ describe("<BrandRegister />", () => {
 
         it("should call 'BrandService.update()' with new brand name", () => {
           const input = screen.getByRole("textbox", { name: /marca/i });
-          input.setSelectionRange(0, 4);
-          userEvent.type(input, "{backspace}Volvo");
+          userEvent.clear(input);
+          userEvent.type(input, "Volvo");
 
           const btn = screen.getByRole("button", { name: /alterar/i });
           userEvent.click(btn);
