@@ -13,13 +13,13 @@ const updateVehicleSpy = jest.spyOn(VehicleService, "update");
 const getVehicleSpy = jest.spyOn(VehicleService, "get");
 
 const brands = [
-  { id: "1", nome: "CHEVROLET" },
-  { id: "2", nome: "FIAT" },
-  { id: "3", nome: "VOLKS" },
+  { id: 1, nome: "CHEVROLET" },
+  { id: 2, nome: "FIAT" },
+  { id: 3, nome: "VOLKS" },
 ];
 
 const mockVehicle = {
-  id: "1",
+  id: 1,
   model: "Argo",
   year: "2021",
   price: "70000",
@@ -211,8 +211,8 @@ describe("<VehicleRegister />", () => {
         const model = screen.getByRole("textbox", { name: /modelo/i });
         const brand = screen.getByRole("combobox", { name: /marca/i });
 
-        model.setSelectionRange(0, 4);
-        userEvent.type(model, "{backspace}Onix");
+        userEvent.clear(model);
+        userEvent.type(model, "Onix");
         userEvent.selectOptions(brand, brands[0].nome);
 
         const btn = screen.getByRole("button", { name: /alterar/i });

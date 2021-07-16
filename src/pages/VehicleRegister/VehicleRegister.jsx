@@ -58,7 +58,7 @@ function VehicleRegister() {
       setError("");
       if (id) {
         await VehicleService.update({
-          id,
+          id: Number(id),
           model,
           year,
           price,
@@ -119,7 +119,8 @@ function VehicleRegister() {
         label="Marca"
         onChange={(evt) => {
           validateFields(evt);
-          setBrandId(evt.target.value);
+          const value = evt.target.value;
+          setBrandId(value ? Number(value) : value);
         }}
         helperText={errors.brand.text}
         error={!errors.brand.valid}
