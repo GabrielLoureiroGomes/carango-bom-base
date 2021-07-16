@@ -59,11 +59,11 @@ export const minValue = (minExpected, helperText) => (value) => {
 export const composeValidators =
   (...validators) =>
   (value) => {
-    const error = validators.reduce((error, validator) => {
+    const validationError = validators.reduce((error, validator) => {
       const validation = validator(value);
       const isValid = validation.valid;
       if (!isValid && !error) return validation;
       return error;
     }, undefined);
-    return error || { valid: true };
+    return validationError || { valid: true };
   };

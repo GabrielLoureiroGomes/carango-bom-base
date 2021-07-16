@@ -25,7 +25,7 @@ const VehicleService = {
   },
 
   get(id) {
-    return {
+    return Promise.resolve({
       data: {
         id: 1,
         brandId: 34,
@@ -33,7 +33,7 @@ const VehicleService = {
         year: 2010,
         price: 15000,
       },
-    };
+    });
   },
 
   register(vehicle) {

@@ -81,13 +81,11 @@ function VehicleRegister() {
   const loadVehicleFromId = useCallback(async () => {
     if (id) {
       try {
-        const {
-          data: { model, year, price, brandId },
-        } = await VehicleService.get(id);
-        setModel(model);
-        setYear(year);
-        setPrice(price);
-        setBrandId(brandId);
+        const { data } = await VehicleService.get(id);
+        setModel(data.model);
+        setYear(data.year);
+        setPrice(data.price);
+        setBrandId(data.brandId);
       } catch (e) {
         setError(e.data);
       }
@@ -100,8 +98,8 @@ function VehicleRegister() {
 
   const loadBrands = useCallback(async () => {
     try {
-      const brands = await BrandService.getAll();
-      return setBrands(brands);
+      const data = await BrandService.getAll();
+      return setBrands(data);
     } catch (e) {
       setError(e.data);
     }
