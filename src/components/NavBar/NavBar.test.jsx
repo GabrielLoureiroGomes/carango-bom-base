@@ -97,17 +97,13 @@ describe("<NavBar />", () => {
       });
     });
     describe("Sidebar menu", () => {
-      it("should render a menu button", () => {
-        expect(
-          screen.getByRole("button", { name: /menu/i })
-        ).toBeInTheDocument();
+      beforeEach(() => {
+        userEvent.click(screen.getByRole("button", { name: /menu/i }));
       });
       it("should render public links", () => {
-        userEvent.click(screen.getByRole("button", { name: /menu/i }));
         publicLabels.forEach(checkLinkInDocument);
       });
       it("should render private links", () => {
-        userEvent.click(screen.getByRole("button", { name: /menu/i }));
         privateLabels.forEach(checkLinkInDocument);
       });
     });

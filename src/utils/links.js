@@ -19,7 +19,7 @@ const authLinks = [
 
 export const getLocationLabel = ({ pathname }) => {
   const link = [...authLinks, ...sidebarLinks].find(
-    (link) => link.to === pathname
+    ({ to }) => to === pathname
   );
   if (!link) {
     return "";

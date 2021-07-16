@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
+const styles = makeStyles((theme) => ({
   container: {
     marginBottom: theme.spacing(3),
   },
@@ -33,4 +33,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default useStyles;
+export default styles;
