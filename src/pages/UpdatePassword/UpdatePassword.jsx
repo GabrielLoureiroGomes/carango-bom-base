@@ -1,32 +1,19 @@
 import React, { useState } from "react";
-import {
-  Button,
-  TextField,
-  Typography,
-  FormHelperText,
-  Box,
-} from "@material-ui/core";
+import { Button, TextField, FormHelperText, Box } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 
 import UserService from "../../services/UserService";
 
 import { useAuth } from "../../hooks/AuthContext";
 import useFormValidations from "../../hooks/useFormValidations";
+import { minLength } from "../../utils/validations/validations";
 
 const validations = {
   pastPassword: (value) => {
-    if (value && value.length >= 6) {
-      return { valid: true };
-    }
-
-    return { valid: false, text: "Senha deve ter ao menos 6 caracteres." };
+    return minLength(6, "Senha deve ter ao menos 6 caracteres.")(value);
   },
   newPassword: (value) => {
-    if (value && value.length >= 6) {
-      return { valid: true };
-    }
-
-    return { valid: false, text: "Senha deve ter ao menos 6 caracteres." };
+    return minLength(6, "Senha deve ter ao menos 6 caracteres.")(value);
   },
   confirmPassword: (value, formState) => {
     if (value === formState.newPassword) {
@@ -82,7 +69,6 @@ function UpdatePassword() {
 
   return (
     <form>
-      <Typography variant="h3">Alterar senha de usuário</Typography>
       <Box
         border={1}
         borderColor="grey.500"
