@@ -68,7 +68,7 @@ function UpdatePassword() {
   }
 
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <Box
         border={1}
         borderColor="grey.500"
@@ -136,7 +136,6 @@ function UpdatePassword() {
             color="secondary"
             type="submit"
             disabled={!shouldSubmit()}
-            onClick={handleSubmit}
           >
             Enviar
           </Button>
