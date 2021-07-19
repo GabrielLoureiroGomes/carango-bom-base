@@ -17,14 +17,14 @@ export const removeStorageToken = () => {
 };
 
 export const getUserFromToken = () => {
-  // const token = getToken();
+  const token = getToken();
+  if (!token) return null;
+  // TODO: remove this comment when theres a jwt token after auth
+  // return jwtDecode(token);
   return {
     username: "teste",
     id: 1,
     createdAt: new Date(),
     updatedAt: new Date(),
   };
-  // TODO: remove this comment when theres a jwt token after auth
-  // if (!token) return null;
-  // return jwtDecode(token);
 };

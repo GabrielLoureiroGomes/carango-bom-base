@@ -1,6 +1,11 @@
 import { removeStorageToken, setStorageToken } from "../utils/auth";
 import UserService from "../services/UserService";
 
+export async function logout({ dispatch }) {
+  removeStorageToken();
+  return dispatch({ type: "logout" });
+}
+
 export async function auth({ dispatch, user, method }) {
   // TODO: alinhar qual será a resposta com o back-end
   try {

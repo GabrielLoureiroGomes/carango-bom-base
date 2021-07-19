@@ -1,52 +1,32 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import { Paper, MenuItem, MenuList } from "@material-ui/core/";
+import { useLocation } from "react-router-dom";
+import { AppBar, Toolbar, Box, Typography } from "@material-ui/core/";
+
+import AuthNavigation from "./AuthNavigation";
+import Sidebar from "./Sidebar";
 import { useAuth } from "../../hooks/AuthContext";
+import { logout } from "../../actions/auth";
+import { getLocationLabel } from "../../utils/links";
 
-import { useStyles } from "./styles";
-
-function NavBar({ userLogged }) {
-  const { dispatch } = useAuth();
-
-  const publicLinks = [
-    { label: "Login", to: "/login", hide: userLogged },
-    { label: "Veículos", to: "/" },
-  ];
-
-  const loggedLinks = [
-    { label: "Marcas", to: "/marcas" },
-    { label: "Usuários", to: "/usuarios" },
-    { label: "Dashboard", to: "/dashboard" },
-    {
-      label: "Sair",
-      to: "/",
-      onClick: () => dispatch({ type: "logout" }),
-    },
-  ];
-  const classes = useStyles();
-
-  const renderLink = (link) => {
-    return link.hide ? null : (
-      <MenuItem key={link.label} className={classes.item}>
-        <NavLink
-          to={link.to}
-          className={classes.link}
-          activeClassName={classes.linkActive}
-          onClick={link.onClick}
-        >
-          {link.label}
-        </NavLink>
-      </MenuItem>
-    );
-  };
+function NavBar() {
+  const { dispatch, user } = useAuth();
+  const location = useLocation();
+  const auth = Boolean(user);
 
   return (
-    <Paper className={classes.container}>
-      <MenuList>
-        {publicLinks.map(renderLink)}
-        {userLogged ? loggedLinks.map(renderLink) : null}
-      </MenuList>
-    </Paper>
+    <AppBar position="relative">
+      <Toolbar>
+        <Box display="flex" justifyContent="space-between" flexGrow="1">
+          <Box display="flex" alignItems="center">
+            <Sidebar auth={auth} />
+            <Typography variant="h6" component="h1">
+              {getLocationLabel(location)}
+            </Typography>
+          </Box>
+          <AuthNavigation auth={auth} logout={() => logout({ dispatch })} />
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 }
 

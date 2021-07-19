@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
-import {
-  Button,
-  TextField,
-  Typography,
-  FormHelperText,
-  Box,
-} from "@material-ui/core";
+import { Button, TextField, FormHelperText, Box } from "@material-ui/core";
 import useFormValidations from "../../hooks/useFormValidations";
 import { useAuth } from "../../hooks/AuthContext";
 import { auth } from "../../actions/auth";
@@ -74,7 +68,6 @@ const Signup = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Typography variant="h3">Cadastro</Typography>
       <Box
         border={1}
         borderColor="grey.500"

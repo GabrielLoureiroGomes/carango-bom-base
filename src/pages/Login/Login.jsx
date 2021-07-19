@@ -31,6 +31,7 @@ function Login() {
         user: { username, password },
         method: "auth",
       });
+      return history.push("/");
     } catch {
       setError(true);
     }
