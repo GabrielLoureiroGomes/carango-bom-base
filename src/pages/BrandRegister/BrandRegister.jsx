@@ -5,14 +5,11 @@ import { Button, TextField } from "@material-ui/core";
 import useFormValidations from "../../hooks/useFormValidations";
 
 import BrandService from "../../services/BrandService";
+import { minLength } from "../../utils/validations/validations";
 
 const validations = {
   brand: (value) => {
-    if (value && value.length >= 3) {
-      return { valid: true };
-    }
-
-    return { valid: false, text: "Marca deve ter ao menos 3 letras." };
+    return minLength(3, "Marca deve ter ao menos 3 letras.")(value);
   },
 };
 

@@ -20,6 +20,7 @@ import {
   Signup,
   UserList,
   VehicleList,
+  VehicleRegister,
   Dashboard,
 } from "./pages";
 
@@ -70,6 +71,12 @@ function AppContainer() {
         </Route>
         {!!user ? (
           <Switch>
+            <Route path="/veiculo/cadastro">
+              <VehicleRegister />
+            </Route>
+            <Route path="/veiculo/:id">
+              <VehicleRegister />
+            </Route>
             <Route path="/dashboard">
               <Dashboard />
             </Route>

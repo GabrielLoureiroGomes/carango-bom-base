@@ -10,21 +10,14 @@ import {
 import useFormValidations from "../../hooks/useFormValidations";
 import { useAuth } from "../../hooks/AuthContext";
 import { auth } from "../../actions/auth";
+import { minLength } from "../../utils/validations/validations";
 
 const validations = {
   username: (value) => {
-    if (value && value.length >= 3) {
-      return { valid: true };
-    }
-
-    return { valid: false, text: "Usuário deve ter ao menos 3 letras." };
+    return minLength(3, "Usuário deve ter ao menos 3 letras.")(value);
   },
   password: (value) => {
-    if (value && value.length >= 6) {
-      return { valid: true };
-    }
-
-    return { valid: false, text: "Senha deve ter ao menos 6 caracteres." };
+    return minLength(6, "Senha deve ter ao menos 6 caracteres.")(value);
   },
   confirmPassword: (value, formState) => {
     if (value === formState.password) {
