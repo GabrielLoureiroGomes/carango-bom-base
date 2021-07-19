@@ -54,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
 function AppContainer() {
   const { user } = useAuth();
+
   return (
     <Container component="section" maxWidth="md">
       <Switch>
