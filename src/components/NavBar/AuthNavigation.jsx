@@ -45,6 +45,9 @@ const AuthNavigation = ({ auth, logout }) => {
         open={open}
         onClose={handleClose}
       >
+        <MenuItem onClick={() => history.push("/alterar-senha")}>
+          Alterar senha
+        </MenuItem>
         <MenuItem onClick={logout}>Sair</MenuItem>
       </Menu>
     </div>

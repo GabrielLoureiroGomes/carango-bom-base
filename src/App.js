@@ -17,6 +17,7 @@ import {
   Login,
   Signup,
   UserList,
+  UpdatePassword,
   VehicleList,
   VehicleRegister,
   Dashboard,
@@ -53,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
 function AppContainer() {
   const { user } = useAuth();
+
   return (
     <Container component="section" maxWidth="md">
       <Switch>
@@ -87,6 +89,9 @@ function AppContainer() {
             </Route>
             <Route path="/usuarios">
               <UserList />
+            </Route>
+            <Route path="/alterar-senha">
+              <UpdatePassword />
             </Route>
             <Redirect to="/" />
           </Switch>

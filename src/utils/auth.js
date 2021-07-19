@@ -4,8 +4,7 @@ const storageToken = "token";
 
 export const getToken = () => {
   const tokenString = localStorage.getItem(storageToken);
-  const userToken = JSON.parse(tokenString);
-  return userToken?.token;
+  return JSON.parse(tokenString);
 };
 
 export const setStorageToken = (token) => {

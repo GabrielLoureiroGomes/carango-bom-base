@@ -1,10 +1,13 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useHistory } from "react-router";
-import { Button, Fab, Box } from "@material-ui/core";
+import { Button, Fab } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
 import AddIcon from "@material-ui/icons/Add";
 
-const Table = ({ service, route, columns }) => {
+import useStyles from "./styles";
+
+const Table = ({ service, route, columns, deleteOnly }) => {
+  const classes = useStyles();
   const history = useHistory();
 
   const [items, setItems] = useState([]);
@@ -49,33 +52,39 @@ const Table = ({ service, route, columns }) => {
         onRowSelected={(gridSelection) => setSelectedItem(gridSelection.data)}
       />
 
-      <Box
-        display="flex"
-        alignItems="center"
-        marginTop="10px"
-        justifyContent="flex-end"
-        gridGap="10px"
-      >
+      <div className={classes.actionsToolbar}>
         <Button
+          className={classes.actions}
           variant="contained"
-          color="primary"
+          color="secondary"
           disabled={!selectedItem}
           onClick={deleteItem}
         >
           Excluir
         </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          disabled={!selectedItem}
-          onClick={updateItem}
-        >
-          Alterar
-        </Button>
-        <Fab color="secondary" aria-label="add" onClick={addItem} size="small">
-          <AddIcon />
-        </Fab>
-      </Box>
+
+        {!deleteOnly ? (
+          <>
+            <Button
+              className={classes.actions}
+              variant="contained"
+              color="primary"
+              disabled={!selectedItem}
+              onClick={updateItem}
+            >
+              Alterar
+            </Button>
+            <Fab
+              color="primary"
+              aria-label="add"
+              className={classes.fab}
+              onClick={addItem}
+            >
+              <AddIcon />
+            </Fab>
+          </>
+        ) : null}
+      </div>
     </div>
   );
 };

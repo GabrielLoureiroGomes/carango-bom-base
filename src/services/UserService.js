@@ -35,9 +35,28 @@ const UserService = {
       },
     ]);
   },
-  delete(userID) {
+  updatePassword(newPasswordPayload) {
     return new Promise((resolve, reject) => {
-      if (userID) {
+      if (
+        "id" in newPasswordPayload &&
+        "pastPassword" in newPasswordPayload &&
+        "newPassword" in newPasswordPayload
+      ) {
+        resolve({
+          status: 200,
+          data: "jsonwebtoken",
+        });
+      } else {
+        reject({
+          status: 400,
+          data: "Usuário já existe",
+        });
+      }
+    });
+  },
+  delete(user) {
+    return new Promise((resolve, reject) => {
+      if ("id" in user) {
         resolve({
           status: 200,
         });

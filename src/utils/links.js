@@ -15,6 +15,7 @@ const sidebarLinks = [
 const authLinks = [
   { label: "Login", to: "/login" },
   { label: "Cadastro", to: "/cadastro" },
+  { label: "Alterar senha", to: "/alterar-senha" },
 ];
 
 export const getLocationLabel = ({ pathname }) => {
