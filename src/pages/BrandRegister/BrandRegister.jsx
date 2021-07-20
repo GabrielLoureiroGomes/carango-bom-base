@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useHistory, useParams } from "react-router";
-import { Button, TextField } from "@material-ui/core";
+import { Button, TextField, Box } from "@material-ui/core";
 
 import useFormValidations from "../../hooks/useFormValidations";
 
@@ -36,10 +36,10 @@ function BrandRegister() {
   async function submitBrand() {
     try {
       if (id) {
-        await BrandService.update({ id, nome: brand });
+        await BrandService.update({ id, brandName: brand });
         return history.goBack();
       }
-      await BrandService.register({ nome: brand });
+      await BrandService.register({ brandName: brand });
       setBrand("");
       return history.goBack();
     } catch (e) {
@@ -51,7 +51,7 @@ function BrandRegister() {
     if (id) {
       try {
         const updatedBrand = await BrandService.get(id);
-        setBrand(updatedBrand.nome);
+        setBrand(updatedBrand.name);
       } catch (e) {
         console.log(e);
       }
@@ -79,19 +79,19 @@ function BrandRegister() {
         required
         margin="normal"
       />
-
-      <Button
-        variant="contained"
-        color="primary"
-        type="submit"
-        disabled={!shouldSubmit()}
-      >
-        {id ? "Alterar" : "Cadastrar"}
-      </Button>
-
-      <Button variant="contained" color="secondary" onClick={cancel}>
-        Cancelar
-      </Button>
+      <Box marginTop={2} display="flex" justifyContent="space-between">
+        <Button variant="contained" color="primary" onClick={cancel}>
+          Cancelar
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          type="submit"
+          disabled={!shouldSubmit()}
+        >
+          {id ? "Alterar" : "Cadastrar"}
+        </Button>
+      </Box>
     </form>
   );
 }

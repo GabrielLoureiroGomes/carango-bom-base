@@ -29,7 +29,7 @@ const setup = (brandId) => {
 const brandsMock = [
   {
     id: 1,
-    nome: "Fiat",
+    name: "Fiat",
   },
 ];
 
@@ -72,7 +72,9 @@ describe("<BrandRegister />", () => {
           userEvent.click(screen.getByRole("button", { name: /cadastrar/i }))
         );
 
-        expect(brandServiceRegisterSpy).toHaveBeenCalledWith({ nome: "Volvo" });
+        expect(brandServiceRegisterSpy).toHaveBeenCalledWith({
+          brandName: "Volvo",
+        });
       });
 
       it("should redirect me to the brand listing page", async () => {
@@ -121,7 +123,7 @@ describe("<BrandRegister />", () => {
           userEvent.click(btn);
           expect(brandServiceUpdateSpy).toBeCalledWith({
             id: selectedBrand.id.toString(),
-            nome: "Volvo",
+            brandName: "Volvo",
           });
         });
       });
