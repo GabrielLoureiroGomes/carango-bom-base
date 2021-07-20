@@ -9,16 +9,19 @@ const Table = ({ service, route, columns, deleteOnly }) => {
 
   const [items, setItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState();
-  const [error, setError] = useState(false);
+  const [status, setStatus] = useState("idle");
+  const [error, setError] = useState("");
 
   const loadItems = useCallback(async () => {
     try {
-      setError(false);
+      setStatus("loading");
       const result = await service.getAll();
-      return setItems(result);
+      setItems(result);
+      setStatus("idle");
     } catch (e) {
       console.log({ e });
-      setError(true);
+      setError("Houve um erro ao carregar os itens");
+      setStatus("error");
     }
   }, [service, setItems]);
 
@@ -36,30 +39,31 @@ const Table = ({ service, route, columns, deleteOnly }) => {
 
   async function deleteItem() {
     try {
-      setError(false);
+      setStatus("loading");
       await service.delete(selectedItem);
       setItems(items.filter((item) => item.id !== selectedItem.id));
       setSelectedItem(null);
+      setStatus("idle");
     } catch (e) {
-      setError(true);
-      console.log(e);
+      console.log({ e });
+      setError("Houve um erro ao deletar o item");
+      setStatus("error");
     }
-  }
-
-  if (error) {
-    return (
-      <Typography color="error" variant="h5" component="h2">
-        Houve um erro ao carregar a página
-      </Typography>
-    );
   }
 
   return (
     <div style={{ height: 300, width: "100%" }}>
+      {status === "error" ? (
+        <Typography color="error" variant="subtitle" component="h2" paragraph>
+          {error}
+        </Typography>
+      ) : null}
+
       <DataGrid
         rows={items}
         columns={columns}
         onRowSelected={(gridSelection) => setSelectedItem(gridSelection.data)}
+        loading={status === "loading"}
       />
 
       <Box
