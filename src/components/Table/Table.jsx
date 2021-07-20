@@ -1,24 +1,24 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useHistory } from "react-router";
-import { Button, Fab } from "@material-ui/core";
+import { Button, Fab, Box, Typography } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
 import AddIcon from "@material-ui/icons/Add";
 
-import useStyles from "./styles";
-
 const Table = ({ service, route, columns, deleteOnly }) => {
-  const classes = useStyles();
   const history = useHistory();
 
   const [items, setItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState();
+  const [error, setError] = useState(false);
 
   const loadItems = useCallback(async () => {
     try {
+      setError(false);
       const result = await service.getAll();
       return setItems(result);
     } catch (e) {
-      console.log(e);
+      console.log({ e });
+      setError(true);
     }
   }, [service, setItems]);
 
@@ -36,12 +36,22 @@ const Table = ({ service, route, columns, deleteOnly }) => {
 
   async function deleteItem() {
     try {
+      setError(false);
       await service.delete(selectedItem);
       setItems(items.filter((item) => item.id !== selectedItem.id));
       setSelectedItem(null);
     } catch (e) {
+      setError(true);
       console.log(e);
     }
+  }
+
+  if (error) {
+    return (
+      <Typography color="error" variant="h5" component="h2">
+        Houve um erro ao carregar a página
+      </Typography>
+    );
   }
 
   return (
@@ -52,39 +62,42 @@ const Table = ({ service, route, columns, deleteOnly }) => {
         onRowSelected={(gridSelection) => setSelectedItem(gridSelection.data)}
       />
 
-      <div className={classes.actionsToolbar}>
+      <Box
+        display="flex"
+        alignItems="center"
+        marginTop="10px"
+        justifyContent="flex-end"
+        gridGap="10px"
+      >
         <Button
-          className={classes.actions}
           variant="contained"
-          color="secondary"
+          color="primary"
           disabled={!selectedItem}
           onClick={deleteItem}
         >
           Excluir
         </Button>
-
         {!deleteOnly ? (
           <>
             <Button
-              className={classes.actions}
               variant="contained"
-              color="primary"
+              color="secondary"
               disabled={!selectedItem}
               onClick={updateItem}
             >
               Alterar
             </Button>
             <Fab
-              color="primary"
+              color="secondary"
               aria-label="add"
-              className={classes.fab}
               onClick={addItem}
+              size="small"
             >
               <AddIcon />
             </Fab>
           </>
         ) : null}
-      </div>
+      </Box>
     </div>
   );
 };
