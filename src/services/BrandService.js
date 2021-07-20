@@ -5,7 +5,10 @@ const BrandService = {
   async register(brand) {
     const req = fetch(brandUrl, {
       method: "POST",
-      body: JSON.stringify(brand),
+      body: brand,
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
     return wrapper(req);
   },
@@ -13,7 +16,10 @@ const BrandService = {
   async update(brand) {
     const req = fetch(`${brandUrl}/${brand.id}`, {
       method: "PATCH",
-      body: JSON.stringify(brand),
+      body: brand.brandName,
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
     return wrapper(req);
   },
