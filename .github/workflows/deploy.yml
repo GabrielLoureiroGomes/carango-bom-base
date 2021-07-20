@@ -34,9 +34,6 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Lighthouse
-        run: npm run lighthouse
-
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
