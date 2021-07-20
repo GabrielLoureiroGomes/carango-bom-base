@@ -90,7 +90,7 @@ describe("<BrandRegister />", () => {
             screen.getByRole("button", { name: /cancelar/i })
           );
           expect(brandServiceRegisterSpy).toHaveBeenCalledWith({
-            brandName: "Volvo",
+            name: "Volvo",
           });
         });
 
@@ -109,7 +109,7 @@ describe("<BrandRegister />", () => {
 
         it("should display an error msg after register attempt fails", async () => {
           const errorMsg = await screen.findByText(
-            /houve um problema ao registrar a marca/i
+            /houve um problema ao registrar/i
           );
           expect(errorMsg).toBeInTheDocument();
         });
@@ -148,7 +148,7 @@ describe("<BrandRegister />", () => {
         });
         it("should display an error msg after failing to fetch brand", async () => {
           const errorMsg = await screen.findByText(
-            /Houve um problema ao buscar a marca/i
+            /Houve um problema ao carregar/i
           );
           expect(errorMsg).toBeInTheDocument();
         });
@@ -176,8 +176,8 @@ describe("<BrandRegister />", () => {
 
         it("should call 'BrandService.update()' with new brand name", () => {
           expect(brandServiceUpdateSpy).toBeCalledWith({
-            id: selectedBrand.id.toString(),
-            brandName: "Volvo",
+            id: selectedBrand.id,
+            name: "Volvo",
           });
         });
       });
@@ -189,7 +189,7 @@ describe("<BrandRegister />", () => {
         });
         it("should display an error msg after failing to update brand name", async () => {
           const errorMsg = await screen.findByText(
-            /Houve um problema ao alterar a marca/i
+            /Houve um problema ao alterar/i
           );
           expect(errorMsg).toBeInTheDocument();
         });
