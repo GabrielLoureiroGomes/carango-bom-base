@@ -33,7 +33,7 @@ const Select = ({
         required
       >
         <option aria-label="None" value="" />
-        {options.map(({ nome: optionName, id: optionId }) => {
+        {options.map(({ name: optionName, id: optionId }) => {
           return (
             <option value={optionId} key={optionId}>
               {optionName}
