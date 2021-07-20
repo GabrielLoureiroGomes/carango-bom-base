@@ -1,9 +1,15 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useHistory, useParams } from "react-router";
-import { Button, TextField, Box } from "@material-ui/core";
+import {
+  Button,
+  TextField,
+  Box,
+  FormHelperText,
+  CircularProgress,
+  InputAdornment,
+} from "@material-ui/core";
 
 import useFormValidations from "../../hooks/useFormValidations";
-
 import BrandService from "../../services/BrandService";
 import { minLength } from "../../utils/validations/validations";
 
@@ -17,8 +23,12 @@ function BrandRegister() {
   const { id } = useParams();
   const history = useHistory();
 
+  const buttonText = id ? "Alterar" : "Cadastrar";
   const [brand, setBrand] = useState("");
-
+  const [{ status, error }, setStatus] = useState({
+    status: "idle",
+    error: null,
+  });
   const [errors, validateFields, shouldSubmit] =
     useFormValidations(validations);
 
@@ -35,14 +45,21 @@ function BrandRegister() {
 
   async function submitBrand() {
     try {
+      setStatus({ status: "submitting" });
       if (id) {
         await BrandService.update({ id, brandName: brand });
-        return history.goBack();
+        setStatus({ status: "fulfilled" });
+        return history.push("/marcas");
       }
       await BrandService.register({ brandName: brand });
       setBrand("");
-      return history.goBack();
+      setStatus({ status: "fulfilled" });
+      return history.push("/marcas");
     } catch (e) {
+      setStatus({
+        status: "rejected",
+        error: `Houve um problema ao ${id ? "alterar" : "registrar"} a marca`,
+      });
       console.log(e);
     }
   }
@@ -50,9 +67,15 @@ function BrandRegister() {
   const loadBrandFromId = useCallback(async () => {
     if (id) {
       try {
+        setStatus({ status: "loading" });
         const updatedBrand = await BrandService.get(id);
         setBrand(updatedBrand.name);
+        setStatus({ status: "fulfilled" });
       } catch (e) {
+        setStatus({
+          status: "rejected",
+          error: "Houve um problema ao buscar a marca",
+        });
         console.log(e);
       }
     }
@@ -78,7 +101,19 @@ function BrandRegister() {
         fullWidth
         required
         margin="normal"
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              {status === "loading" ? <CircularProgress size={14} /> : <></>}
+            </InputAdornment>
+          ),
+        }}
       />
+
+      {status === "rejected" ? (
+        <FormHelperText error>{error}</FormHelperText>
+      ) : null}
+
       <Box marginTop={2} display="flex" justifyContent="space-between">
         <Button variant="contained" color="primary" onClick={cancel}>
           Cancelar
@@ -89,7 +124,11 @@ function BrandRegister() {
           type="submit"
           disabled={!shouldSubmit()}
         >
-          {id ? "Alterar" : "Cadastrar"}
+          {status === "submitting" ? (
+            <CircularProgress size={14} />
+          ) : (
+            buttonText
+          )}
         </Button>
       </Box>
     </form>
