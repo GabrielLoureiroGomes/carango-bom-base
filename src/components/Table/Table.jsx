@@ -54,7 +54,7 @@ const Table = ({ service, route, columns, deleteOnly }) => {
   return (
     <div style={{ height: 300, width: "100%" }}>
       {status === "error" ? (
-        <Typography color="error" variant="subtitle" component="h2" paragraph>
+        <Typography color="error" variant="subtitle1" component="h2" paragraph>
           {error}
         </Typography>
       ) : null}
