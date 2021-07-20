@@ -1,32 +1,38 @@
-const brandUrl = "/api/marcas";
+import { wrapper } from "../utils";
+const brandUrl = "/api/brand";
 
 const BrandService = {
-  register(brand) {
-    return fetch(brandUrl, {
+  async register(brand) {
+    const req = fetch(brandUrl, {
       method: "POST",
       body: JSON.stringify(brand),
-    }).then((response) => response.json());
+    });
+    return wrapper(req);
   },
 
-  update(brand) {
-    return fetch(`${brandUrl}/${brand.id}`, {
+  async update(brand) {
+    const req = fetch(`${brandUrl}/${brand.id}`, {
       method: "PATCH",
       body: JSON.stringify(brand),
-    }).then((response) => response.json());
+    });
+    return wrapper(req);
   },
 
-  get(id) {
-    return fetch(`${brandUrl}/${id}`).then((response) => response.json());
+  async get(id) {
+    const req = fetch(`${brandUrl}/${id}`);
+    return wrapper(req);
   },
 
-  getAll() {
-    return fetch(brandUrl).then((response) => response.json());
+  async getAll() {
+    const req = fetch(brandUrl);
+    return wrapper(req);
   },
 
-  delete(brand) {
-    return fetch(`${brandUrl}/${brand.id}`, {
+  async delete(brand) {
+    const req = fetch(`${brandUrl}/${brand.id}`, {
       method: "DELETE",
-    }).then((response) => response.json());
+    });
+    return wrapper(req);
   },
 };
 
