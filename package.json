@@ -31,6 +31,7 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
+      "!lighthouserc.js",
       "!src/index.js",
       "!src/App.js",
       "!src/reportWebVitals.js",
