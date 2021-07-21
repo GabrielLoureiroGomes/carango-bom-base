@@ -43,3 +43,5 @@ jobs:
           heroku_app_name: "murmuring-forest-50974" #Must be unique in Heroku
           heroku_email: ${{secrets.HEROKU_EMAIL}}
           healthcheck: "https://murmuring-forest-50974.herokuapp.com/health"
+        env:
+          HD_REACT_APP_API_URL: ${{ secrets.HD_REACT_APP_API_URL }}
