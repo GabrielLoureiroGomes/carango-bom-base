@@ -42,4 +42,4 @@ jobs:
           heroku_email: ${{secrets.HEROKU_EMAIL}}
           healthcheck: "https://murmuring-forest-50974.herokuapp.com/health"
         env:
-          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+          HD_REACT_APP_API_URL: ${{ secrets.HD_REACT_APP_API_URL }}
