@@ -25,7 +25,7 @@ async function apiClient(endpoint, { body, ...customConfig } = {}) {
 
   if (res.status === 204) return true;
 
-  return await res.json();
+  return res.json();
 }
 
 export default apiClient;
