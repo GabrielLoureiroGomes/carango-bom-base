@@ -11,9 +11,6 @@ module.exports = function (app) {
     createProxyMiddleware({
       target: apiUrl,
       changeOrigin: true,
-      pathRewrite: {
-        "^/api": "/carangobom/v1",
-      },
     })
   );
 };

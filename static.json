@@ -12,5 +12,10 @@
       "X-XSS-Protection": "1; mode=block",
       "Content-Security-Policy": "default-src 'none'; font-src https://fonts.gstatic.com; img-src 'self'; object-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com;"
     }
+  },
+  "proxies": {
+    "/api/": {
+      "origin": "${REACT_APP_API_URL}"
+    }
   }
 }
