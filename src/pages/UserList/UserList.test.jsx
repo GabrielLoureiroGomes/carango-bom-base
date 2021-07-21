@@ -66,7 +66,7 @@ describe("<UserList />", () => {
     });
 
     it("Should call the service with the right id", () => {
-      expect(spyDelete).toHaveBeenLastCalledWith(testUser);
+      expect(spyDelete).toHaveBeenLastCalledWith(testUser.id);
     });
   });
 });

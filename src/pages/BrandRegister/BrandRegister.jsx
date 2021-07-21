@@ -1,98 +1,57 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { useHistory, useParams } from "react-router";
-import { Button, TextField } from "@material-ui/core";
+import React from "react";
+import { TextField, CircularProgress, InputAdornment } from "@material-ui/core";
 
-import useFormValidations from "../../hooks/useFormValidations";
-
+import { Register } from "../../components";
 import BrandService from "../../services/BrandService";
 import { minLength } from "../../utils/validations/validations";
 
 const validations = {
-  brand: (value) => {
+  name: (value) => {
     return minLength(3, "Marca deve ter ao menos 3 letras.")(value);
   },
 };
 
 function BrandRegister() {
-  const { id } = useParams();
-  const history = useHistory();
-
-  const [brand, setBrand] = useState("");
-
-  const [errors, validateFields, shouldSubmit] =
-    useFormValidations(validations);
-
-  function cancel() {
-    history.goBack();
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    if (shouldSubmit()) {
-      submitBrand();
-    }
-  }
-
-  async function submitBrand() {
-    try {
-      if (id) {
-        await BrandService.update({ id, nome: brand });
-        return history.goBack();
-      }
-      await BrandService.register({ nome: brand });
-      setBrand("");
-      return history.goBack();
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  const loadBrandFromId = useCallback(async () => {
-    if (id) {
-      try {
-        const updatedBrand = await BrandService.get(id);
-        setBrand(updatedBrand.nome);
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  }, [id]);
-
-  useEffect(() => {
-    loadBrandFromId();
-  }, [loadBrandFromId]);
-
   return (
-    <form onSubmit={handleSubmit}>
-      <TextField
-        value={brand}
-        onChange={(evt) => setBrand(evt.target.value)}
-        onBlur={validateFields}
-        helperText={errors.brand.text}
-        error={!errors.brand.valid}
-        name="brand"
-        id="brand"
-        label="Marca"
-        type="text"
-        variant="outlined"
-        fullWidth
-        required
-        margin="normal"
-      />
-
-      <Button
-        variant="contained"
-        color="primary"
-        type="submit"
-        disabled={!shouldSubmit()}
-      >
-        {id ? "Alterar" : "Cadastrar"}
-      </Button>
-
-      <Button variant="contained" color="secondary" onClick={cancel}>
-        Cancelar
-      </Button>
-    </form>
+    <Register
+      service={BrandService}
+      validations={validations}
+      redirectTo="/marcas"
+      initialState={{
+        name: "",
+      }}
+    >
+      {({ state: { name }, setState, validateFields, errors, status }) => {
+        return (
+          <TextField
+            value={name}
+            onChange={(evt) => setState({ name: evt.target.value })}
+            onBlur={validateFields}
+            helperText={errors.name.text}
+            error={!errors.name.valid}
+            name="name"
+            id="brand"
+            label="Marca"
+            type="text"
+            variant="outlined"
+            fullWidth
+            required
+            margin="normal"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  {status === "loading" ? (
+                    <CircularProgress size={14} />
+                  ) : (
+                    <></>
+                  )}
+                </InputAdornment>
+              ),
+            }}
+          />
+        );
+      }}
+    </Register>
   );
 }
 

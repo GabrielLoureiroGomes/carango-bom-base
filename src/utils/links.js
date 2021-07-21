@@ -18,7 +18,7 @@ const authLinks = [
   { label: "Alterar senha", to: "/alterar-senha" },
 ];
 
-export const getLocationLabel = ({ pathname }) => {
+export const getLocationFromLabel = ({ pathname }) => {
   const link = [...authLinks, ...sidebarLinks].find(
     ({ to }) => to === pathname
   );

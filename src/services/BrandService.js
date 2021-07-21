@@ -1,34 +1,28 @@
+import { client } from "../utils";
+
+const brandUrl = "/api/brand";
 const BrandService = {
-  register(brand) {
-    return fetch("https://carango-bom-api.herokuapp.com/marcas", {
-      method: "POST",
-      body: JSON.stringify(brand),
-    }).then((response) => response.json());
+  async register(brand) {
+    return client(brandUrl, { method: "POST", body: brand });
   },
 
-  update(brand) {
-    return fetch("https://carango-bom-api.herokuapp.com/marcas/" + brand.id, {
-      method: "PUT",
-      body: JSON.stringify(brand),
-    }).then((response) => response.json());
+  async update(brand) {
+    return client(`${brandUrl}/${brand.id}`, {
+      method: "PATCH",
+      body: { name: brand.name },
+    });
   },
 
-  get(id) {
-    return fetch("https://carango-bom-api.herokuapp.com/marcas/" + id).then(
-      (response) => response.json()
-    );
+  async get(id) {
+    return client(`${brandUrl}/${id}`);
   },
 
-  getAll() {
-    return fetch("https://carango-bom-api.herokuapp.com/marcas").then(
-      (response) => response.json()
-    );
+  async getAll() {
+    return client(brandUrl);
   },
 
-  delete(brand) {
-    return fetch("https://carango-bom-api.herokuapp.com/marcas/" + brand.id, {
-      method: "DELETE",
-    }).then((response) => response.json());
+  async delete(id) {
+    return client(`${brandUrl}/${id}`, { method: "DELETE" });
   },
 };
 
