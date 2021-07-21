@@ -9,7 +9,7 @@ import {
   Tooltip,
 } from "recharts";
 
-const Graph = ({ data, xAxis, barDataKey, color, yAxis, ...props }) => {
+const BarGraph = ({ data, xAxis, barDataKey, color, yAxis, ...props }) => {
   return (
     <BarChart
       width={800}
@@ -32,4 +32,4 @@ const Graph = ({ data, xAxis, barDataKey, color, yAxis, ...props }) => {
   );
 };
 
-export default Graph;
+export default BarGraph;
