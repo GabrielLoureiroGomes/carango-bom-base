@@ -1,2 +1,2 @@
 export { formatCurrency } from "./currency/currency";
-export { default as wrapper } from "./fetch";
+export { default as client } from "./apiClient";
