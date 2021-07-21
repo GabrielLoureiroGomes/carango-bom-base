@@ -9,19 +9,22 @@ const Table = ({ service, route, columns, deleteOnly }) => {
 
   const [items, setItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState();
-  const [status, setStatus] = useState("idle");
-  const [error, setError] = useState("");
+  const [{ status, error }, setStatus] = useState({
+    status: "idle",
+    error: null,
+  });
 
   const loadItems = useCallback(async () => {
     try {
-      setStatus("loading");
+      setStatus({ status: "loading" });
       const result = await service.getAll();
       setItems(result);
-      setStatus("idle");
+      setStatus({ status: "fulfilled" });
     } catch (e) {
-      console.log({ e });
-      setError("Houve um erro ao carregar os itens");
-      setStatus("error");
+      setStatus({
+        status: "rejected",
+        error: "Houve um erro ao carregar os itens",
+      });
     }
   }, [service, setItems]);
 
@@ -39,21 +42,22 @@ const Table = ({ service, route, columns, deleteOnly }) => {
 
   async function deleteItem() {
     try {
-      setStatus("loading");
-      await service.delete(selectedItem);
+      setStatus({ status: "loading" });
+      await service.delete(selectedItem.id);
       setItems(items.filter((item) => item.id !== selectedItem.id));
       setSelectedItem(null);
-      setStatus("idle");
+      setStatus({ status: "fulfilled" });
     } catch (e) {
-      console.log({ e });
-      setError("Houve um erro ao deletar o item");
-      setStatus("error");
+      setStatus({
+        status: "rejected",
+        error: "Houve um erro ao deletar o item",
+      });
     }
   }
 
   return (
     <div style={{ height: 300, width: "100%" }}>
-      {status === "error" ? (
+      {status === "rejected" ? (
         <Typography color="error" variant="subtitle1" component="h2" paragraph>
           {error}
         </Typography>
