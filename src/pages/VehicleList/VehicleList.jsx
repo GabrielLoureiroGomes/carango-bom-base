@@ -24,7 +24,12 @@ const columns = [
 ];
 
 function VehicleList() {
-  return <Table service={VehicleService} route="veiculo" columns={columns} />;
+  return (
+    <>
+      olá {process.env.REACT_APP_API_URL}
+      <Table service={VehicleService} route="veiculo" columns={columns} />;
+    </>
+  );
 }
 
 export default VehicleList;
