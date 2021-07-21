@@ -6,7 +6,7 @@ import AuthNavigation from "./AuthNavigation";
 import Sidebar from "./Sidebar";
 import { useAuth } from "../../hooks/AuthContext";
 import { logout } from "../../actions/auth";
-import { getLocationLabel } from "../../utils/links";
+import { getLocationFromLabel } from "../../utils/links";
 
 function NavBar() {
   const { dispatch, user } = useAuth();
@@ -20,7 +20,7 @@ function NavBar() {
           <Box display="flex" alignItems="center">
             <Sidebar auth={auth} />
             <Typography variant="h6" component="h1">
-              {getLocationLabel(location)}
+              {getLocationFromLabel(location)}
             </Typography>
           </Box>
           <AuthNavigation auth={auth} logout={() => logout({ dispatch })} />
