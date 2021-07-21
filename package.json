@@ -31,11 +31,7 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/**/*.{js,jsx}",
-      "!src/index.js",
-      "!src/App.js",
-      "!src/reportWebVitals.js",
-      "!src/services/**/*"
+      "src/**/*.{js,jsx}"
     ],
     "resetMocks": false
   },
