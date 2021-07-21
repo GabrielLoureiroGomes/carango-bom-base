@@ -9,7 +9,7 @@ const BrandService = {
   async update(brand) {
     return client(`${brandUrl}/${brand.id}`, {
       method: "PATCH",
-      body: brand.brandName,
+      body: { name: brand.name },
     });
   },
 

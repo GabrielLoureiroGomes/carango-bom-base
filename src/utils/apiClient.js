@@ -23,6 +23,8 @@ async function apiClient(endpoint, { body, ...customConfig } = {}) {
     throw new Error(`${res.status}: ${res.statusText}, ${errorMessage}`);
   }
 
+  if (res.status === 204) return true;
+
   return await res.json();
 }
 

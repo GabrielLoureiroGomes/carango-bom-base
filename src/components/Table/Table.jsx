@@ -44,7 +44,9 @@ const Table = ({ service, route, columns, deleteOnly }) => {
     try {
       setStatus({ status: "loading" });
       await service.delete(selectedItem.id);
-      setItems(items.filter((item) => item.id !== selectedItem.id));
+      setItems((prevState) =>
+        prevState.filter((item) => item.id !== selectedItem.id)
+      );
       setSelectedItem(null);
       setStatus({ status: "fulfilled" });
     } catch (e) {
