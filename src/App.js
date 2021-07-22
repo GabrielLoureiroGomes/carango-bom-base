@@ -56,7 +56,7 @@ function AppContainer() {
   const { user } = useAuth();
 
   return (
-    <Container component="section" maxWidth="md">
+    <Container component="section" maxWidth="md" style={{ padding: "0 50px" }}>
       <Switch>
         <Route exact path="/">
           <VehicleList isAuth={!!user} />

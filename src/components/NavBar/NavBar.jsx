@@ -4,6 +4,8 @@ import { AppBar, Toolbar, Box, Typography } from "@material-ui/core/";
 
 import AuthNavigation from "./AuthNavigation";
 import Sidebar from "./Sidebar";
+import useStyles from "./styles";
+
 import { useAuth } from "../../hooks/AuthContext";
 import { logout } from "../../actions/auth";
 import { getLocationFromLabel } from "../../utils/links";
@@ -15,7 +17,11 @@ function NavBar() {
 
   return (
     <AppBar position="relative">
-      <Toolbar>
+      <Toolbar
+        style={{
+          padding: "0 50px",
+        }}
+      >
         <Box display="flex" justifyContent="space-between" flexGrow="1">
           <Box display="flex" alignItems="center">
             <Sidebar auth={auth} />
