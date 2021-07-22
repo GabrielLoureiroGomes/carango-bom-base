@@ -5,7 +5,9 @@ import BrandService from "../../services/BrandService";
 const columns = [{ field: "name", headerName: "Marca", width: 200 }];
 
 function BrandList() {
-  return <Table service={BrandService} route="marca" columns={columns} />;
+  return (
+    <Table service={BrandService} route="marca" columns={columns} isAuth />
+  );
 }
 
 export default BrandList;

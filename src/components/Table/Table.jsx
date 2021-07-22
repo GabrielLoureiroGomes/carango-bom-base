@@ -4,7 +4,7 @@ import { Button, Fab, Box, Typography } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
 import AddIcon from "@material-ui/icons/Add";
 
-const Table = ({ service, route, columns, deleteOnly }) => {
+const Table = ({ service, route, columns, deleteOnly, isAuth }) => {
   const history = useHistory();
 
   const [items, setItems] = useState([]);
@@ -72,42 +72,44 @@ const Table = ({ service, route, columns, deleteOnly }) => {
         loading={status === "loading"}
       />
 
-      <Box
-        display="flex"
-        alignItems="center"
-        marginTop="10px"
-        justifyContent="flex-end"
-        gridGap="10px"
-      >
-        <Button
-          variant="contained"
-          color="primary"
-          disabled={!selectedItem}
-          onClick={deleteItem}
+      {isAuth ? (
+        <Box
+          display="flex"
+          alignItems="center"
+          marginTop="10px"
+          justifyContent="flex-end"
+          gridGap="10px"
         >
-          Excluir
-        </Button>
-        {!deleteOnly ? (
-          <>
-            <Button
-              variant="contained"
-              color="secondary"
-              disabled={!selectedItem}
-              onClick={updateItem}
-            >
-              Alterar
-            </Button>
-            <Fab
-              color="secondary"
-              aria-label="add"
-              onClick={addItem}
-              size="small"
-            >
-              <AddIcon />
-            </Fab>
-          </>
-        ) : null}
-      </Box>
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={!selectedItem}
+            onClick={deleteItem}
+          >
+            Excluir
+          </Button>
+          {!deleteOnly ? (
+            <>
+              <Button
+                variant="contained"
+                color="secondary"
+                disabled={!selectedItem}
+                onClick={updateItem}
+              >
+                Alterar
+              </Button>
+              <Fab
+                color="secondary"
+                aria-label="add"
+                onClick={addItem}
+                size="small"
+              >
+                <AddIcon />
+              </Fab>
+            </>
+          ) : null}
+        </Box>
+      ) : null}
     </div>
   );
 };

@@ -8,7 +8,13 @@ const columns = [{ flex: 1, field: "name", headerName: "Nome" }];
 
 function UserList() {
   return (
-    <Table service={UserService} route="usuario" columns={columns} deleteOnly />
+    <Table
+      service={UserService}
+      route="usuario"
+      columns={columns}
+      deleteOnly
+      isAuth
+    />
   );
 }
 

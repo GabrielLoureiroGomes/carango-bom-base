@@ -59,7 +59,7 @@ function AppContainer() {
     <Container component="section" maxWidth="md">
       <Switch>
         <Route exact path="/">
-          <VehicleList />
+          <VehicleList isAuth={!!user} />
         </Route>
         <Route path="/login">
           <Login />
