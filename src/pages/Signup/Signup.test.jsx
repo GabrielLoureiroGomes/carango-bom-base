@@ -32,7 +32,7 @@ const mockUser = {
   confirmPassword: "teste123123",
 };
 
-const userActionServiceSpy = jest.spyOn(UserActions, "auth");
+const userActionServiceSpy = jest.spyOn(UserActions, "signup");
 
 describe("<Signup />", () => {
   describe("Cancel", () => {
@@ -93,6 +93,9 @@ describe("<Signup />", () => {
     });
 
     describe("When submits signup form", () => {
+      beforeAll(() => {
+        userActionServiceSpy.mockResolvedValue();
+      });
       beforeEach(async () => {
         setup();
         const username = screen.getByRole("textbox", { name: /usuário/i });
@@ -109,18 +112,23 @@ describe("<Signup />", () => {
       it("should register user with correct data", () => {
         expect(userActionServiceSpy).toHaveBeenCalledWith(
           expect.objectContaining({
-            user: { username: mockUser.username, password: mockUser.password },
+            user: {
+              username: mockUser.username,
+              password: mockUser.password,
+            },
           })
         );
       });
 
-      it("should redirect me to home page after signup", () => {
-        expect(testLocation.pathname).toBe("/");
+      it("should redirect me to login after signup", () => {
+        expect(testLocation.pathname).toBe("/login");
       });
 
       describe("And something fails", () => {
         beforeAll(() => {
-          userActionServiceSpy.mockRejectedValue({ data: "Usuário já existe" });
+          userActionServiceSpy.mockRejectedValue(
+            new Error("Usuário já existe")
+          );
         });
 
         it("should show the error message", async () => {
