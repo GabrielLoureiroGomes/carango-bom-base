@@ -89,8 +89,4 @@ function Auth({
   );
 }
 
-Auth.defaultProps = {
-  shouldSubmit: () => true,
-};
-
 export default Auth;

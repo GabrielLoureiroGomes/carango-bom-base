@@ -8,7 +8,7 @@ import { useAuth } from "../../hooks/AuthContext";
 
 function Login() {
   const history = useHistory();
-  const { user } = useAuth();
+  const { user, dispatch } = useAuth();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -34,6 +34,8 @@ function Login() {
         username,
         password,
       }}
+      dispatch={dispatch}
+      shouldSubmit={() => true}
     >
       <TextField
         id="username"
