@@ -6,17 +6,30 @@ export async function logout({ dispatch }) {
   return dispatch({ type: "logout" });
 }
 
-export async function auth({ dispatch, user, method }) {
-  // TODO: alinhar qual será a resposta com o back-end
+export async function auth({ dispatch, user }) {
   try {
-    const service = UserService[method];
-    if (!service) throw new Error("Unkown UserService method");
-    const token = await service(user);
+    const token = await UserService.auth(user);
     dispatch({ type: "auth", payload: user });
     setStorageToken(token);
   } catch (e) {
     dispatch({ type: "logout" });
     removeStorageToken();
-    return e;
+    const invalidCredentials = e.message.includes("401");
+    const errorMsg = invalidCredentials
+      ? "Usuário ou senha inválidos"
+      : "Houve um erro ao fazer login";
+    throw new Error(errorMsg);
+  }
+}
+
+export async function signup(user) {
+  try {
+    await UserService.signup(user);
+  } catch (e) {
+    const invalidUsername = e.message.includes("400");
+    const errorMsg = invalidUsername
+      ? "Usuário já existe"
+      : "Houve um erro ao cadastrar";
+    throw new Error(errorMsg);
   }
 }
