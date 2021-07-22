@@ -1,4 +1,4 @@
-import { auth, signup, logout } from "./auth";
+import { login, signup, logout } from "./auth";
 import UserService from "../services/UserService";
 import * as AuthUtils from "../utils/auth";
 
@@ -17,7 +17,7 @@ const userMock = {
 describe("Auth Action", () => {
   let authRes;
   beforeEach(() => {
-    authRes = auth({
+    authRes = login({
       dispatch,
       user: userMock,
     });
@@ -43,6 +43,25 @@ describe("Auth Action", () => {
   });
 
   describe("with rejected value", () => {
+    // beforeAll(() => {
+    //   authServiceSpy.mockRejectedValue(new Error("fail"));
+    // });
+    // it("should call dispatch with type 'logout'", async () => {
+    //   try {
+    //     await auth({
+    //       dispatch,
+    //       user: userMock,
+    //     });
+    //   } catch (e) {
+    //     expect(dispatch).toBeCalledWith({
+    //       type: "logout",
+    //     });
+    //   }
+    // });
+    // it("should call 'removeStorageToken'", () => {
+    //   authServiceSpy.mockRejectedValue(new Error("fail"));
+    //   expect(removeStorageTokenSpy).toHaveBeenCalled();
+    // });
     describe("wrong credentials", () => {
       beforeAll(() => {
         authServiceSpy.mockRejectedValue(new Error("401"));
@@ -70,7 +89,7 @@ describe("Auth Action", () => {
 describe("Signup action", () => {
   let signupRes;
   beforeEach(() => {
-    signupRes = signup(userMock);
+    signupRes = signup({ user: userMock });
   });
 
   describe("with resolved value", () => {
@@ -78,7 +97,7 @@ describe("Signup action", () => {
       signupServiceSpy.mockResolvedValue("ok");
     });
 
-    it("should call the 'UserService.auth' with correct user", () => {
+    it("should call the 'UserService.signup' with correct user", () => {
       expect(signupServiceSpy).toBeCalledWith(userMock);
     });
   });

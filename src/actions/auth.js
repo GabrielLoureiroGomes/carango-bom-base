@@ -6,7 +6,7 @@ export async function logout({ dispatch }) {
   return dispatch({ type: "logout" });
 }
 
-export async function auth({ dispatch, user }) {
+export async function login({ dispatch, user }) {
   try {
     const token = await UserService.auth(user);
     dispatch({ type: "auth", payload: user });
@@ -22,7 +22,7 @@ export async function auth({ dispatch, user }) {
   }
 }
 
-export async function signup(user) {
+export async function signup({ user }) {
   try {
     await UserService.signup(user);
   } catch (e) {
