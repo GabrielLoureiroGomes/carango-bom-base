@@ -1,4 +1,4 @@
-// import jwtDecode from "jwt-decode";
+import jwtDecode from "jwt-decode";
 const storageToken = "token";
 
 export const getToken = () => {
@@ -17,14 +17,7 @@ export const removeStorageToken = () => {
 export const getUserFromToken = () => {
   const token = getToken();
   if (!token) return null;
-  // TODO: remove this comment when theres a jwt token after auth
-  // return jwtDecode(token);
-  return {
-    username: "teste",
-    id: 1,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  };
+  return jwtDecode(token);
 };
 
 export const logout = () => {
