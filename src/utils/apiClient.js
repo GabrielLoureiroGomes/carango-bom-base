@@ -1,5 +1,4 @@
-import { logout } from "./auth";
-import { getToken } from "./auth";
+import { logout, getToken } from "./auth";
 
 async function apiClient(endpoint, { body, ...customConfig } = {}) {
   const headers = {

@@ -24,8 +24,7 @@ export async function login({ dispatch, user }) {
 
 export async function signup({ user }) {
   try {
-    const teste = await UserService.signup(user);
-    return teste;
+    return await UserService.signup(user);
   } catch (e) {
     const invalidUsername = e.message.includes("400");
     const errorMsg = invalidUsername
