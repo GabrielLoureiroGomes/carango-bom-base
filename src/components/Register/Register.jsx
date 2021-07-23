@@ -70,7 +70,7 @@ const Register = ({
         setStatus({ status: "loading" });
         const {
           id: dataId,
-          createAt,
+          createdAt,
           updatedAt,
           ...data
         } = await service.get(id);

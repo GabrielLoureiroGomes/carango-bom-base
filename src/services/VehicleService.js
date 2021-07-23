@@ -8,8 +8,8 @@ const VehicleService = {
 
   async update(vehicle) {
     return client(`${vehicleUrl}/${vehicle.id}`, {
-      method: "PATCH",
-      body: { name: vehicle.name },
+      method: "PUT",
+      body: vehicle,
     });
   },
 
