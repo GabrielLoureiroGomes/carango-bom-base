@@ -13,10 +13,10 @@ const Dashboard = () => {
 
   const loadDashboard = useCallback(async () => {
     try {
-      const { data } = await DashboardService.get();
+      const data = await DashboardService.get();
       setDashboardData(data);
     } catch (e) {
-      setError(e.data);
+      setError(e.message);
     }
   }, [setDashboardData]);
 
