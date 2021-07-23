@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Typography, Box } from "@material-ui/core";
 import { BarGraph } from "../../components";
-import VehicleService from "../../services/VehicleService";
+import DashboardService from "../../services/DashboardService";
 import { useStyles } from "./styles";
 
 const convertValue = (value) => `${Math.floor(value / 10e2)}M`;
@@ -13,7 +13,7 @@ const Dashboard = () => {
 
   const loadDashboard = useCallback(async () => {
     try {
-      const { data } = await VehicleService.getDashboard();
+      const { data } = await DashboardService.get();
       setDashboardData(data);
     } catch (e) {
       setError(e.data);

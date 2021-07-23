@@ -1,7 +1,7 @@
 import { MemoryRouter } from "react-router-dom";
 import { render, screen, act } from "@testing-library/react";
 import Dashboard from "./Dashboard";
-import VehicleService from "../../services/VehicleService";
+import DashboardService from "../../services/DashboardService";
 
 const setup = () => {
   return render(
@@ -31,7 +31,7 @@ const mockDashboard = {
   ],
 };
 
-const getDashboardSpy = jest.spyOn(VehicleService, "getDashboard");
+const getDashboardSpy = jest.spyOn(DashboardService, "get");
 
 describe("<Dashboard />", () => {
   describe("Successfully fetches dashboard data", () => {
