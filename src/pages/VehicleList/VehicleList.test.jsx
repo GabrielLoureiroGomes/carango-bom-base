@@ -29,49 +29,75 @@ jest.mock("../../services/VehicleService", () => ({
   delete: jest.fn().mockResolvedValue(),
 }));
 
+const history = createMemoryHistory();
+const setup = (isAuth) =>
+  render(
+    <Router history={history}>
+      <VehicleList isAuth={isAuth} />
+    </Router>
+  );
+
 describe("<VehicleList />", () => {
-  const history = createMemoryHistory();
-  const setup = (isAuth) =>
-    render(
-      <Router history={history}>
-        <VehicleList isAuth={isAuth} />
-      </Router>
-    );
+  describe("User isnt authenticated", () => {
+    beforeEach(async () => {
+      jest.clearAllMocks();
+      await act(async () => setup(false));
+    });
 
-  beforeEach(async () => {
-    jest.clearAllMocks();
-    await act(async () => setup(true));
-  });
-
-  describe("When the user clicks on the button to add a new vehicle", () => {
-    it("Should go to the create page", async () => {
-      userEvent.click(screen.getByRole("button", { name: "add" }));
-      expect(history.location.pathname).toBe("/veiculo/cadastro");
+    describe("Doesn't show action buttons", () => {
+      it("should not render 'excluir' button", () => {
+        expect(
+          screen.queryByRole("button", { name: "excluir" })
+        ).not.toBeInTheDocument();
+      });
+      it("should not render 'add' button", () => {
+        expect(
+          screen.queryByRole("button", { name: "alterar" })
+        ).not.toBeInTheDocument();
+      });
+      it("should not render 'alterar' button", () => {
+        expect(
+          screen.queryByRole("button", { name: "add" })
+        ).not.toBeInTheDocument();
+      });
     });
   });
-
-  describe("When the user clicks on the button to update", () => {
-    it("Should go to the selected vehicle update page", async () => {
-      const testVehicle = vehiclesMock[0];
-      const vehicleItem = await screen.findByText(testVehicle.model);
-      userEvent.click(vehicleItem);
-      userEvent.click(screen.getByRole("button", { name: "Alterar" }));
-
-      expect(history.location.pathname).toBe("/veiculo/" + testVehicle.id);
+  describe("User is authenticated", () => {
+    beforeEach(async () => {
+      jest.clearAllMocks();
+      await act(async () => setup(true));
     });
-  });
 
-  describe("When the user clicks on the button to delete", () => {
-    it("Should delete the selected item from the list", async () => {
-      const testVehicle = vehiclesMock[0];
-      const vehicleItem = await screen.findByText(testVehicle.model);
-      userEvent.click(vehicleItem);
-      userEvent.click(screen.getByRole("button", { name: "Excluir" }));
+    describe("When the user clicks on the button to add a new vehicle", () => {
+      it("Should go to the create page", async () => {
+        userEvent.click(screen.getByRole("button", { name: "add" }));
+        expect(history.location.pathname).toBe("/veiculo/cadastro");
+      });
+    });
 
-      await waitForElementToBeRemoved(() =>
-        screen.getByText(testVehicle.model)
-      );
-      expect(screen.queryByText(testVehicle.model)).not.toBeInTheDocument();
+    describe("When the user clicks on the button to update", () => {
+      it("Should go to the selected vehicle update page", async () => {
+        const testVehicle = vehiclesMock[0];
+        const vehicleItem = await screen.findByText(testVehicle.model);
+        userEvent.click(vehicleItem);
+        userEvent.click(screen.getByRole("button", { name: "Alterar" }));
+
+        expect(history.location.pathname).toBe("/veiculo/" + testVehicle.id);
+      });
+    });
+
+    describe("When the user clicks on the button to delete", () => {
+      it("Should delete the selected item from the list", async () => {
+        const testVehicle = vehiclesMock[0];
+        const vehicleItem = await screen.findByText(testVehicle.model);
+        userEvent.click(vehicleItem);
+        userEvent.click(screen.getByRole("button", { name: "Excluir" }));
+
+        await waitForElementToBeRemoved(() =>
+          screen.getByText(testVehicle.model)
+        );
+        expect(screen.queryByText(testVehicle.model)).not.toBeInTheDocument();
+      });
     });
   });
 });
