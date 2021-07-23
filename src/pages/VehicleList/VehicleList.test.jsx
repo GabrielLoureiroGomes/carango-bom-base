@@ -9,7 +9,18 @@ import {
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
+import BrandService from "../../services/BrandService";
+
 import VehicleList from "./VehicleList";
+
+const brands = [
+  { id: 1, name: "FIAT" },
+  { id: 2, name: "CHEVROLET" },
+  { id: 3, name: "VOLKS" },
+];
+
+const getAllBrandsSpy = jest.spyOn(BrandService, "getAll");
+getAllBrandsSpy.mockResolvedValue(brands);
 
 const vehiclesMock = [
   {
@@ -35,6 +46,20 @@ const setup = (isAuth) =>
   );
 
 describe("<VehicleList />", () => {
+  describe("When rendering items on the list", () => {
+    beforeEach(async () => {
+      jest.clearAllMocks();
+      await act(async () => setup(false));
+    });
+
+    it("Should fetch the brands and render the brand name in the list", () => {
+      const vehicleBrand = brands.find(
+        (brand) => brand.id === vehiclesMock[0].brandId
+      );
+      expect(screen.getByText(vehicleBrand.name)).toBeInTheDocument();
+    });
+  });
+
   describe("User isnt authenticated", () => {
     beforeEach(async () => {
       jest.clearAllMocks();
@@ -59,6 +84,7 @@ describe("<VehicleList />", () => {
       });
     });
   });
+
   describe("User is authenticated", () => {
     beforeEach(async () => {
       jest.clearAllMocks();
