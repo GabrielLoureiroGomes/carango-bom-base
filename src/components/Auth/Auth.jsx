@@ -8,6 +8,7 @@ import {
 import { useHistory } from "react-router-dom";
 
 import useStyles from "./styles";
+import useFormValidations from "../../hooks/useFormValidations";
 
 function Auth({
   children,
@@ -15,17 +16,21 @@ function Auth({
   auth,
   redirectTo,
   primaryButtonText,
-  shouldSubmit,
-  user,
   dispatch,
+  initialState,
+  validations,
 }) {
   const classes = useStyles();
   const history = useHistory();
-
+  const [state, setState] = useState(initialState);
   const [{ status, error }, setStatus] = useState({
     status: "idle",
     error: null,
   });
+  const [errors, validateFields, shouldSubmit] = useFormValidations(
+    validations,
+    state
+  );
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -38,7 +43,10 @@ function Auth({
     try {
       setStatus({ status: "loading" });
       await auth({
-        user,
+        user: {
+          username: state.username,
+          password: state.password,
+        },
         dispatch,
       });
       setStatus({ status: "fulfilled" });
@@ -59,7 +67,12 @@ function Auth({
         flexDirection="column"
         gridGap={16}
       >
-        {children}
+        {children({
+          validateFields,
+          errors,
+          setState,
+          state,
+        })}
         {status === "rejected" ? (
           <FormHelperText error>{error}</FormHelperText>
         ) : null}

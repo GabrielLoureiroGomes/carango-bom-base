@@ -54,11 +54,11 @@ describe("<Login />", () => {
     it("Should show an error message", async () => {
       const testUsername = "test";
       const usernameInput = screen.getByLabelText(/usuário/i);
-      userEvent.type(usernameInput, testUsername);
+      userEvent.paste(usernameInput, testUsername);
 
       const testPassword = "testPassword";
       const passwordInput = screen.getByLabelText(/senha/i);
-      userEvent.type(passwordInput, testPassword);
+      userEvent.paste(passwordInput, testPassword);
 
       const loginButton = screen.getByRole("button", { name: /entrar/i });
       userEvent.click(loginButton);
@@ -84,10 +84,10 @@ describe("<Login />", () => {
       });
 
       const usernameInput = screen.getByLabelText(/usuário/i);
-      userEvent.type(usernameInput, testUsername);
+      userEvent.paste(usernameInput, testUsername);
 
       const passwordInput = screen.getByLabelText(/senha/i);
-      userEvent.type(passwordInput, testPassword);
+      userEvent.paste(passwordInput, testPassword);
 
       const loginButton = screen.getByRole("button", { name: /entrar/i });
       await act(async () => userEvent.click(loginButton));

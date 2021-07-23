@@ -103,9 +103,9 @@ describe("<Signup />", () => {
         const confirmPassword = screen.getByLabelText(/confirmação da senha/i);
         const btn = screen.getByRole("button", { name: /cadastrar/i });
 
-        userEvent.type(username, mockUser.username);
-        userEvent.type(password, mockUser.password);
-        userEvent.type(confirmPassword, mockUser.confirmPassword);
+        userEvent.paste(username, mockUser.username);
+        userEvent.paste(password, mockUser.password);
+        userEvent.paste(confirmPassword, mockUser.confirmPassword);
         await act(async () => userEvent.click(btn));
       });
 

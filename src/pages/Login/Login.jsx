@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { TextField } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 
@@ -9,9 +9,6 @@ import { useAuth } from "../../hooks/AuthContext";
 function Login() {
   const history = useHistory();
   const { user, dispatch } = useAuth();
-
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
 
   useEffect(() => {
     if (user) history.push("/");
@@ -30,31 +27,46 @@ function Login() {
         name: "Cadastrar",
       }}
       redirectTo="/"
-      user={{
-        username,
-        password,
-      }}
       dispatch={dispatch}
-      shouldSubmit={() => true}
+      initialState={{
+        username: "",
+        password: "",
+      }}
     >
-      <TextField
-        id="username"
-        type="text"
-        label="Usuário"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        variant="outlined"
-        required
-      />
-      <TextField
-        id="password"
-        type="password"
-        label="Senha"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        variant="outlined"
-        required
-      />
+      {({ state: { username, password }, setState }) => {
+        return (
+          <>
+            <TextField
+              id="username"
+              type="text"
+              label="Usuário"
+              value={username}
+              onChange={(e) =>
+                setState((prevState) => ({
+                  ...prevState,
+                  username: e.target.value,
+                }))
+              }
+              variant="outlined"
+              required
+            />
+            <TextField
+              id="password"
+              type="password"
+              label="Senha"
+              value={password}
+              onChange={(e) =>
+                setState((prevState) => ({
+                  ...prevState,
+                  password: e.target.value,
+                }))
+              }
+              variant="outlined"
+              required
+            />
+          </>
+        );
+      }}
     </Auth>
   );
 }
