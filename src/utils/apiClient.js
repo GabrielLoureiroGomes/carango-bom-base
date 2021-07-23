@@ -1,9 +1,16 @@
 import { logout } from "./auth";
+import { getToken } from "./auth";
 
 async function apiClient(endpoint, { body, ...customConfig } = {}) {
   const headers = {
     "Content-Type": "application/json",
   };
+
+  const token = getToken();
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
 
   const config = {
     ...customConfig,
