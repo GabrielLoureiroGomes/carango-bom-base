@@ -33,8 +33,9 @@ const Sidebar = ({ auth }) => {
       exact
       className={classes.link}
       activeClassName={classes.linkActive}
+      key={label}
     >
-      <ListItem button key={label}>
+      <ListItem button>
         <ListItemIcon>
           <Icon />
         </ListItemIcon>
