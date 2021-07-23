@@ -21,7 +21,7 @@ const validations = {
   },
 };
 
-const Signup = () => {
+const Signup = ({ user }) => {
   const history = useHistory();
 
   function cancel() {
@@ -43,6 +43,7 @@ const Signup = () => {
         username: "",
         confirmPassword: "",
       }}
+      user={user}
     >
       {({
         validateFields,

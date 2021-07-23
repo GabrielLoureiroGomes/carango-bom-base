@@ -1,18 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { TextField } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 
 import { Auth } from "../../components";
 import { login } from "../../actions/auth";
-import { useAuth } from "../../hooks/AuthContext";
 
-function Login() {
+function Login({ user, dispatch }) {
   const history = useHistory();
-  const { user, dispatch } = useAuth();
-
-  useEffect(() => {
-    if (user) history.push("/");
-  }, [user, history]);
 
   function handleRegister() {
     history.push("/cadastro");
@@ -32,6 +26,7 @@ function Login() {
         username: "",
         password: "",
       }}
+      user={user}
     >
       {({ state: { username, password }, setState }) => {
         return (
