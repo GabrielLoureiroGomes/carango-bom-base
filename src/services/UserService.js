@@ -1,71 +1,24 @@
+import client from "../utils/apiClient";
+
+const userUrl = "/api/user";
 const UserService = {
-  auth(userData) {
-    return new Promise((resolve, reject) => {
-      if ("username" in userData && "password" in userData) {
-        resolve("jsonwebtoken");
-      } else {
-        reject();
-      }
-    });
+  auth(user) {
+    return client(`${userUrl}/auth`, { body: user, method: "POST" });
   },
   signup(user) {
-    return new Promise((resolve, reject) => {
-      if ("username" in user && "password" in user) {
-        resolve({
-          status: 200,
-          data: "jsonwebtoken",
-        });
-      } else {
-        reject({
-          status: 400,
-          data: "Usuário já existe",
-        });
-      }
-    });
+    return client(userUrl, { body: user, method: "POST" });
   },
   getAll() {
-    return Promise.resolve([
-      {
-        id: 1,
-        name: "Wagner Lopes",
-      },
-      {
-        id: 2,
-        name: "Viviane Dias",
-      },
-    ]);
+    return client(userUrl);
   },
-  updatePassword(newPasswordPayload) {
-    return new Promise((resolve, reject) => {
-      if (
-        "id" in newPasswordPayload &&
-        "pastPassword" in newPasswordPayload &&
-        "newPassword" in newPasswordPayload
-      ) {
-        resolve({
-          status: 200,
-          data: "jsonwebtoken",
-        });
-      } else {
-        reject({
-          status: 400,
-          data: "Usuário já existe",
-        });
-      }
+  updatePassword({ id, ...newPasswordPayload }) {
+    return client(`${userUrl}/${id}`, {
+      body: newPasswordPayload,
+      method: "PATCH",
     });
   },
-  delete(user) {
-    return new Promise((resolve, reject) => {
-      if ("id" in user) {
-        resolve({
-          status: 200,
-        });
-      } else {
-        reject({
-          status: 400,
-        });
-      }
-    });
+  delete(id) {
+    return client(`${userUrl}/${id}`, { method: "DELETE" });
   },
 };
 
