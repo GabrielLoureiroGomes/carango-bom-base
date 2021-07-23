@@ -40,6 +40,24 @@ const Table = ({ service, route, columns, deleteOnly, isAuth }) => {
     }
   }
 
+  function buttons() {
+    return !deleteOnly ? (
+      <>
+        <Button
+          variant="contained"
+          color="secondary"
+          disabled={!selectedItem}
+          onClick={updateItem}
+        >
+          Alterar
+        </Button>
+        <Fab color="secondary" aria-label="add" onClick={addItem} size="small">
+          <AddIcon />
+        </Fab>
+      </>
+    ) : null;
+  }
+
   async function deleteItem() {
     try {
       setStatus({ status: "loading" });
@@ -88,26 +106,7 @@ const Table = ({ service, route, columns, deleteOnly, isAuth }) => {
           >
             Excluir
           </Button>
-          {!deleteOnly ? (
-            <>
-              <Button
-                variant="contained"
-                color="secondary"
-                disabled={!selectedItem}
-                onClick={updateItem}
-              >
-                Alterar
-              </Button>
-              <Fab
-                color="secondary"
-                aria-label="add"
-                onClick={addItem}
-                size="small"
-              >
-                <AddIcon />
-              </Fab>
-            </>
-          ) : null}
+          {buttons()}
         </Box>
       ) : null}
     </div>

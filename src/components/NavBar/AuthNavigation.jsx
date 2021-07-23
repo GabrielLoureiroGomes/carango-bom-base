@@ -21,7 +21,7 @@ const AuthNavigation = ({ auth, logout }) => {
   const anchorRef = React.useRef(null);
 
   const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+    setOpen((prevState) => !prevState);
   };
 
   const handleClose = (event) => {
@@ -49,12 +49,14 @@ const AuthNavigation = ({ auth, logout }) => {
     prevOpen.current = open;
   }, [open]);
 
+  const shouldUseAriaControlName = open ? "menu-list-grow" : undefined;
+
   return auth ? (
     <div>
       <IconButton
         aria-label="account of current user"
         ref={anchorRef}
-        aria-controls={open ? "menu-list-grow" : undefined}
+        aria-controls={shouldUseAriaControlName}
         aria-haspopup="true"
         onClick={handleToggle}
       >

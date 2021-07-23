@@ -4,7 +4,6 @@ import { AppBar, Toolbar, Box, Typography } from "@material-ui/core/";
 
 import AuthNavigation from "./AuthNavigation";
 import Sidebar from "./Sidebar";
-import useStyles from "./styles";
 
 import { useAuth } from "../../hooks/AuthContext";
 import { logout } from "../../actions/auth";
