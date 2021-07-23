@@ -13,8 +13,8 @@ const styles = makeStyles((theme) => ({
     fontSize: 18,
   },
   linkActive: {
-    borderBottom: "1px solid #000000",
-    paddingBottom: "2.5px",
+    display: "block",
+    background: "#ddd",
   },
   login: {
     color: "#fff",
