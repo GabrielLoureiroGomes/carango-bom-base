@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from "react-router";
-import { Button, TextField, FormHelperText, Box } from "@material-ui/core";
-import useFormValidations from "../../hooks/useFormValidations";
-import { useAuth } from "../../hooks/AuthContext";
-import { auth } from "../../actions/auth";
+import { TextField } from "@material-ui/core";
+
+import { Auth } from "../../components";
+import { signup } from "../../actions/auth";
 import { minLength } from "../../utils/validations/validations";
 
 const validations = {
@@ -21,126 +21,102 @@ const validations = {
   },
 };
 
-const Signup = () => {
+const Signup = ({ user }) => {
   const history = useHistory();
-  const { dispatch } = useAuth();
-  const [error, setError] = useState();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [errors, validateFields, shouldSubmit] = useFormValidations(
-    validations,
-    {
-      username,
-      password,
-      confirmPassword,
-    }
-  );
 
   function cancel() {
     history.goBack();
   }
 
-  function handleSubmit(event) {
-    setError();
-    event.preventDefault();
-    if (shouldSubmit()) {
-      submitUser();
-    }
-  }
-
-  async function submitUser() {
-    try {
-      await auth({
-        user: {
-          username,
-          password,
-        },
-        dispatch,
-        method: "signup",
-      });
-      return history.push("/");
-    } catch (e) {
-      // TODO: validar qual exatamente vai ser o retorno de um erro
-      setError(e.data);
-    }
-  }
-
   return (
-    <form onSubmit={handleSubmit}>
-      <Box
-        border={1}
-        borderColor="grey.500"
-        borderRadius={16}
-        padding={3}
-        marginTop={2}
-        display="flex"
-        flexDirection="column"
-        gridGap={16}
-      >
-        <TextField
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          onBlur={validateFields}
-          helperText={errors.username.text}
-          error={!errors.username.valid}
-          name="username"
-          id="username"
-          label="Usuário"
-          type="text"
-          variant="outlined"
-          fullWidth
-          required
-          margin="normal"
-        />
-        <TextField
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          onBlur={validateFields}
-          helperText={errors.password.text}
-          error={!errors.password.valid}
-          name="password"
-          id="password"
-          label="Senha"
-          type="password"
-          variant="outlined"
-          fullWidth
-          required
-          margin="normal"
-        />
-        <TextField
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          onBlur={(e) => validateFields(e)}
-          helperText={errors.confirmPassword.text}
-          error={!errors.confirmPassword.valid}
-          name="confirmPassword"
-          id="confirmPassword"
-          label="Confirmação da senha"
-          type="password"
-          variant="outlined"
-          fullWidth
-          required
-          margin="normal"
-        />
-
-        {error ? <FormHelperText error>{error}</FormHelperText> : null}
-
-        <Box marginTop={2} display="flex" justifyContent="space-between">
-          <Button variant="contained" color="primary" onClick={cancel}>
-            Cancelar
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            type="submit"
-            disabled={!shouldSubmit()}
-          >
-            Cadastrar
-          </Button>
-        </Box>
-      </Box>
-    </form>
+    <Auth
+      auth={signup}
+      primaryButtonText="Cadastrar"
+      secondaryButton={{
+        onClick: cancel,
+        name: "Cancelar",
+      }}
+      redirectTo="/login"
+      validations={validations}
+      initialState={{
+        password: "",
+        username: "",
+        confirmPassword: "",
+      }}
+      user={user}
+    >
+      {({
+        validateFields,
+        errors,
+        state: { username, password, confirmPassword },
+        setState,
+      }) => {
+        return (
+          <>
+            <TextField
+              value={username}
+              onChange={(e) =>
+                setState((prevState) => ({
+                  ...prevState,
+                  username: e.target.value,
+                }))
+              }
+              onBlur={validateFields}
+              helperText={errors.username.text}
+              error={!errors.username.valid}
+              name="username"
+              id="username"
+              label="Usuário"
+              type="text"
+              variant="outlined"
+              fullWidth
+              required
+              margin="normal"
+            />
+            <TextField
+              value={password}
+              onChange={(e) =>
+                setState((prevState) => ({
+                  ...prevState,
+                  password: e.target.value,
+                }))
+              }
+              onBlur={validateFields}
+              helperText={errors.password.text}
+              error={!errors.password.valid}
+              name="password"
+              id="password"
+              label="Senha"
+              type="password"
+              variant="outlined"
+              fullWidth
+              required
+              margin="normal"
+            />
+            <TextField
+              value={confirmPassword}
+              onChange={(e) =>
+                setState((prevState) => ({
+                  ...prevState,
+                  confirmPassword: e.target.value,
+                }))
+              }
+              onBlur={validateFields}
+              helperText={errors.confirmPassword.text}
+              error={!errors.confirmPassword.valid}
+              name="confirmPassword"
+              id="confirmPassword"
+              label="Confirmação da senha"
+              type="password"
+              variant="outlined"
+              fullWidth
+              required
+              margin="normal"
+            />
+          </>
+        );
+      }}
+    </Auth>
   );
 };
 

@@ -53,45 +53,45 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AppContainer() {
-  const { user } = useAuth();
+  const { user, dispatch } = useAuth();
 
   return (
-    <Container component="section" maxWidth="md">
+    <Container component="section" maxWidth="md" style={{ padding: "0 50px" }}>
       <Switch>
         <Route exact path="/">
-          <VehicleList />
+          <VehicleList isAuth={!!user} dispatch={dispatch} />
         </Route>
         <Route path="/login">
-          <Login />
+          <Login user={user} dispatch={dispatch} />
         </Route>
         <Route path="/cadastro">
-          <Signup />
+          <Signup user={user} />
         </Route>
         {!!user ? (
           <Switch>
             <Route path="/veiculo/cadastro">
-              <VehicleRegister />
+              <VehicleRegister dispatch={dispatch} />
             </Route>
             <Route path="/veiculo/:id">
-              <VehicleRegister />
+              <VehicleRegister dispatch={dispatch} />
             </Route>
             <Route path="/dashboard">
-              <Dashboard />
+              <Dashboard dispatch={dispatch} />
             </Route>
             <Route path="/marca/cadastro">
-              <BrandRegister />
+              <BrandRegister dispatch={dispatch} />
             </Route>
             <Route path="/marca/:id">
-              <BrandRegister />
+              <BrandRegister dispatch={dispatch} />
             </Route>
             <Route path="/marcas">
-              <BrandList />
+              <BrandList dispatch={dispatch} />
             </Route>
             <Route path="/usuarios">
-              <UserList />
+              <UserList dispatch={dispatch} />
             </Route>
             <Route path="/alterar-senha">
-              <UpdatePassword />
+              <UpdatePassword dispatch={dispatch} />
             </Route>
             <Redirect to="/" />
           </Switch>

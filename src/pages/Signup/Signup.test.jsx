@@ -32,7 +32,7 @@ const mockUser = {
   confirmPassword: "teste123123",
 };
 
-const userActionServiceSpy = jest.spyOn(UserActions, "auth");
+const userActionServiceSpy = jest.spyOn(UserActions, "signup");
 
 describe("<Signup />", () => {
   describe("Cancel", () => {
@@ -93,6 +93,9 @@ describe("<Signup />", () => {
     });
 
     describe("When submits signup form", () => {
+      beforeAll(() => {
+        userActionServiceSpy.mockResolvedValue();
+      });
       beforeEach(async () => {
         setup();
         const username = screen.getByRole("textbox", { name: /usuário/i });
@@ -100,27 +103,32 @@ describe("<Signup />", () => {
         const confirmPassword = screen.getByLabelText(/confirmação da senha/i);
         const btn = screen.getByRole("button", { name: /cadastrar/i });
 
-        userEvent.type(username, mockUser.username);
-        userEvent.type(password, mockUser.password);
-        userEvent.type(confirmPassword, mockUser.confirmPassword);
+        userEvent.paste(username, mockUser.username);
+        userEvent.paste(password, mockUser.password);
+        userEvent.paste(confirmPassword, mockUser.confirmPassword);
         await act(async () => userEvent.click(btn));
       });
 
       it("should register user with correct data", () => {
         expect(userActionServiceSpy).toHaveBeenCalledWith(
           expect.objectContaining({
-            user: { username: mockUser.username, password: mockUser.password },
+            user: {
+              username: mockUser.username,
+              password: mockUser.password,
+            },
           })
         );
       });
 
-      it("should redirect me to home page after signup", () => {
-        expect(testLocation.pathname).toBe("/");
+      it("should redirect me to login after signup", () => {
+        expect(testLocation.pathname).toBe("/login");
       });
 
       describe("And something fails", () => {
         beforeAll(() => {
-          userActionServiceSpy.mockRejectedValue({ data: "Usuário já existe" });
+          userActionServiceSpy.mockRejectedValue(
+            new Error("Usuário já existe")
+          );
         });
 
         it("should show the error message", async () => {

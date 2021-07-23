@@ -13,9 +13,9 @@ const updateVehicleSpy = jest.spyOn(VehicleService, "update");
 const getVehicleSpy = jest.spyOn(VehicleService, "get");
 
 const brands = [
-  { id: 1, nome: "CHEVROLET" },
-  { id: 2, nome: "FIAT" },
-  { id: 3, nome: "VOLKS" },
+  { id: 1, name: "CHEVROLET" },
+  { id: 2, name: "FIAT" },
+  { id: 3, name: "VOLKS" },
 ];
 
 const mockVehicle = {
@@ -66,17 +66,17 @@ describe("<VehicleRegister />", () => {
     describe("All registered brands are loaded into select", () => {
       it("should render the chevrolet option", () => {
         expect(
-          screen.getByRole("option", { name: brands[0].nome })
+          screen.getByRole("option", { name: brands[0].name })
         ).toBeInTheDocument();
       });
       it("should render the fiat option", () => {
         expect(
-          screen.getByRole("option", { name: brands[1].nome })
+          screen.getByRole("option", { name: brands[1].name })
         ).toBeInTheDocument();
       });
       it("should render the volks option", () => {
         expect(
-          screen.getByRole("option", { name: brands[2].nome })
+          screen.getByRole("option", { name: brands[2].name })
         ).toBeInTheDocument();
       });
     });
@@ -143,7 +143,7 @@ describe("<VehicleRegister />", () => {
         userEvent.type(model, mockVehicle.model);
         userEvent.type(year, mockVehicle.year);
         userEvent.type(price, mockVehicle.price);
-        userEvent.selectOptions(brand, mockVehicle.brand.nome);
+        userEvent.selectOptions(brand, mockVehicle.brand.name);
         await act(async () => userEvent.click(btn));
       });
 
@@ -213,7 +213,7 @@ describe("<VehicleRegister />", () => {
 
         userEvent.clear(model);
         userEvent.type(model, "Onix");
-        userEvent.selectOptions(brand, brands[0].nome);
+        userEvent.selectOptions(brand, brands[0].name);
 
         const btn = screen.getByRole("button", { name: /alterar/i });
         await act(async () => userEvent.click(btn));

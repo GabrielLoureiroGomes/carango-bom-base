@@ -10,7 +10,7 @@ import * as UserActions from "../../actions/auth";
 
 import Login from "./Login";
 
-const authSpy = jest.spyOn(UserActions, "auth");
+const authSpy = jest.spyOn(UserActions, "login");
 const dispatchMock = jest.fn();
 
 describe("<Login />", () => {
@@ -25,7 +25,6 @@ describe("<Login />", () => {
     );
 
   beforeEach(() => {
-    jest.clearAllMocks();
     setup();
   });
 
@@ -49,18 +48,17 @@ describe("<Login />", () => {
   });
 
   describe("When the user types invalid credentials", () => {
+    beforeAll(() => {
+      authSpy.mockRejectedValue(new Error("Usuário ou senha inválidos"));
+    });
     it("Should show an error message", async () => {
-      authSpy.mockRejectedValue({
-        status: 400,
-      });
-
       const testUsername = "test";
       const usernameInput = screen.getByLabelText(/usuário/i);
-      userEvent.type(usernameInput, testUsername);
+      userEvent.paste(usernameInput, testUsername);
 
       const testPassword = "testPassword";
       const passwordInput = screen.getByLabelText(/senha/i);
-      userEvent.type(passwordInput, testPassword);
+      userEvent.paste(passwordInput, testPassword);
 
       const loginButton = screen.getByRole("button", { name: /entrar/i });
       userEvent.click(loginButton);
@@ -86,10 +84,10 @@ describe("<Login />", () => {
       });
 
       const usernameInput = screen.getByLabelText(/usuário/i);
-      userEvent.type(usernameInput, testUsername);
+      userEvent.paste(usernameInput, testUsername);
 
       const passwordInput = screen.getByLabelText(/senha/i);
-      userEvent.type(passwordInput, testPassword);
+      userEvent.paste(passwordInput, testPassword);
 
       const loginButton = screen.getByRole("button", { name: /entrar/i });
       await act(async () => userEvent.click(loginButton));

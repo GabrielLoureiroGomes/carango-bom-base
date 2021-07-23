@@ -1,4 +1,5 @@
 // import jwtDecode from "jwt-decode";
+import { logout } from "../actions/auth";
 
 const storageToken = "token";
 
@@ -26,4 +27,10 @@ export const getUserFromToken = () => {
     createdAt: new Date(),
     updatedAt: new Date(),
   };
+};
+
+export const shouldLogout = ({ error, dispatch }) => {
+  const notAuth = error.message.includes("403");
+  if (notAuth) return logout({ dispatch });
+  return;
 };

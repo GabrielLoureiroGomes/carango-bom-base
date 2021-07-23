@@ -1,26 +1,37 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useHistory } from "react-router";
-import { Button, Fab } from "@material-ui/core";
+import { Button, Fab, Box, Typography } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
 import AddIcon from "@material-ui/icons/Add";
 
-import useStyles from "./styles";
+import { shouldLogout } from "../../utils/auth";
 
-const Table = ({ service, route, columns, deleteOnly }) => {
-  const classes = useStyles();
+const Table = ({ service, route, columns, deleteOnly, isAuth, dispatch }) => {
   const history = useHistory();
 
   const [items, setItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState();
+  const [{ status, error }, setStatus] = useState({
+    status: "idle",
+    error: null,
+  });
 
   const loadItems = useCallback(async () => {
     try {
+      setStatus({ status: "loading" });
       const result = await service.getAll();
-      return setItems(result);
+      setItems(result);
+      setStatus({ status: "fulfilled" });
     } catch (e) {
-      console.log(e);
+      if (route !== "veiculo") {
+        shouldLogout({ error: e, dispatch });
+      }
+      setStatus({
+        status: "rejected",
+        error: "Houve um erro ao carregar os itens",
+      });
     }
-  }, [service, setItems]);
+  }, [dispatch, route, service]);
 
   useEffect(loadItems, [loadItems]);
 
@@ -34,57 +45,75 @@ const Table = ({ service, route, columns, deleteOnly }) => {
     }
   }
 
+  function buttons() {
+    return !deleteOnly ? (
+      <>
+        <Button
+          variant="contained"
+          color="secondary"
+          disabled={!selectedItem}
+          onClick={updateItem}
+        >
+          Alterar
+        </Button>
+        <Fab color="secondary" aria-label="add" onClick={addItem} size="small">
+          <AddIcon />
+        </Fab>
+      </>
+    ) : null;
+  }
+
   async function deleteItem() {
     try {
-      await service.delete(selectedItem);
-      setItems(items.filter((item) => item.id !== selectedItem.id));
+      setStatus({ status: "loading" });
+      await service.delete(selectedItem.id);
+      setItems((prevState) =>
+        prevState.filter((item) => item.id !== selectedItem.id)
+      );
       setSelectedItem(null);
+      setStatus({ status: "fulfilled" });
     } catch (e) {
-      console.log(e);
+      setStatus({
+        status: "rejected",
+        error: "Houve um erro ao deletar o item",
+      });
     }
   }
 
   return (
     <div style={{ height: 300, width: "100%" }}>
+      {status === "rejected" ? (
+        <Typography color="error" variant="subtitle1" component="h2" paragraph>
+          {error}
+        </Typography>
+      ) : null}
+
       <DataGrid
         rows={items}
         columns={columns}
         onRowSelected={(gridSelection) => setSelectedItem(gridSelection.data)}
+        loading={status === "loading"}
       />
 
-      <div className={classes.actionsToolbar}>
-        <Button
-          className={classes.actions}
-          variant="contained"
-          color="secondary"
-          disabled={!selectedItem}
-          onClick={deleteItem}
+      {isAuth ? (
+        <Box
+          display="flex"
+          alignItems="center"
+          marginTop="10px"
+          justifyContent="flex-end"
+          gridGap="10px"
         >
-          Excluir
-        </Button>
-
-        {!deleteOnly ? (
-          <>
-            <Button
-              className={classes.actions}
-              variant="contained"
-              color="primary"
-              disabled={!selectedItem}
-              onClick={updateItem}
-            >
-              Alterar
-            </Button>
-            <Fab
-              color="primary"
-              aria-label="add"
-              className={classes.fab}
-              onClick={addItem}
-            >
-              <AddIcon />
-            </Fab>
-          </>
-        ) : null}
-      </div>
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={!selectedItem}
+            onClick={deleteItem}
+          >
+            Excluir
+          </Button>
+          {buttons()}
+        </Box>
+      ) : null}
     </div>
   );
 };

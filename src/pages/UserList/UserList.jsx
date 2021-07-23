@@ -6,9 +6,16 @@ import { Table } from "../../components";
 
 const columns = [{ flex: 1, field: "name", headerName: "Nome" }];
 
-function UserList() {
+function UserList({ dispatch }) {
   return (
-    <Table service={UserService} route="usuario" columns={columns} deleteOnly />
+    <Table
+      service={UserService}
+      route="usuario"
+      columns={columns}
+      deleteOnly
+      isAuth
+      dispatch={dispatch}
+    />
   );
 }
 

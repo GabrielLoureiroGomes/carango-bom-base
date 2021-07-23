@@ -31,16 +31,16 @@ jest.mock("../../services/VehicleService", () => ({
 
 describe("<VehicleList />", () => {
   const history = createMemoryHistory();
-  const setup = () =>
+  const setup = (isAuth) =>
     render(
       <Router history={history}>
-        <VehicleList />
+        <VehicleList isAuth={isAuth} />
       </Router>
     );
 
   beforeEach(async () => {
     jest.clearAllMocks();
-    await act(async () => setup());
+    await act(async () => setup(true));
   });
 
   describe("When the user clicks on the button to add a new vehicle", () => {

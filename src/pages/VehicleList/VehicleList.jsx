@@ -1,10 +1,8 @@
 import React from "react";
 
-import VehicleService from "../../services/VehicleService";
-
-import { formatCurrency } from "../../utils";
-
 import { Table } from "../../components";
+import VehicleService from "../../services/VehicleService";
+import { formatCurrency } from "../../utils";
 
 const columns = [
   {
@@ -23,8 +21,16 @@ const columns = [
   },
 ];
 
-function VehicleList() {
-  return <Table service={VehicleService} route="veiculo" columns={columns} />;
+function VehicleList({ isAuth, dispatch }) {
+  return (
+    <Table
+      service={VehicleService}
+      route="veiculo"
+      columns={columns}
+      isAuth={isAuth}
+      dispatch={dispatch}
+    />
+  );
 }
 
 export default VehicleList;

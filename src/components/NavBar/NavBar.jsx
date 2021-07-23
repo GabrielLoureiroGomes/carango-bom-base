@@ -4,9 +4,10 @@ import { AppBar, Toolbar, Box, Typography } from "@material-ui/core/";
 
 import AuthNavigation from "./AuthNavigation";
 import Sidebar from "./Sidebar";
+
 import { useAuth } from "../../hooks/AuthContext";
 import { logout } from "../../actions/auth";
-import { getLocationLabel } from "../../utils/links";
+import { getLocationFromLabel } from "../../utils/links";
 
 function NavBar() {
   const { dispatch, user } = useAuth();
@@ -15,12 +16,16 @@ function NavBar() {
 
   return (
     <AppBar position="relative">
-      <Toolbar>
+      <Toolbar
+        style={{
+          padding: "0 50px",
+        }}
+      >
         <Box display="flex" justifyContent="space-between" flexGrow="1">
           <Box display="flex" alignItems="center">
             <Sidebar auth={auth} />
             <Typography variant="h6" component="h1">
-              {getLocationLabel(location)}
+              {getLocationFromLabel(location)}
             </Typography>
           </Box>
           <AuthNavigation auth={auth} logout={() => logout({ dispatch })} />
