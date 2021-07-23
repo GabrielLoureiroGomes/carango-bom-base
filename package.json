@@ -31,7 +31,8 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/**/*.{js,jsx}"
+      "src/**/*.{js,jsx}",
+      "!lighthouserc.js"
     ],
     "resetMocks": false
   },
