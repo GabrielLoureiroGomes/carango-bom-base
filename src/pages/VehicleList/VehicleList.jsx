@@ -7,9 +7,8 @@ import { formatCurrency } from "../../utils";
 const columns = [
   {
     flex: 1,
-    field: "brand",
+    field: "brandId",
     headerName: "Marca",
-    valueGetter: (params) => params.value.name,
   },
   { flex: 1, field: "model", headerName: "Modelo" },
   { flex: 1, field: "year", headerName: "Ano" },

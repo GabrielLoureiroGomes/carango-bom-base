@@ -14,10 +14,7 @@ import VehicleList from "./VehicleList";
 const vehiclesMock = [
   {
     id: 1,
-    brand: {
-      id: 1,
-      name: "Fiat",
-    },
+    brandId: 1,
     model: "Uno",
     year: 2010,
     price: 15000,
