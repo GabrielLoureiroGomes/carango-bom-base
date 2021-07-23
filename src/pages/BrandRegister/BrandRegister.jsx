@@ -20,7 +20,6 @@ function BrandRegister({ dispatch }) {
       initialState={{
         name: "",
       }}
-      dispatch={dispatch}
     >
       {({ state: { name }, setState, validateFields, errors, status }) => {
         return (

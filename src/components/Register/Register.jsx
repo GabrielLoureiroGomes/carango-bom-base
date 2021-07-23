@@ -8,7 +8,6 @@ import {
 } from "@material-ui/core";
 
 import useFormValidations from "../../hooks/useFormValidations";
-import { shouldLogout } from "../../utils/auth";
 
 const Register = ({
   children,
@@ -16,7 +15,6 @@ const Register = ({
   service,
   redirectTo,
   initialState,
-  dispatch,
   user,
 }) => {
   const { id } = useParams();
@@ -43,11 +41,11 @@ const Register = ({
   function handleSubmit(event) {
     event.preventDefault();
     if (shouldSubmit()) {
-      submitBrand();
+      submitItem();
     }
   }
 
-  async function submitBrand() {
+  async function submitItem() {
     try {
       setStatus({ status: "submitting" });
       if (id) {
@@ -59,15 +57,14 @@ const Register = ({
       setStatus({ status: "fulfilled" });
       return history.push(redirectTo);
     } catch (e) {
-      shouldLogout({ error: e, dispatch });
       setStatus({
         status: "rejected",
-        error: `Houve um problema ao ${id ? "alterar" : "registrar"}`,
+        error: e.message,
       });
     }
   }
 
-  const loadBrandFromId = useCallback(async () => {
+  const loadItemFromId = useCallback(async () => {
     if (id) {
       try {
         setStatus({ status: "loading" });
@@ -80,18 +77,17 @@ const Register = ({
         setState(data);
         setStatus({ status: "fulfilled" });
       } catch (e) {
-        shouldLogout({ error: e, dispatch });
         setStatus({
           status: "rejected",
-          error: "Houve um problema ao carregar",
+          error: e.message,
         });
       }
     }
-  }, [dispatch, id, service]);
+  }, [id, service]);
 
   useEffect(() => {
-    loadBrandFromId();
-  }, [loadBrandFromId]);
+    loadItemFromId();
+  }, [loadItemFromId]);
 
   return (
     <form onSubmit={handleSubmit}>

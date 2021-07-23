@@ -31,8 +31,8 @@ const delayResolve = (ms, value) =>
       }),
     ms
   );
-const delayReject = (ms) =>
-  new Promise((res, rej) => setTimeout(() => rej(new Error("500")), ms));
+const delayReject = (ms, msg) =>
+  new Promise((res, rej) => setTimeout(() => rej(new Error(msg)), ms));
 
 const component = () => (
   <Register
@@ -114,7 +114,9 @@ describe("<Register />", () => {
 
       describe("With rejected value", () => {
         beforeAll(() => {
-          service.register.mockImplementation(() => delayReject(1000));
+          service.register.mockImplementation(() =>
+            delayReject(1000, "Houve um problema ao registrar")
+          );
         });
 
         it("should display an error msg after register attempt fails", async () => {
@@ -154,7 +156,9 @@ describe("<Register />", () => {
       });
       describe("With rejected value", () => {
         beforeAll(() => {
-          service.get.mockRejectedValue(new Error("500"));
+          service.get.mockRejectedValue(
+            new Error("Houve um problema ao carregar")
+          );
         });
         it("should display an error msg after failing to fetch item", async () => {
           const errorMsg = await screen.findByText(
@@ -196,7 +200,9 @@ describe("<Register />", () => {
       describe("With rejected value", () => {
         beforeAll(() => {
           service.get.mockResolvedValue(selectedItem);
-          service.update.mockRejectedValue(new Error("500"));
+          service.update.mockRejectedValue(
+            new Error("Houve um problema ao alterar")
+          );
         });
         it("should display an error msg after failing to update item", async () => {
           const errorMsg = await screen.findByText(

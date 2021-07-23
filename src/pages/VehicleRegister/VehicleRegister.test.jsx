@@ -20,10 +20,10 @@ const brands = [
 
 const mockVehicle = {
   id: 1,
+  brandId: brands[1].id,
   model: "Argo",
   year: "2021",
-  price: "70000",
-  brand: brands[1],
+  price: 70000,
 };
 
 let testLocation;
@@ -95,7 +95,7 @@ describe("<VehicleRegister />", () => {
 
       it("should show me an error if I don't fill the 'year' field correctly", async () => {
         const year = screen.getByRole("spinbutton", { name: /ano/i });
-        userEvent.type(year, "2035");
+        userEvent.paste(year, "2035");
         fireEvent.blur(year);
 
         const errorMsg = await screen.findByText(/Ano inválido/);
@@ -123,8 +123,8 @@ describe("<VehicleRegister />", () => {
       it("should render a disabled 'cadastrar' button if the validation is invalid", () => {
         const model = screen.getByRole("textbox", { name: /modelo/i });
         const price = screen.getByRole("spinbutton", { name: /valor/i });
-        userEvent.type(model, mockVehicle.model);
-        userEvent.type(price, mockVehicle.price);
+        userEvent.paste(model, mockVehicle.model);
+        userEvent.paste(price, mockVehicle.price.toString());
         fireEvent.blur(screen.getByRole("spinbutton", { name: /ano/i }));
         expect(
           screen.getByRole("button", { name: /cadastrar/i })
@@ -140,10 +140,11 @@ describe("<VehicleRegister />", () => {
         const price = screen.getByRole("spinbutton", { name: /valor/i });
         const brand = screen.getByRole("combobox", { name: /marca/i });
         const btn = screen.getByRole("button", { name: /cadastrar/i });
-        userEvent.type(model, mockVehicle.model);
-        userEvent.type(year, mockVehicle.year);
-        userEvent.type(price, mockVehicle.price);
-        userEvent.selectOptions(brand, mockVehicle.brand.name);
+
+        userEvent.selectOptions(brand, brands[0].name);
+        userEvent.paste(model, mockVehicle.model);
+        userEvent.paste(year, mockVehicle.year);
+        userEvent.paste(price, mockVehicle.price.toString());
         await act(async () => userEvent.click(btn));
       });
 
@@ -154,7 +155,7 @@ describe("<VehicleRegister />", () => {
               model: mockVehicle.model,
               price: mockVehicle.price,
               year: mockVehicle.year,
-              brandId: mockVehicle.brand.id,
+              brandId: brands[0].id,
             })
           );
         });
@@ -173,7 +174,9 @@ describe("<VehicleRegister />", () => {
         });
 
         it("should show the error message", async () => {
-          const errorMsg = await screen.findByText(/Marca não existe/i);
+          const errorMsg = await screen.findByText(
+            /Houve um problema ao registrar/i
+          );
           expect(errorMsg).toBeInTheDocument();
         });
       });
@@ -183,11 +186,15 @@ describe("<VehicleRegister />", () => {
   describe("Update existing vehicle", () => {
     beforeEach(async () => {
       getAllBrandsSpy.mockResolvedValue(brands);
-      getVehicleSpy.mockResolvedValue({ data: mockVehicle });
+      getVehicleSpy.mockResolvedValue(mockVehicle);
       await act(async () => setup(mockVehicle.id));
     });
 
     describe("It loads the vehicle data into the form", () => {
+      it("should render the vehicle brand fetched from the param id", async () => {
+        const brand = screen.getByRole("combobox", { name: /marca/i });
+        expect(brand.value).toStrictEqual(mockVehicle.brandId.toString());
+      });
       it("should render the vehicle model fetched from the param id", () => {
         const input = screen.getByRole("textbox", { name: /modelo/i });
         expect(input.value).toStrictEqual(mockVehicle.model);
@@ -198,11 +205,7 @@ describe("<VehicleRegister />", () => {
       });
       it("should render the vehicle price fetched from the param id", () => {
         const input = screen.getByRole("spinbutton", { name: /valor/i });
-        expect(input.value).toStrictEqual(mockVehicle.price);
-      });
-      it("should render the vehicle brand fetched from the param id", async () => {
-        const brand = screen.getByRole("combobox", { name: /marca/i });
-        expect(brand.value).toStrictEqual(brand[1].id);
+        expect(input.value).toStrictEqual(mockVehicle.price.toString());
       });
     });
 
@@ -212,7 +215,7 @@ describe("<VehicleRegister />", () => {
         const brand = screen.getByRole("combobox", { name: /marca/i });
 
         userEvent.clear(model);
-        userEvent.type(model, "Onix");
+        userEvent.paste(model, "Onix");
         userEvent.selectOptions(brand, brands[0].name);
 
         const btn = screen.getByRole("button", { name: /alterar/i });
@@ -220,6 +223,10 @@ describe("<VehicleRegister />", () => {
       });
 
       describe("And the response is successful", () => {
+        beforeAll(() => {
+          updateVehicleSpy.mockResolvedValue();
+        });
+
         it("should call 'VehicleService.update()' with new vehicle data", () => {
           expect(updateVehicleSpy).toBeCalledWith({
             id: mockVehicle.id,
@@ -244,7 +251,9 @@ describe("<VehicleRegister />", () => {
         });
 
         it("should show the error message", async () => {
-          const errorMsg = await screen.findByText(/Veículo não existe/i);
+          const errorMsg = await screen.findByText(
+            /Houve um problema ao alterar/i
+          );
           expect(errorMsg).toBeInTheDocument();
         });
       });
