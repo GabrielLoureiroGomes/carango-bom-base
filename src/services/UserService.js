@@ -1,4 +1,4 @@
-import client from "../utils/apiClient";
+import { client } from "../utils";
 
 const userUrl = "/api/user";
 const UserService = {
