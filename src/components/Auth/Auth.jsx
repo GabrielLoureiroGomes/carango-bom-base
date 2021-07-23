@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -19,9 +19,15 @@ function Auth({
   dispatch,
   initialState,
   validations,
+  user,
 }) {
   const classes = useStyles();
   const history = useHistory();
+
+  useEffect(() => {
+    if (user) history.push("/");
+  }, [user, history]);
+
   const [state, setState] = useState(initialState);
   const [{ status, error }, setStatus] = useState({
     status: "idle",

@@ -1,6 +1,5 @@
 import React from "react";
-import { Router } from "react-router-dom";
-import { createMemoryHistory } from "history";
+import { MemoryRouter, Route } from "react-router-dom";
 import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
@@ -10,24 +9,35 @@ import Login from "./Login";
 
 const authSpy = jest.spyOn(UserActions, "login");
 const dispatchMock = jest.fn();
-const history = createMemoryHistory();
-const setup = (user = {}) =>
+let testLocation;
+const setup = (user) =>
   render(
-    <Router history={history}>
-      <Login dispatch={dispatchMock} user={user} />
-    </Router>
+    <MemoryRouter initialEntries={["/login"]}>
+      <Route path="/login">
+        <Login dispatch={dispatchMock} user={user} />
+      </Route>
+      <Route
+        path="*"
+        render={({ location }) => {
+          testLocation = location;
+          return null;
+        }}
+      />
+    </MemoryRouter>
   );
 
 describe("<Login />", () => {
-  describe("User isnt authenticated", () => {
+  describe("User is authenticated", () => {
     beforeEach(() => {
-      setup();
+      setup({
+        username: "teste",
+      });
     });
     it("should redirect the user to vehicles page", () => {
-      expect(history.location.pathname).toStrictEqual("/");
+      expect(testLocation.pathname).toStrictEqual("/");
     });
   });
-  describe("User is authenticated", () => {
+  describe("User isnt authenticated", () => {
     beforeEach(() => {
       setup();
     });
@@ -51,7 +61,7 @@ describe("<Login />", () => {
         });
         userEvent.click(registerButton);
 
-        expect(history.location.pathname).toStrictEqual("/cadastro");
+        expect(testLocation.pathname).toStrictEqual("/cadastro");
       });
     });
 
@@ -109,7 +119,7 @@ describe("<Login />", () => {
         );
       });
       it("should redirect the user to the home page", () => {
-        expect(history.location.pathname).toStrictEqual("/");
+        expect(testLocation.pathname).toStrictEqual("/");
       });
     });
   });

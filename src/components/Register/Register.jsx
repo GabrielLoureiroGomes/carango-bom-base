@@ -20,10 +20,6 @@ const Register = ({
   const { id } = useParams();
   const history = useHistory();
 
-  useEffect(() => {
-    if (user) history.push("/");
-  }, [user, history]);
-
   const [{ status, error }, setStatus] = useState({
     status: "idle",
     error: null,
