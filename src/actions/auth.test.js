@@ -43,25 +43,6 @@ describe("Auth Action", () => {
   });
 
   describe("with rejected value", () => {
-    // beforeAll(() => {
-    //   authServiceSpy.mockRejectedValue(new Error("fail"));
-    // });
-    // it("should call dispatch with type 'logout'", async () => {
-    //   try {
-    //     await auth({
-    //       dispatch,
-    //       user: userMock,
-    //     });
-    //   } catch (e) {
-    //     expect(dispatch).toBeCalledWith({
-    //       type: "logout",
-    //     });
-    //   }
-    // });
-    // it("should call 'removeStorageToken'", () => {
-    //   authServiceSpy.mockRejectedValue(new Error("fail"));
-    //   expect(removeStorageTokenSpy).toHaveBeenCalled();
-    // });
     describe("wrong credentials", () => {
       beforeAll(() => {
         authServiceSpy.mockRejectedValue(new Error("401"));

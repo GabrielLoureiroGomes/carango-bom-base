@@ -25,10 +25,8 @@ export async function login({ dispatch, user }) {
 export async function signup({ user }) {
   try {
     const teste = await UserService.signup(user);
-    console.log({ teste });
     return teste;
   } catch (e) {
-    console.log({ e });
     const invalidUsername = e.message.includes("400");
     const errorMsg = invalidUsername
       ? "Usuário já existe"
