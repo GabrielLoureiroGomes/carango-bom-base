@@ -59,7 +59,7 @@ function AppContainer() {
     <Container component="section" maxWidth="md" style={{ padding: "0 50px" }}>
       <Switch>
         <Route exact path="/">
-          <VehicleList isAuth={!!user} dispatch={dispatch} />
+          <VehicleList isAuth={!!user} />
         </Route>
         <Route path="/login">
           <Login user={user} dispatch={dispatch} />
@@ -70,28 +70,28 @@ function AppContainer() {
         {!!user ? (
           <Switch>
             <Route path="/veiculo/cadastro">
-              <VehicleRegister dispatch={dispatch} />
+              <VehicleRegister />
             </Route>
             <Route path="/veiculo/:id">
-              <VehicleRegister dispatch={dispatch} />
+              <VehicleRegister />
             </Route>
             <Route path="/dashboard">
-              <Dashboard dispatch={dispatch} />
+              <Dashboard />
             </Route>
             <Route path="/marca/cadastro">
-              <BrandRegister dispatch={dispatch} />
+              <BrandRegister />
             </Route>
             <Route path="/marca/:id">
-              <BrandRegister dispatch={dispatch} />
+              <BrandRegister />
             </Route>
             <Route path="/marcas">
-              <BrandList dispatch={dispatch} />
+              <BrandList />
             </Route>
             <Route path="/usuarios">
-              <UserList dispatch={dispatch} />
+              <UserList />
             </Route>
             <Route path="/alterar-senha">
-              <UpdatePassword dispatch={dispatch} />
+              <UpdatePassword />
             </Route>
             <Redirect to="/" />
           </Switch>
