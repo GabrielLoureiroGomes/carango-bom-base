@@ -4,9 +4,7 @@ import { Button, Fab, Box, Typography } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
 import AddIcon from "@material-ui/icons/Add";
 
-import { shouldLogout } from "../../utils/auth";
-
-const Table = ({ service, route, columns, deleteOnly, isAuth, dispatch }) => {
+const Table = ({ service, route, columns, deleteOnly, isAuth }) => {
   const history = useHistory();
 
   const [items, setItems] = useState([]);
@@ -23,15 +21,12 @@ const Table = ({ service, route, columns, deleteOnly, isAuth, dispatch }) => {
       setItems(result);
       setStatus({ status: "fulfilled" });
     } catch (e) {
-      if (route !== "veiculo") {
-        shouldLogout({ error: e, dispatch });
-      }
       setStatus({
         status: "rejected",
-        error: "Houve um erro ao carregar os itens",
+        error: e.message,
       });
     }
-  }, [dispatch, route, service]);
+  }, [service]);
 
   useEffect(loadItems, [loadItems]);
 
@@ -75,7 +70,7 @@ const Table = ({ service, route, columns, deleteOnly, isAuth, dispatch }) => {
     } catch (e) {
       setStatus({
         status: "rejected",
-        error: "Houve um erro ao deletar o item",
+        error: e.message,
       });
     }
   }

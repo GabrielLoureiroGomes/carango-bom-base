@@ -1,6 +1,4 @@
 // import jwtDecode from "jwt-decode";
-import { logout } from "../actions/auth";
-
 const storageToken = "token";
 
 export const getToken = () => {
@@ -29,8 +27,7 @@ export const getUserFromToken = () => {
   };
 };
 
-export const shouldLogout = ({ error, dispatch }) => {
-  const notAuth = error.message.includes("403");
-  if (notAuth) return logout({ dispatch });
-  return;
+export const logout = () => {
+  removeStorageToken();
+  window.location.href = "/login";
 };

@@ -1,3 +1,5 @@
+import { logout } from "./auth";
+
 async function apiClient(endpoint, { body, ...customConfig } = {}) {
   const headers = {
     "Content-Type": "application/json",
@@ -19,8 +21,16 @@ async function apiClient(endpoint, { body, ...customConfig } = {}) {
   const res = await fetch(endpoint, config);
 
   if (!res.ok) {
+    if (res.status === 403) return logout();
+
     const errorMessage = await res.text();
-    throw new Error(`${res.status}: ${res.statusText}, ${errorMessage}`);
+    const [
+      {
+        error: { message },
+      },
+    ] = errorMessage;
+
+    throw new Error(message);
   }
 
   if (res.status === 204) return true;
