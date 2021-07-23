@@ -59,6 +59,7 @@ const AuthNavigation = ({ auth, logout }) => {
         aria-controls={shouldUseAriaControlName}
         aria-haspopup="true"
         onClick={handleToggle}
+        color="inherit"
       >
         <AccountCircle />
       </IconButton>

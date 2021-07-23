@@ -28,19 +28,19 @@ const Sidebar = ({ auth }) => {
   };
 
   const item = ({ Icon, label, to }) => (
-    <ListItem button key={label}>
-      <ListItemIcon>
-        <Icon />
-      </ListItemIcon>
-      <NavLink
-        to={to}
-        exact
-        className={classes.link}
-        activeClassName={classes.linkActive}
-      >
+    <NavLink
+      to={to}
+      exact
+      className={classes.link}
+      activeClassName={classes.linkActive}
+    >
+      <ListItem button key={label}>
+        <ListItemIcon>
+          <Icon />
+        </ListItemIcon>
         {label}
-      </NavLink>
-    </ListItem>
+      </ListItem>
+    </NavLink>
   );
 
   return (
