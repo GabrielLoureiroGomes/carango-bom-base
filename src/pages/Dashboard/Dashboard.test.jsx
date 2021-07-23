@@ -11,25 +11,23 @@ const setup = () => {
   );
 };
 
-const mockDashboard = {
-  data: [
-    {
-      brand: "Fiat",
-      totalPrice: 1000000,
-      modelsAvailable: 20,
-    },
-    {
-      brand: "Chevrolet",
-      totalPrice: 2000000,
-      modelsAvailable: 30,
-    },
-    {
-      brand: "Ford",
-      totalPrice: 500000,
-      modelsAvailable: 10,
-    },
-  ],
-};
+const mockDashboard = [
+  {
+    brand: "Fiat",
+    totalPrice: 1000000,
+    modelsAvailable: 20,
+  },
+  {
+    brand: "Chevrolet",
+    totalPrice: 2000000,
+    modelsAvailable: 30,
+  },
+  {
+    brand: "Ford",
+    totalPrice: 500000,
+    modelsAvailable: 10,
+  },
+];
 
 const getDashboardSpy = jest.spyOn(DashboardService, "get");
 
@@ -70,10 +68,7 @@ describe("<Dashboard />", () => {
   describe("Fails to fetch dashboard data", () => {
     const errorMsg = "Não foi possível buscar os dados da dashboard";
     beforeEach(async () => {
-      getDashboardSpy.mockRejectedValue({
-        data: errorMsg,
-        status: 500,
-      });
+      getDashboardSpy.mockRejectedValue(new Error(errorMsg));
       await act(async () => setup());
     });
 
