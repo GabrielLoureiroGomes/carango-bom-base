@@ -7,7 +7,7 @@ import Sidebar from "./Sidebar";
 
 import { useAuth } from "../../hooks/AuthContext";
 import { logout } from "../../actions/auth";
-import { getLocationFromLabel } from "../../utils/links";
+import { getLocationFromLabel } from "../../utils";
 
 function NavBar() {
   const { dispatch, user } = useAuth();

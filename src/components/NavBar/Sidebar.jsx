@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 
-import links from "../../utils/links";
+import { sidebarLinks } from "../../utils";
 import useStyles from "./styles";
 
 const Sidebar = ({ auth }) => {
@@ -63,7 +63,7 @@ const Sidebar = ({ auth }) => {
           onKeyDown={toggleDrawer(false)}
         >
           <List>
-            {links.map(({ isPublic, ...link }) => {
+            {sidebarLinks.map(({ isPublic, ...link }) => {
               const component = item(link);
               return isPublic ? component : auth && component;
             })}
