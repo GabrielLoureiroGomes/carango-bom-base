@@ -28,7 +28,7 @@ async function apiClient(endpoint, { body, ...customConfig } = {}) {
   const res = await fetch(endpoint, config);
 
   if (!res.ok) {
-    if (res.status === 403) return logout();
+    if (res.status === 403) logout();
 
     const errorMessage = await res.text();
     const [
