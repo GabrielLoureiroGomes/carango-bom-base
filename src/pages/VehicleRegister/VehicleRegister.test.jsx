@@ -146,8 +146,6 @@ describe("<VehicleRegister />", () => {
         userEvent.paste(year, mockVehicle.year);
         userEvent.paste(price, mockVehicle.price.toString());
         await act(async () => userEvent.click(btn));
-
-        console.log(model.value);
       });
 
       describe("And the response is successful", () => {
