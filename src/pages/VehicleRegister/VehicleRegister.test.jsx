@@ -167,10 +167,9 @@ describe("<VehicleRegister />", () => {
 
       describe("But the response is rejected", () => {
         beforeAll(() => {
-          registerVehicleSpy.mockRejectedValue({
-            data: "Marca não existe",
-            status: 404,
-          });
+          registerVehicleSpy.mockRejectedValue(
+            new Error("Houve um problema ao registrar")
+          );
         });
 
         it("should show the error message", async () => {
@@ -244,10 +243,9 @@ describe("<VehicleRegister />", () => {
 
       describe("But the response is rejected", () => {
         beforeAll(() => {
-          updateVehicleSpy.mockRejectedValue({
-            data: "Veículo não existe",
-            status: 404,
-          });
+          updateVehicleSpy.mockRejectedValue(
+            new Error("Houve um problema ao alterar")
+          );
         });
 
         it("should show the error message", async () => {
