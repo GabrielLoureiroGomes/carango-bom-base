@@ -36,8 +36,11 @@ jobs:
       - name: Run tests
         run: npm run test:ci
 
+      - name: Build
+        run: npm run build
+
       - name: Lighthouse
-        run: npm run lighthouse
+        run: npx --package @lhci/cli lhci autorun
 
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
