@@ -17,9 +17,14 @@ const Register = ({
   redirectTo,
   initialState,
   dispatch,
+  user,
 }) => {
   const { id } = useParams();
   const history = useHistory();
+
+  useEffect(() => {
+    if (user) history.push("/");
+  }, [user, history]);
 
   const [{ status, error }, setStatus] = useState({
     status: "idle",
