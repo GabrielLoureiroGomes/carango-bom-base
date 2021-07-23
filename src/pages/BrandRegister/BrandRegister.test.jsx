@@ -11,7 +11,6 @@ import userEvent from "@testing-library/user-event";
 
 import BrandRegister from "./BrandRegister";
 import BrandService from "../../services/BrandService";
-import { AuthProvider } from "../../hooks/AuthContext";
 
 const delayResolve = (ms, value) =>
   new Promise(
@@ -29,20 +28,18 @@ const setup = (brandId) => {
   const path = brandId ? "/marca/:id" : "/marca/cadastro";
   const entry = brandId ? `/marca/${brandId}` : "/marca/cadastro";
   return render(
-    <AuthProvider>
-      <MemoryRouter initialEntries={["/marcas", entry]} initialIndex={1}>
-        <Route path={path}>
-          <BrandRegister />
-        </Route>
-        <Route
-          path="*"
-          render={({ location }) => {
-            testLocation = location;
-            return null;
-          }}
-        />
-      </MemoryRouter>
-    </AuthProvider>
+    <MemoryRouter initialEntries={["/marcas", entry]} initialIndex={1}>
+      <Route path={path}>
+        <BrandRegister />
+      </Route>
+      <Route
+        path="*"
+        render={({ location }) => {
+          testLocation = location;
+          return null;
+        }}
+      />
+    </MemoryRouter>
   );
 };
 

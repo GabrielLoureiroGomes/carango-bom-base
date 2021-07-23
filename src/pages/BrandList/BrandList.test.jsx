@@ -68,7 +68,7 @@ describe("<BrandList />", () => {
   describe("With rejected reqs", () => {
     describe("When fetching all brands", () => {
       beforeAll(() => {
-        getAllSpy.mockRejectedValue();
+        getAllSpy.mockRejectedValue(new Error("500"));
       });
 
       it("should render an error msg after loading brands", () => {

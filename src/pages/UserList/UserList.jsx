@@ -6,7 +6,7 @@ import { Table } from "../../components";
 
 const columns = [{ flex: 1, field: "name", headerName: "Nome" }];
 
-function UserList() {
+function UserList({ dispatch }) {
   return (
     <Table
       service={UserService}
@@ -14,6 +14,7 @@ function UserList() {
       columns={columns}
       deleteOnly
       isAuth
+      dispatch={dispatch}
     />
   );
 }

@@ -21,13 +21,14 @@ const columns = [
   },
 ];
 
-function VehicleList({ isAuth }) {
+function VehicleList({ isAuth, dispatch }) {
   return (
     <Table
       service={VehicleService}
       route="veiculo"
       columns={columns}
       isAuth={isAuth}
+      dispatch={dispatch}
     />
   );
 }
