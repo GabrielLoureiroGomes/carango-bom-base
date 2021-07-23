@@ -2,6 +2,7 @@ import React from "react";
 import { TextField, CircularProgress, InputAdornment } from "@material-ui/core";
 
 import { Register } from "../../components";
+import { useAuth } from "../../hooks/AuthContext";
 import BrandService from "../../services/BrandService";
 import { minLength } from "../../utils/validations/validations";
 
@@ -12,6 +13,8 @@ const validations = {
 };
 
 function BrandRegister() {
+  const { dispatch } = useAuth();
+
   return (
     <Register
       service={BrandService}
@@ -20,6 +23,7 @@ function BrandRegister() {
       initialState={{
         name: "",
       }}
+      dispatch={dispatch}
     >
       {({ state: { name }, setState, validateFields, errors, status }) => {
         return (

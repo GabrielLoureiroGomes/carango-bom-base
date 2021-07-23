@@ -11,6 +11,7 @@ import userEvent from "@testing-library/user-event";
 
 import BrandRegister from "./BrandRegister";
 import BrandService from "../../services/BrandService";
+import { AuthProvider } from "../../hooks/AuthContext";
 
 const delayResolve = (ms, value) =>
   new Promise(
@@ -20,25 +21,28 @@ const delayResolve = (ms, value) =>
       }),
     ms
   );
-const delayReject = (ms) => new Promise((res, rej) => setTimeout(rej, ms));
+const delayReject = (ms) =>
+  new Promise((res, rej) => setTimeout(() => rej(new Error("500")), ms));
 
 let testLocation;
 const setup = (brandId) => {
   const path = brandId ? "/marca/:id" : "/marca/cadastro";
   const entry = brandId ? `/marca/${brandId}` : "/marca/cadastro";
   return render(
-    <MemoryRouter initialEntries={["/marcas", entry]} initialIndex={1}>
-      <Route path={path}>
-        <BrandRegister />
-      </Route>
-      <Route
-        path="*"
-        render={({ location }) => {
-          testLocation = location;
-          return null;
-        }}
-      />
-    </MemoryRouter>
+    <AuthProvider>
+      <MemoryRouter initialEntries={["/marcas", entry]} initialIndex={1}>
+        <Route path={path}>
+          <BrandRegister />
+        </Route>
+        <Route
+          path="*"
+          render={({ location }) => {
+            testLocation = location;
+            return null;
+          }}
+        />
+      </MemoryRouter>
+    </AuthProvider>
   );
 };
 
@@ -144,7 +148,7 @@ describe("<BrandRegister />", () => {
       });
       describe("With rejected value", () => {
         beforeAll(() => {
-          brandServiceGetSpy.mockRejectedValue();
+          brandServiceGetSpy.mockRejectedValue(new Error("500"));
         });
         it("should display an error msg after failing to fetch brand", async () => {
           const errorMsg = await screen.findByText(
@@ -185,7 +189,7 @@ describe("<BrandRegister />", () => {
       describe("With rejected value", () => {
         beforeAll(() => {
           brandServiceGetSpy.mockResolvedValue(selectedBrand);
-          brandServiceUpdateSpy.mockRejectedValue();
+          brandServiceUpdateSpy.mockRejectedValue(new Error("500"));
         });
         it("should display an error msg after failing to update brand name", async () => {
           const errorMsg = await screen.findByText(

@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 
 import useFormValidations from "../../hooks/useFormValidations";
+import { shouldLogout } from "../../utils/auth";
 
 const Register = ({
   children,
@@ -15,6 +16,7 @@ const Register = ({
   service,
   redirectTo,
   initialState,
+  dispatch,
 }) => {
   const { id } = useParams();
   const history = useHistory();
@@ -52,11 +54,11 @@ const Register = ({
       setStatus({ status: "fulfilled" });
       return history.push(redirectTo);
     } catch (e) {
+      shouldLogout({ error: e, dispatch });
       setStatus({
         status: "rejected",
         error: `Houve um problema ao ${id ? "alterar" : "registrar"}`,
       });
-      console.log(e);
     }
   }
 
@@ -73,14 +75,14 @@ const Register = ({
         setState(data);
         setStatus({ status: "fulfilled" });
       } catch (e) {
+        shouldLogout({ error: e, dispatch });
         setStatus({
           status: "rejected",
           error: "Houve um problema ao carregar",
         });
-        console.log(e);
       }
     }
-  }, [id, service]);
+  }, [dispatch, id, service]);
 
   useEffect(() => {
     loadBrandFromId();

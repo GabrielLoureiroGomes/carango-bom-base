@@ -31,7 +31,8 @@ const delayResolve = (ms, value) =>
       }),
     ms
   );
-const delayReject = (ms) => new Promise((res, rej) => setTimeout(rej, ms));
+const delayReject = (ms) =>
+  new Promise((res, rej) => setTimeout(() => rej(new Error("500")), ms));
 
 const component = () => (
   <Register
@@ -153,7 +154,7 @@ describe("<Register />", () => {
       });
       describe("With rejected value", () => {
         beforeAll(() => {
-          service.get.mockRejectedValue();
+          service.get.mockRejectedValue(new Error("500"));
         });
         it("should display an error msg after failing to fetch item", async () => {
           const errorMsg = await screen.findByText(
@@ -195,7 +196,7 @@ describe("<Register />", () => {
       describe("With rejected value", () => {
         beforeAll(() => {
           service.get.mockResolvedValue(selectedItem);
-          service.update.mockRejectedValue();
+          service.update.mockRejectedValue(new Error("500"));
         });
         it("should display an error msg after failing to update item", async () => {
           const errorMsg = await screen.findByText(
