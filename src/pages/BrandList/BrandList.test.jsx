@@ -68,7 +68,9 @@ describe("<BrandList />", () => {
   describe("With rejected reqs", () => {
     describe("When fetching all brands", () => {
       beforeAll(() => {
-        getAllSpy.mockRejectedValue(new Error("500"));
+        getAllSpy.mockRejectedValue(
+          new Error("Houve um erro ao carregar os itens")
+        );
       });
 
       it("should render an error msg after loading brands", () => {
@@ -81,7 +83,9 @@ describe("<BrandList />", () => {
     describe("When trying to delete brand", () => {
       beforeAll(() => {
         getAllSpy.mockResolvedValue(brandsMock);
-        deleteSpy.mockRejectedValue();
+        deleteSpy.mockRejectedValue(
+          new Error("Houve um erro ao deletar o item")
+        );
       });
       it("should render an error msg after trying to delete item", async () => {
         const testBrand = brandsMock[0];

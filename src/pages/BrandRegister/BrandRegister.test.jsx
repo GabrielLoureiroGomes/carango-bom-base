@@ -20,8 +20,8 @@ const delayResolve = (ms, value) =>
       }),
     ms
   );
-const delayReject = (ms) =>
-  new Promise((res, rej) => setTimeout(() => rej(new Error("500")), ms));
+const delayReject = (ms, msg = "") =>
+  new Promise((res, rej) => setTimeout(() => rej(new Error(msg)), ms));
 
 let testLocation;
 const setup = (brandId) => {
@@ -105,7 +105,9 @@ describe("<BrandRegister />", () => {
 
       describe("With rejected value", () => {
         beforeAll(() => {
-          brandServiceRegisterSpy.mockImplementation(() => delayReject(1000));
+          brandServiceRegisterSpy.mockImplementation(() =>
+            delayReject(1000, "Houve um problema ao registrar")
+          );
         });
 
         it("should display an error msg after register attempt fails", async () => {
@@ -145,7 +147,9 @@ describe("<BrandRegister />", () => {
       });
       describe("With rejected value", () => {
         beforeAll(() => {
-          brandServiceGetSpy.mockRejectedValue(new Error("500"));
+          brandServiceGetSpy.mockRejectedValue(
+            new Error("Houve um problema ao carregar")
+          );
         });
         it("should display an error msg after failing to fetch brand", async () => {
           const errorMsg = await screen.findByText(
@@ -186,7 +190,9 @@ describe("<BrandRegister />", () => {
       describe("With rejected value", () => {
         beforeAll(() => {
           brandServiceGetSpy.mockResolvedValue(selectedBrand);
-          brandServiceUpdateSpy.mockRejectedValue(new Error("500"));
+          brandServiceUpdateSpy.mockRejectedValue(
+            new Error("Houve um problema ao alterar")
+          );
         });
         it("should display an error msg after failing to update brand name", async () => {
           const errorMsg = await screen.findByText(
