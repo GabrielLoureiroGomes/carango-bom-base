@@ -41,11 +41,11 @@ const Register = ({
   function handleSubmit(event) {
     event.preventDefault();
     if (shouldSubmit()) {
-      submitBrand();
+      submitItem();
     }
   }
 
-  async function submitBrand() {
+  async function submitItem() {
     try {
       setStatus({ status: "submitting" });
       if (id) {
@@ -64,7 +64,7 @@ const Register = ({
     }
   }
 
-  const loadBrandFromId = useCallback(async () => {
+  const loadItemFromId = useCallback(async () => {
     if (id) {
       try {
         setStatus({ status: "loading" });
@@ -86,8 +86,8 @@ const Register = ({
   }, [id, service]);
 
   useEffect(() => {
-    loadBrandFromId();
-  }, [loadBrandFromId]);
+    loadItemFromId();
+  }, [loadItemFromId]);
 
   return (
     <form onSubmit={handleSubmit}>
