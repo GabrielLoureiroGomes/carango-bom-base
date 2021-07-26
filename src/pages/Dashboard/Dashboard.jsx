@@ -4,8 +4,6 @@ import { BarGraph } from "../../components";
 import DashboardService from "../../services/DashboardService";
 import { useStyles } from "./styles";
 
-const convertValue = (value) => `${Math.floor(value / 10e2)}M`;
-
 const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState([]);
   const [error, setError] = useState();
@@ -63,9 +61,6 @@ const Dashboard = () => {
               data={dashboardData}
               xAxis={{
                 dataKey: "brand",
-              }}
-              yAxis={{
-                tickFormatter: convertValue,
               }}
               unit="M"
               name="Preço total"
