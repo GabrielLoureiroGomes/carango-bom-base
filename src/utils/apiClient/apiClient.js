@@ -14,7 +14,7 @@ async function apiClient(endpoint, { body, ...customConfig } = {}) {
   const res = await fetch(endpoint, config);
 
   if (!res.ok) {
-    throw new Error(handleResponseError(res));
+    throw new Error(await handleResponseError(res));
   }
 
   if (res.status === 204) return true;
@@ -40,15 +40,11 @@ export async function handleResponseError(res) {
   if (res.status === 403) logout();
 
   const errorMessage = await res.text();
-  const errorArr = errorMessage.length > 0 ? errorMessage[0] : [];
+  const parsedErrorMessage = JSON.parse(errorMessage);
 
-  if (errorArr.length < 1) return "Erro inesperado";
-
-  const [
-    {
-      error: { message },
-    },
-  ] = errorMessage;
+  const {
+    errors: [{ message }],
+  } = parsedErrorMessage;
 
   return message;
 }

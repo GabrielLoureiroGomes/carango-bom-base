@@ -3,7 +3,7 @@ import { client } from "../utils";
 const userUrl = "/api/user";
 const UserService = {
   auth(user) {
-    return client(`${userUrl}/auth`, { body: user, method: "POST" });
+    return client(`api/auth`, { body: user, method: "POST" });
   },
   signup(user) {
     return client(userUrl, { body: user, method: "POST" });

@@ -2,12 +2,11 @@ import jwtDecode from "jwt-decode";
 const storageToken = "token";
 
 export const getToken = () => {
-  const tokenString = localStorage.getItem(storageToken);
-  return JSON.parse(tokenString);
+  return localStorage.getItem(storageToken);
 };
 
 export const setStorageToken = (token) => {
-  return localStorage.setItem(storageToken, JSON.stringify(token));
+  return localStorage.setItem(storageToken, token);
 };
 
 export const removeStorageToken = () => {
