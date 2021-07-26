@@ -59,7 +59,7 @@ describe("<Dashboard />", () => {
           expect(screen.getByText("Preço total")).toBeInTheDocument();
         });
         it("should render the 2000M mark", () => {
-          expect(screen.getByText(/2000m/i)).toBeInTheDocument();
+          expect(screen.getByText(/2000000/i)).toBeInTheDocument();
         });
       });
     });
