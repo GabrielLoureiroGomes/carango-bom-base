@@ -54,6 +54,15 @@ describe("The handleResponseError function", () => {
     ).toEqual(firstErrorMessage);
   });
 
+  it("Should return 'Erro inesperado' if there's no error array", async () => {
+    expect(
+      await handleResponseError({
+        status: 500,
+        text: () => Promise.resolve(Symbol("error")),
+      })
+    ).toEqual("Erro inesperado");
+  });
+
   describe("When the error status is 403(forbidden)", () => {
     it("Should logout the user", async () => {
       await handleResponseError({

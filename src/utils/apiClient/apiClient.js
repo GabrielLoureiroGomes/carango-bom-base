@@ -40,6 +40,10 @@ export async function handleResponseError(res) {
   if (res.status === 403) logout();
 
   const errorMessage = await res.text();
+  const errorArr = errorMessage.length > 0 ? errorMessage[0] : [];
+
+  if (errorArr.length < 1) return "Erro inesperado";
+
   const [
     {
       error: { message },
