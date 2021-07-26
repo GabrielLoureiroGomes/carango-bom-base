@@ -45,6 +45,8 @@ jobs:
           start: npm run serve
           wait-on: "http://localhost:5000"
           wait-on-timeout: 120
+        env:
+          CYPRESS_BASE_URL: "http://localhost:5000"
 
       - name: Lighthouse
         run: npx --package @lhci/cli lhci autorun
