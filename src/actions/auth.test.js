@@ -25,7 +25,7 @@ describe("Auth Action", () => {
 
   describe("with resolved value", () => {
     beforeAll(() => {
-      authServiceSpy.mockResolvedValue("ok");
+      authServiceSpy.mockResolvedValue({ token: "ok" });
     });
 
     it("should call the 'UserService.auth' with correct user", () => {
@@ -45,7 +45,9 @@ describe("Auth Action", () => {
   describe("with rejected value", () => {
     describe("wrong credentials", () => {
       beforeAll(() => {
-        authServiceSpy.mockRejectedValue(new Error("401"));
+        authServiceSpy.mockRejectedValue(
+          new Error("Usuário ou senha inválidos")
+        );
       });
       it("should respond with the rejected value", async () => {
         await expect(authRes).rejects.toThrowError(
@@ -56,7 +58,9 @@ describe("Auth Action", () => {
 
     describe("other errors", () => {
       beforeAll(() => {
-        authServiceSpy.mockRejectedValue(new Error("500"));
+        authServiceSpy.mockRejectedValue(
+          new Error("Houve um erro ao fazer login")
+        );
       });
       it("should respond with the rejected value", async () => {
         await expect(authRes).rejects.toThrowError(
@@ -86,7 +90,7 @@ describe("Signup action", () => {
   describe("with rejected value", () => {
     describe("user already exists", () => {
       beforeAll(() => {
-        signupServiceSpy.mockRejectedValue(new Error("400"));
+        signupServiceSpy.mockRejectedValue(new Error("Usuário já existe"));
       });
       it("should respond with the rejected value", () => {
         return expect(signupRes).rejects.toThrowError("Usuário já existe");
@@ -94,7 +98,9 @@ describe("Signup action", () => {
     });
     describe("other errors", () => {
       beforeAll(() => {
-        signupServiceSpy.mockRejectedValue(new Error("500"));
+        signupServiceSpy.mockRejectedValue(
+          new Error("Houve um erro ao cadastrar")
+        );
       });
       it("should respond with the rejected value", () => {
         return expect(signupRes).rejects.toThrowError(
