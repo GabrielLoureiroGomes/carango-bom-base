@@ -16,7 +16,7 @@ import UserList from "./UserList";
 const usersMock = [
   {
     id: 1,
-    name: "Wagner Lopes",
+    username: "Wagner Lopes",
   },
 ];
 
@@ -54,15 +54,17 @@ describe("<UserList />", () => {
     const testUser = usersMock[0];
 
     beforeEach(async () => {
-      const userItem = await screen.findByText(testUser.name);
+      const userItem = await screen.findByText(testUser.username);
       userEvent.click(userItem);
       userEvent.click(screen.getByRole("button", { name: "Excluir" }));
 
-      await waitForElementToBeRemoved(() => screen.getByText(testUser.name));
+      await waitForElementToBeRemoved(() =>
+        screen.getByText(testUser.username)
+      );
     });
 
     it("Should delete the selected user from the list", () => {
-      expect(screen.queryByText(testUser.name)).not.toBeInTheDocument();
+      expect(screen.queryByText(testUser.username)).not.toBeInTheDocument();
     });
 
     it("Should call the service with the right id", () => {
