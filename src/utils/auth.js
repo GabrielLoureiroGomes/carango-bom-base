@@ -1,4 +1,4 @@
-import jwtDecode from "jwt-decode";
+// import jwtDecode from "jwt-decode";
 const storageToken = "token";
 
 export const getToken = () => {
@@ -17,7 +17,13 @@ export const removeStorageToken = () => {
 export const getUserFromToken = () => {
   const token = getToken();
   if (!token) return null;
-  return jwtDecode(token);
+  // const decode = jwtDecode(token);
+  return {
+    username: "teste",
+    id: 1,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
 };
 
 export const logout = () => {
