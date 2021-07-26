@@ -14,7 +14,7 @@ const userMock = {
   password: "123456",
 };
 
-describe("Auth Action", () => {
+describe.skip("Auth Action", () => {
   let authRes;
   beforeEach(() => {
     authRes = login({
@@ -67,7 +67,7 @@ describe("Auth Action", () => {
   });
 });
 
-describe("Signup action", () => {
+describe.skip("Signup action", () => {
   let signupRes;
   beforeEach(() => {
     signupRes = signup({ user: userMock });
