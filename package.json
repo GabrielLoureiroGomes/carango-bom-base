@@ -27,7 +27,9 @@
     "test:watch": "react-scripts test --watch --detectOpenHandles",
     "test:ci": "react-scripts test --coverage --watchAll=false --testResultsProcessor ./node_modules/jest-sonar-reporter",
     "eject": "react-scripts eject",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "cy:open": "cypress open",
+    "e2e": "cypress run"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -60,6 +62,7 @@
   },
   "devDependencies": {
     "@testing-library/user-event": "^12.8.3",
+    "cypress": "^8.0.0",
     "eslint-plugin-jest-dom": "^3.9.0",
     "eslint-plugin-testing-library": "^3.10.2",
     "husky": "^7.0.0",
