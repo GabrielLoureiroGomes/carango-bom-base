@@ -4,7 +4,7 @@ import UserService from "../../services/UserService";
 
 import { Table } from "../../components";
 
-const columns = [{ flex: 1, field: "name", headerName: "Nome" }];
+const columns = [{ flex: 1, field: "username", headerName: "Nome" }];
 
 function UserList() {
   return (
